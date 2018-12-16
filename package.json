@@ -1,0 +1,40 @@
+{
+  "name": "jpf",
+  "version": "2.0.0",
+  "description": "Javascript Presentation Foundation",
+  "keywords": [
+    "spa",
+    "mvvm",
+    "framework",
+    "single page application",
+    "observable"
+  ],
+  "homepage": "https://github.com/williwyg/jpf#readme",
+  "bugs": "",
+  "license": "ISC",
+  "author": {
+    "name": "Willy van Vroenhoven",
+    "email": "vroenhoven@opinio.nl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williwyg/jpf"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install" :   
+  },
+  "dependencies": {
+    "knockout": ">=2.1.0"
+  },
+  "devDependencies": {
+    "typescript": "3.2.2",
+    "ts-loader": "5.3.1",
+    "ts-node": "7.0.1",
+    "path": "0.12.7",
+    "webpack": "4.27.1",
+    "webpack-cli": "3.1.2",
+    "@types/knockout": "3.4.60",
+    "babel-polyfill": "6.26.0"
+  }
+}
