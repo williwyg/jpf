@@ -21,8 +21,7 @@
     "url": "https://github.com/williwyg/jpf"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install" :   
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "knockout": ">=2.1.0"
