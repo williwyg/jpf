@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "forceConsistentCasingInFileNames": true,
+    "listEmittedFiles": true,
+    "noEmitOnError": true,
+    "locale": "en-US",
+    "removeComments": true,
+    "sourceMap": true,
+    "noImplicitThis": true
+  }
+}

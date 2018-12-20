@@ -1,5 +1,3 @@
-namespace Jpf {
-    export class FrameworkElement {
-        
-    }
+export class FrameworkElement {
+    style: Jpf.Css.Style;
 }
