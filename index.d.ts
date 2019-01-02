@@ -1,43 +1,44 @@
-export declare namespace Jpf {
-    interface FrameworkElement {
-        id: string;
-        type: string;
-        visible: KnockoutObservable<boolean>;
-        className: string | KnockoutObservable<string>;
+export as namespace Jpf;
 
-        //Attribute properties and methods
-        attributes: { [attributeName: string]: string | KnockoutObservable<string> };
-        getAttribute: (attributeName: string) => string;
-        setAttribute: (attribute: Attribute) => void;
-        deleteAttribute: (attributeName: string) => void;
+export interface FrameworkElement {
+    id: string;
+    type: string;
+    visible: KnockoutObservable<boolean>;
+    className: string | KnockoutObservable<string>;
 
-        //Style properties and methods
-        style: Css.Style; //Object to hold style name as property and styleValue as propertyValue.
-        getStyle: (cssProperties: Array<Css.Types.CssProperties>) => Css.Style; //Method to get the values of the given CssProperties
-        setStyle: (style: Css.Style, overwriteExisting?: boolean) => void; //Method to set the style of the frameworkelement. The overwriteExisting parameter decides whether the style is redefined if already set.
-        deleteStyle: (cssProperties: Array<Css.Types.CssProperties>) => void; //Method to delete the given style(s) from the frameworkelement
-    }
+    //Attribute properties and methods
+    attributes: { [attributeName: string]: string | KnockoutObservable<string> };
+    getAttribute: (attributeName: string) => string;
+    setAttribute: (attribute: Attribute) => void;
+    deleteAttribute: (attributeName: string) => void;
 
-    interface FrameworkElementOptions {
-        id?: string;
-        type?: string;
-        visible?: boolean | KnockoutObservable<boolean>;
-        className?: string | KnockoutObservable<string>;
-        attributes?: Array<Attribute>;
-        style?: Css.Style;
-    }
-
-    interface Attribute {
-        name: string;
-        value: string | KnockoutObservable<string>;
-    }
+    //Style properties and methods
+    style: Css.Style; //Object to hold style name as property and styleValue as propertyValue.
+    getStyle: (cssProperties: Array<Css.Types.CssProperties>) => Css.Style; //Method to get the values of the given CssProperties
+    setStyle: (style: Css.Style, overwriteExisting?: boolean) => void; //Method to set the style of the frameworkelement. The overwriteExisting parameter decides whether the style is redefined if already set.
+    deleteStyle: (cssProperties: Array<Css.Types.CssProperties>) => void; //Method to delete the given style(s) from the frameworkelement
 }
 
-export declare namespace Jpf.Controls {
+export interface FrameworkElementOptions {
+    id?: string;
+    type?: string;
+    visible?: boolean | KnockoutObservable<boolean>;
+    className?: string | KnockoutObservable<string>;
+    attributes?: Array<Attribute>;
+    style?: Css.Style;
+}
+
+export interface Attribute {
+    name: string;
+    value: string | KnockoutObservable<string>;
+}
+
+export namespace Controls {
 
 }
-export declare namespace Jpf.Css {
-    interface Style {
+
+export namespace Css {
+    export interface Style {
         /**
          * Aligns a flex container's lines within the flex container when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis.
          * @see https://developer.mozilla.org/en-US/docs/Web/CSS/align-content
@@ -1585,7 +1586,7 @@ export declare namespace Jpf.Css {
         zoom?: "auto" | number | KnockoutObservable<"auto" | number>;
     }
 
-    namespace Types {
+    export namespace Types {
         type CssProperties = "alignContent" | "alignItems" | "alignSelf" | "alignmentAdjust" | "alignmentBaseline" | "animation" | "animationDelay" | "animationDirection" | "animationDuration" |
             "animationFillMode" | "animationIterationCount" | "animationName" | "animationPlayState" | "animationTimingFunction" | "appearance" | "backfaceVisibility" | "background" |
             "backgroundAttachment" | "backgroundBlendMode" | "backgroundClip" | "backgroundColor" | "backgroundComposite" | "backgroundImage" | "backgroundOrigin" | "backgroundPosition" |
@@ -1859,10 +1860,3 @@ export declare namespace Jpf.Css {
 
     }
 }
-
-//declare enum PositionEnum {
-//    Above = 1,
-//    Right = 2,
-//    Below = 3,
-//    Left = 4
-//}

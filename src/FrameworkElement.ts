@@ -1,3 +1,5 @@
+import { Jpf } from "../index";
+
 export class FrameworkElement implements Jpf.FrameworkElement {
 
     constructor(tagName: string, type: string, options: Jpf.FrameworkElementOptions) {
