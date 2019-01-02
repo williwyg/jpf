@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Javascript Presentation Foundation",
   "main": "lib/jpf.min.js",
   "keywords": [
