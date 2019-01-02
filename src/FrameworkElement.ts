@@ -1,18 +1,18 @@
 export class FrameworkElement implements Jpf.FrameworkElement {
 
     constructor(tagName: string, type: string, options: Jpf.FrameworkElementOptions) {
-
+        //TBD
     }
 
-    getAttribute(attribute: string): string {
+    getAttribute(attributeName: string): string {
         if (this.element) {
-            return this.element.getAttribute(attribute);
+            return this.element.getAttribute(attributeName);
         } else {
-            return ko.unwrap<string>(this.attributes[attribute]);
+            return ko.unwrap<string>(this.attributes[attributeName]);
         }
     }
 
-    setAttribute(attributeName: Jpf.Attribute): void { throw new Error("Not implemented"); }
+    setAttribute(attribute: Jpf.Attribute): void { throw new Error("Not implemented"); }
 
     deleteAttribute(attributeName: string): void { throw new Error("Not implemented"); }
 

@@ -7,8 +7,8 @@ declare namespace Jpf {
 
         //Attribute properties and methods
         attributes: { [attributeName: string]: string | KnockoutObservable<string> };
-        getAttribute: (attribute: string) => string;
-        setAttribute: (attributeName: Attribute) => void;
+        getAttribute: (attributeName: string) => string;
+        setAttribute: (attribute: Attribute) => void;
         deleteAttribute: (attributeName: string) => void;
 
         //Style properties and methods
