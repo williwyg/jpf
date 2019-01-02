@@ -1,6 +1,35 @@
 declare namespace Jpf {
     interface FrameworkElement {
+        id: string;
+        type: string;
+        visible: KnockoutObservable<boolean>;
+        className: string | KnockoutObservable<string>;
 
+        //Attribute properties and methods
+        attributes: { [attributeName: string]: string | KnockoutObservable<string> };
+        getAttribute: (attribute: string) => string;
+        setAttribute: (attributeName: Attribute) => void;
+        deleteAttribute: (attributeName: string) => void;
+
+        //Style properties and methods
+        style: Css.Style; //Object to hold style name as property and styleValue as propertyValue.
+        getStyle: (cssProperties: Array<Css.Types.CssProperties>) => Css.Style; //Method to get the values of the given CssProperties
+        setStyle: (style: Css.Style, overwriteExisting?: boolean) => void; //Method to set the style of the frameworkelement. The overwriteExisting parameter decides whether the style is redefined if already set.
+        deleteStyle: (cssProperties: Array<Css.Types.CssProperties>) => void; //Method to delete the given style(s) from the frameworkelement
+    }
+
+    interface FrameworkElementOptions {
+        id?: string;
+        type?: string;
+        visible?: boolean | KnockoutObservable<boolean>;
+        className?: string | KnockoutObservable<string>;
+        attributes?: Array<Attribute>;
+        style?: Css.Style;
+    }
+
+    interface Attribute {
+        name: string;
+        value: string | KnockoutObservable<string>;
     }
 }
 
@@ -1555,8 +1584,39 @@ declare namespace Jpf.Css {
          */
         zoom?: "auto" | number | KnockoutObservable<"auto" | number>;
     }
-    
+
     namespace Types {
+        type CssProperties = "alignContent" | "alignItems" | "alignSelf" | "alignmentAdjust" | "alignmentBaseline" | "animation" | "animationDelay" | "animationDirection" | "animationDuration" |
+            "animationFillMode" | "animationIterationCount" | "animationName" | "animationPlayState" | "animationTimingFunction" | "appearance" | "backfaceVisibility" | "background" |
+            "backgroundAttachment" | "backgroundBlendMode" | "backgroundClip" | "backgroundColor" | "backgroundComposite" | "backgroundImage" | "backgroundOrigin" | "backgroundPosition" |
+            "backgroundRepeat" | "backgroundSize" | "baselineShift" | "behavior" | "border" | "borderBottom" | "borderBottomColor" | "borderBottomLeftRadius" | "borderBottomRightRadius" |
+            "borderBottomStyle" | "borderBottomWidth" | "borderCollapse" | "borderColor" | "borderCornerShape" | "borderImageSource" | "borderImageWidth" | "borderLeft" | "borderLeftColor" |
+            "borderLeftStyle" | "borderLeftWidth" | "borderRadius" | "borderRight" | "borderRightColor" | "borderRightStyle" | "borderRightWidth" | "borderSpacing" | "borderStyle" | "borderTop" |
+            "borderTopColor" | "borderTopLeftRadius" | "borderTopRightRadius" | "borderTopStyle" | "borderTopWidth" | "borderWidth" | "bottom" | "boxAlign" | "boxDecorationBreak" | "boxDirection" |
+            "boxLineProgression" | "boxLines" | "boxOrdinalGroup" | "boxFlex" | "boxSizing" | "boxShadow" | "boxFlexGroup" | "breakAfter" | "breakBefore" | "breakInside" | "captionSide" | "clear" |
+            "clip" | "clipRule" | "color" | "columnCount" | "columnFill" | "columnGap" | "columnRule" | "columnRuleColor" | "columnRuleWidth" | "columnSpan" | "columnWidth" | "columns" | "content" |
+            "counterIncrement" | "counterReset" | "cue" | "cueAfter" | "cursor" | "direction" | "display" | "dominantBaseline" | "emptyCells" | "fill" | "fillOpacity" | "fillRule" | "filter" | "flex" |
+            "flexAlign" | "flexBasis" | "flexDirection" | "flexFlow" | "flexGrow" | "flexItemAlign" | "flexLinePack" | "flexPositive" | "flexNegative" | "flexOrder" | "flexShrink" | "flexWrap" |
+            "float" | "flowFrom" | "font" | "fontFamily" | "fontKerning" | "fontSize" | "fontSizeAdjust" | "fontStretch" | "fontStyle" | "fontSynthesis" | "fontVariant" | "fontVariantAlternates" |
+            "fontWeight" | "gridArea" | "gridAutoColumns" | "gridAutoFlow" | "gridAutoRows" | "gridColumn" | "gridColumnGap" | "gridColumnEnd" | "gridColumnStart" | "gridGap" | "gridRow" |
+            "gridRowEnd" | "gridRowGap" | "gridRowStart" | "gridRowPosition" | "gridRowSpan" | "gridTemplate" | "gridTemplateAreas" | "gridTemplateColumns" | "gridTemplateRows" | "height" |
+            "hyphenateLimitChars" | "hyphenateLimitLines" | "hyphenateLimitZone" | "hyphens" | "imeMode" | "justifyContent" | "justifyItems" | "justifySelf" | "layoutGrid" | "layoutGridChar" |
+            "layoutGridLine" | "layoutGridMode" | "layoutGridType" | "left" | "letterSpacing" | "lineBreak" | "lineClamp" | "lineHeight" | "listStyle" | "listStyleImage" | "listStylePosition" |
+            "listStyleType" | "margin" | "marginBottom" | "marginLeft" | "marginRight" | "marginTop" | "marqueeDirection" | "marqueeStyle" | "mask" | "maskBorder" | "maskBorderRepeat" |
+            "maskBorderSlice" | "maskBorderSource" | "maskBorderWidth" | "maskClip" | "maskOrigin" | "maxFontSize" | "maxHeight" | "maxWidth" | "minHeight" | "minWidth" | "mixBlendMode" |
+            "objectFit" | "objectPosition" | "opacity" | "order" | "orphans" | "outline" | "outlineColor" | "outlineStyle" | "outlineOffset" | "outlineWidth" | "overflow" | "overflowStyle" |
+            "overflowWrap" | "overflowX" | "overflowY" | "padding" | "paddingBottom" | "paddingLeft" | "paddingRight" | "paddingTop" | "pageBreakAfter" | "pageBreakBefore" | "pageBreakInside" |
+            "pause" | "pauseAfter" | "pauseBefore" | "perspective" | "perspectiveOrigin" | "pointerEvents" | "position" | "punctuationTrim" | "quotes" | "regionFragment" | "resize" |
+            "restAfter" | "restBefore" | "right" | "rubyAlign" | "rubyPosition" | "rx" | "ry" | "shapeImageThreshold" | "shapeInside" | "shapeMargin" | "shapeOutside" | "speak" |
+            "speakAs" | "src" | "stroke" | "strokeDasharray" | "strokeDashoffset" | "strokeLinecap" | "strokeOpacity" | "strokeWidth" | "tabSize" | "tableLayout" | "textAnchor" |
+            "textAlign" | "textAlignLast" | "textDecoration" | "textDecorationColor" | "textDecorationLine" | "textDecorationLineThrough" | "textDecorationNone" | "textDecorationOverline" |
+            "textDecorationSkip" | "textDecorationStyle" | "textDecorationUnderline" | "textEmphasis" | "textEmphasisColor" | "textEmphasisStyle" | "textHeight" | "textIndent" |
+            "textJustifyTrim" | "textKashidaSpace" | "textLineThrough" | "textLineThroughColor" | "textLineThroughMode" | "textLineThroughStyle" | "textLineThroughWidth" |
+            "textOverflow" | "textOverline" | "textOverlineColor" | "textOverlineMode" | "textOverlineStyle" | "textOverlineWidth" | "textRendering" | "textScript" | "textShadow" |
+            "textTransform" | "textUnderlinePosition" | "textUnderlineStyle" | "top" | "touchAction" | "transform" | "transformOrigin" | "transformOriginZ" | "transformStyle" |
+            "transition" | "transitionDelay" | "transitionDuration" | "transitionProperty" | "transitionTimingFunction" | "unicodeBidi" | "unicodeRange" | "userFocus" | "userInput" |
+            "userSelect" | "verticalAlign" | "visibility" | "voiceBalance" | "voiceDuration" | "voiceFamily" | "voicePitch" | "voiceRange" | "voiceRate" | "voiceStress" | "voiceVolume" |
+            "whiteSpace" | "whiteSpaceTreatment" | "widows" | "width" | "willChange" | "wordBreak" | "wordSpacing" | "wordWrap" | "wrapFlow" | "wrapMargin" | "wrapOption" | "writingMode" | "zIndex" | "zoom";
         /*
         * Value of a CSS Property.  Could be a single value or a list of fallbacks
         * NOTE: array is for fallbacks
@@ -1800,9 +1860,9 @@ declare namespace Jpf.Css {
     }
 }
 
-declare enum PositionEnum {
-    Above = 1,
-    Right = 2,
-    Below = 3,
-    Left = 4
-}
+//declare enum PositionEnum {
+//    Above = 1,
+//    Right = 2,
+//    Below = 3,
+//    Left = 4
+//}

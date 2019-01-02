@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "spa",
@@ -21,7 +21,9 @@
     "url": "https://github.com/williwyg/jpf"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpackDevelopment": "webpack --config webpack.config.ts --mode development",
+    "webpackRelease": "webpack --config webpack.config.ts --mode production --optimize-minimize"
   },
   "dependencies": {
     "knockout": ">=2.1.0"
