@@ -1,5 +1,6 @@
 import * as webpack from "webpack";
 import * as path from "path";
+import * as dtsWebpackPluging from "dts-bundle-webpack";
 
 let currentDir = path.resolve("./");
 
@@ -45,7 +46,12 @@ export function getConfig(forBrowserUse: boolean, mode: string): webpack.Configu
         },
 
         plugins: [
-            new webpack.optimize.OccurrenceOrderPlugin(false)
+            new webpack.optimize.OccurrenceOrderPlugin(false),
+            new dtsWebpackPluging({
+                name: "jpf",
+                main: path.resolve("./declarations/FrameworkElement.d.ts"),
+                out: path.resolve("./index.d.ts")
+            })
         ]
     };
 

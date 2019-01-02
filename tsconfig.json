@@ -8,6 +8,15 @@
     "locale": "en-US",
     "removeComments": true,
     "sourceMap": true,
-    "noImplicitThis": true
-  }
+    "noImplicitThis": true,
+    "declaration": true,
+    "declarationDir": "declarations"
+  },
+  "exclude": [
+    "webpack.base.config.ts",
+    "webpack.dist.development.ts",
+    "webpack.dist.production.ts",
+    "webpack.lib.development.ts",
+    "webpack.lib.production.ts"
+  ]
 }

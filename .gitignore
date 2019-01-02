@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /Jpf.njsproj
 /.gitattributes
+/declarations

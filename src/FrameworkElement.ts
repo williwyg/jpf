@@ -1,8 +1,9 @@
-import { Jpf } from "../index";
+import * as types from "./Types";
+import {Style} from "./Style";
 
-export class FrameworkElement implements Jpf.FrameworkElement {
+export class FrameworkElement {
 
-    constructor(tagName: string, type: string, options: Jpf.FrameworkElementOptions) {
+    constructor(tagName: string, type: string, options: FrameworkElementOptions) {
         //TBD
     }
 
@@ -14,11 +15,11 @@ export class FrameworkElement implements Jpf.FrameworkElement {
         }
     }
 
-    setAttribute(attribute: Jpf.Attribute): void { throw new Error("Not implemented"); }
+    setAttribute(attribute: Attribute): void { throw new Error("Not implemented"); }
 
     deleteAttribute(attributeName: string): void { throw new Error("Not implemented"); }
 
-    getStyle(cssProperties: Array<Jpf.Css.Types.CssProperties>): Jpf.Css.Style {
+    getStyle(cssProperties: Array<types.CssProperties>): Style {
         const style = {};
         for (let cssProperty of cssProperties) {
             if (this.element) {
@@ -30,9 +31,9 @@ export class FrameworkElement implements Jpf.FrameworkElement {
         return style;
     }
 
-    setStyle(style: Jpf.Css.Style, overwriteExisting?: boolean): void { throw new Error("Not implemented"); }
+    setStyle(style: Style, overwriteExisting?: boolean): void { throw new Error("Not implemented"); }
 
-    deleteStyle(style: Jpf.Css.Types.CssProperties | Array<Jpf.Css.Types.CssProperties>): void { throw new Error("Not implemented"); }
+    deleteStyle(style: types.CssProperties | Array<types.CssProperties>): void { throw new Error("Not implemented"); }
 
     element: HTMLElement;
 
@@ -42,6 +43,20 @@ export class FrameworkElement implements Jpf.FrameworkElement {
     className: string | KnockoutObservable<string>;
     attributes: { [index: string]: string | KnockoutObservable<string>; } = {};
 
-    style: Jpf.Css.Style;
+    style: Style;
 
+}
+
+export interface FrameworkElementOptions {
+    id?: string;
+    type?: string;
+    visible?: boolean | KnockoutObservable<boolean>;
+    className?: string | KnockoutObservable<string>;
+    attributes?: Array<Attribute>;
+    style?: Style;
+}
+
+export interface Attribute {
+    name: string;
+    value: string | KnockoutObservable<string>;
 }

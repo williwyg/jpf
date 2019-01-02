@@ -1,13 +1,14 @@
 {
   "name": "jpf",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Javascript Presentation Foundation",
   "keywords": [
-    "spa",
     "mvvm",
     "framework",
+    "binding",
+    "observable",
     "single page application",
-    "observable"
+    "spa"
   ],
   "homepage": "https://github.com/williwyg/jpf#readme",
   "bugs": "",
@@ -40,13 +41,14 @@
     "knockout": ">=2.1.0"
   },
   "devDependencies": {
-    "typescript": "3.2.2",
+    "@types/knockout": "3.4.60",
+    "babel-polyfill": "6.26.0",
+    "dts-bundle-webpack": "1.0.2",
+    "path": "0.12.7",
     "ts-loader": "5.3.1",
     "ts-node": "7.0.1",
-    "path": "0.12.7",
+    "typescript": "3.2.2",
     "webpack": "4.27.1",
-    "webpack-cli": "3.1.2",
-    "@types/knockout": "3.4.60",
-    "babel-polyfill": "6.26.0"
+    "webpack-cli": "3.1.2"
   }
 }
