@@ -1,4 +1,4 @@
-declare namespace Jpf {
+export declare namespace Jpf {
     interface FrameworkElement {
         id: string;
         type: string;
@@ -33,10 +33,10 @@ declare namespace Jpf {
     }
 }
 
-declare namespace Jpf.Controls {
+export declare namespace Jpf.Controls {
 
 }
-declare namespace Jpf.Css {
+export declare namespace Jpf.Css {
     interface Style {
         /**
          * Aligns a flex container's lines within the flex container when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis.
