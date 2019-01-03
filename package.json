@@ -38,7 +38,7 @@
     "webpackLibProduction": "webpack --config webpack.lib.production.ts"
   },
   "dependencies": {
-    "knockout": ">=2.1.0"
+    "knockout": "^3.4.2"
   },
   "devDependencies": {
     "@types/knockout": "3.4.60",
