@@ -1,6 +1,5 @@
 import * as webpack from "webpack";
 import * as path from "path";
-import * as dtsWebpackPluging from "dts-bundle-webpack";
 
 let currentDir = path.resolve("./");
 
@@ -8,10 +7,10 @@ export function getConfig(forBrowserUse: boolean, mode: string): webpack.Configu
     let entry: Array<string> | string;
     let outputPath: string;
     if (forBrowserUse) {
-        entry = ["babel-polyfill", path.resolve("./src/FrameworkElement.ts")];
+        entry = ["babel-polyfill", path.resolve("./src/index.ts")];
         outputPath = "dist";
     } else {
-        entry = path.resolve("./src/FrameworkElement.ts");
+        entry = path.resolve("./src/index.ts");
         outputPath = "lib";
     }
 
@@ -46,12 +45,7 @@ export function getConfig(forBrowserUse: boolean, mode: string): webpack.Configu
         },
 
         plugins: [
-            new webpack.optimize.OccurrenceOrderPlugin(false),
-            new dtsWebpackPluging({
-                name: "jpf",
-                main: path.resolve("./declarations/FrameworkElement.d.ts"),
-                out: path.resolve("./index.d.ts")
-            })
+            new webpack.optimize.OccurrenceOrderPlugin(false)
         ]
     };
 

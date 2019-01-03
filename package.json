@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.5",
+  "version": "2.0.10",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -22,6 +22,7 @@
     "url": "https://github.com/williwyg/jpf"
   },
   "main": "./lib/jpf.min.js",
+  "types": "./declarations/index.d.ts",
   "files": [
     "dist",
     "lib",
@@ -35,7 +36,8 @@
     "webpackDistDevelopment": "webpack --config webpack.dist.development.ts",
     "webpackDistProduction": "webpack --config webpack.dist.production.ts",
     "webpackLibDevelopment": "webpack --config webpack.lib.development.ts",
-    "webpackLibProduction": "webpack --config webpack.lib.production.ts"
+    "webpackLibProduction": "webpack --config webpack.lib.production.ts",
+    "npmPublish":  "npm publish" 
   },
   "dependencies": {
     "knockout": "^3.4.2"
@@ -43,7 +45,6 @@
   "devDependencies": {
     "@types/knockout": "3.4.60",
     "babel-polyfill": "6.26.0",
-    "dts-bundle-webpack": "1.0.2",
     "path": "0.12.7",
     "ts-loader": "5.3.1",
     "ts-node": "7.0.1",

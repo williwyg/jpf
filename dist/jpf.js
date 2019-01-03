@@ -3827,26 +3827,38 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 
 /***/ }),
 
-/***/ "./src/FrameworkElement.ts":
+/***/ "./src/frameworkElement.ts":
 /*!*********************************!*\
-  !*** ./src/FrameworkElement.ts ***!
+  !*** ./src/frameworkElement.ts ***!
   \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar FrameworkElement = (function () {\r\n    function FrameworkElement(tagName, type, options) {\r\n        this.attributes = {};\r\n    }\r\n    FrameworkElement.prototype.getAttribute = function (attributeName) {\r\n        if (this.element) {\r\n            return this.element.getAttribute(attributeName);\r\n        }\r\n        else {\r\n            return ko.unwrap(this.attributes[attributeName]);\r\n        }\r\n    };\r\n    FrameworkElement.prototype.setAttribute = function (attribute) { throw new Error(\"Not implemented\"); };\r\n    FrameworkElement.prototype.deleteAttribute = function (attributeName) { throw new Error(\"Not implemented\"); };\r\n    FrameworkElement.prototype.getStyle = function (cssProperties) {\r\n        var style = {};\r\n        for (var _i = 0, cssProperties_1 = cssProperties; _i < cssProperties_1.length; _i++) {\r\n            var cssProperty = cssProperties_1[_i];\r\n            if (this.element) {\r\n                style[cssProperty] = this.element.style[cssProperty];\r\n            }\r\n            else {\r\n                style[cssProperty] = this.style[cssProperty];\r\n            }\r\n        }\r\n        return style;\r\n    };\r\n    FrameworkElement.prototype.setStyle = function (style, overwriteExisting) { throw new Error(\"Not implemented\"); };\r\n    FrameworkElement.prototype.deleteStyle = function (style) { throw new Error(\"Not implemented\"); };\r\n    return FrameworkElement;\r\n}());\r\nexports.FrameworkElement = FrameworkElement;\r\n\n\n//# sourceURL=webpack:///./src/FrameworkElement.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar FrameworkElement = (function () {\r\n    function FrameworkElement(tagName, type, options) {\r\n        this.attributes = {};\r\n    }\r\n    FrameworkElement.prototype.getAttribute = function (attributeName) {\r\n        if (this.element) {\r\n            return this.element.getAttribute(attributeName);\r\n        }\r\n        else {\r\n            return ko.unwrap(this.attributes[attributeName]);\r\n        }\r\n    };\r\n    FrameworkElement.prototype.setAttribute = function (attribute) { throw new Error(\"Not implemented\"); };\r\n    FrameworkElement.prototype.deleteAttribute = function (attributeName) { throw new Error(\"Not implemented\"); };\r\n    FrameworkElement.prototype.getStyle = function (cssProperties) {\r\n        var style = {};\r\n        for (var _i = 0, cssProperties_1 = cssProperties; _i < cssProperties_1.length; _i++) {\r\n            var cssProperty = cssProperties_1[_i];\r\n            if (this.element) {\r\n                style[cssProperty] = this.element.style[cssProperty];\r\n            }\r\n            else {\r\n                style[cssProperty] = this.style[cssProperty];\r\n            }\r\n        }\r\n        return style;\r\n    };\r\n    FrameworkElement.prototype.setStyle = function (style, overwriteExisting) { throw new Error(\"Not implemented\"); };\r\n    FrameworkElement.prototype.deleteStyle = function (style) { throw new Error(\"Not implemented\"); };\r\n    return FrameworkElement;\r\n}());\r\nexports.FrameworkElement = FrameworkElement;\r\n\n\n//# sourceURL=webpack:///./src/frameworkElement.ts?");
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar frameworkElement_1 = __webpack_require__(/*! ./frameworkElement */ \"./src/frameworkElement.ts\");\r\nexports.FrameworkElement = frameworkElement_1.FrameworkElement;\r\n\n\n//# sourceURL=webpack:///./src/index.ts?");
 
 /***/ }),
 
 /***/ 0:
-/*!******************************************************!*\
-  !*** multi babel-polyfill ./src/FrameworkElement.ts ***!
-  \******************************************************/
+/*!*******************************************!*\
+  !*** multi babel-polyfill ./src/index.ts ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! babel-polyfill */\"./node_modules/babel-polyfill/lib/index.js\");\nmodule.exports = __webpack_require__(/*! C:\\Data\\GitHub\\jpf\\jpf\\src\\FrameworkElement.ts */\"./src/FrameworkElement.ts\");\n\n\n//# sourceURL=webpack:///multi_babel-polyfill_./src/FrameworkElement.ts?");
+eval("__webpack_require__(/*! babel-polyfill */\"./node_modules/babel-polyfill/lib/index.js\");\nmodule.exports = __webpack_require__(/*! C:\\Data\\GitHub\\jpf\\jpf\\src\\index.ts */\"./src/index.ts\");\n\n\n//# sourceURL=webpack:///multi_babel-polyfill_./src/index.ts?");
 
 /***/ })
 

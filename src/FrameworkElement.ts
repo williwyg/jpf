@@ -1,5 +1,5 @@
-import * as types from "./Types";
-import {Style} from "./Style";
+import {Types} from "./types";
+import {Style} from "./style";
 
 export class FrameworkElement {
 
@@ -19,7 +19,7 @@ export class FrameworkElement {
 
     deleteAttribute(attributeName: string): void { throw new Error("Not implemented"); }
 
-    getStyle(cssProperties: Array<types.CssProperties>): Style {
+    getStyle(cssProperties: Array<Types.CssProperties>): Style {
         const style = {};
         for (let cssProperty of cssProperties) {
             if (this.element) {
@@ -33,7 +33,7 @@ export class FrameworkElement {
 
     setStyle(style: Style, overwriteExisting?: boolean): void { throw new Error("Not implemented"); }
 
-    deleteStyle(style: types.CssProperties | Array<types.CssProperties>): void { throw new Error("Not implemented"); }
+    deleteStyle(style: Types.CssProperties | Array<Types.CssProperties>): void { throw new Error("Not implemented"); }
 
     element: HTMLElement;
 
