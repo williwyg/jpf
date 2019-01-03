@@ -81,7 +81,7 @@ export interface Style {
      */
     appearance?: types.CssValue<"auto" | "none"> | KnockoutObservable<types.CssValue<"auto" | "none">>;
     /**
-     * Determines whether or not the ìbackî side of a transformed element is visible when facing the viewer.
+     * Determines whether or not the ‚Äúback‚Äù side of a transformed element is visible when facing the viewer.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility
      */
     backfaceVisibility?: types.CssGlobalValues | "visible" | "hidden" | KnockoutObservable<types.CssGlobalValues | "visible" | "hidden">;
@@ -102,7 +102,7 @@ export interface Style {
     backgroundAttachment?: types.BackgroundAttachment | KnockoutObservable<types.BackgroundAttachment>;
     /**
      * This property describes how the element's background images should blend with each other and the element's background color.
-     * The value is a list of blend modes that corresponds to each background image. Each element in the list will apply to the corresponding element of background-image. If a property doesnít have enough comma-separated values to match the number of layers, the UA must calculate its used value by repeating the list of values until there are enough.
+     * The value is a list of blend modes that corresponds to each background image. Each element in the list will apply to the corresponding element of background-image. If a property doesn‚Äôt have enough comma-separated values to match the number of layers, the UA must calculate its used value by repeating the list of values until there are enough.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/background-blend-mode
      */
     backgroundBlendMode?: types.CssValue<types.CssBlendMode> | KnockoutObservable<types.CssValue<types.CssBlendMode>>;
@@ -198,10 +198,10 @@ export interface Style {
     borderCollapse?: any | KnockoutObservable<any>;
     /**
      * The CSS border-color property sets the color of an element's four borders. This property can have from one to four values, made up of the elementary properties:
-     *      ï       border-top-color
-     *      ï       border-right-color
-     *      ï       border-bottom-color
-     *      ï       border-left-color The default color is the currentColor of each of these values.
+     *      ‚Ä¢       border-top-color
+     *      ‚Ä¢       border-right-color
+     *      ‚Ä¢       border-bottom-color
+     *      ‚Ä¢       border-left-color The default color is the currentColor of each of these values.
      * If you provide one value, it sets the color for the element. Two values set the horizontal and vertical values, respectively. Providing three values sets the top, vertical, and bottom values, in that order. Four values set all for sides: top, right, bottom, and left, in that order.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/border-color
      */
@@ -221,7 +221,7 @@ export interface Style {
      */
     borderImageWidth?: types.CssValue<types.CssLength | types.CssPercentage> | KnockoutObservable<types.CssValue<types.CssLength | types.CssPercentage>>;
     /**
-     * Shorthand property that defines the border-width, border-style and border-color of an element's left border in a single declaration. Note that you can use the corresponding longhand properties to set specific individual properties of the left border ó border-left-width, border-left-style and border-left-color.
+     * Shorthand property that defines the border-width, border-style and border-color of an element's left border in a single declaration. Note that you can use the corresponding longhand properties to set specific individual properties of the left border ‚Äî border-left-width, border-left-style and border-left-color.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/border-left
      */
     borderLeft?: types.CssBorderShorthand | KnockoutObservable<types.CssBorderShorthand>;
@@ -247,7 +247,7 @@ export interface Style {
      */
     borderRadius?: types.CssValue<types.CssLength | types.CssPercentage> | KnockoutObservable<types.CssValue<types.CssLength | types.CssPercentage>>;
     /**
-     * Shorthand property that defines the border-width, border-style and border-color of an element's right border in a single declaration. Note that you can use the corresponding longhand properties to set specific individual properties of the right border ó border-right-width, border-right-style and border-right-color.
+     * Shorthand property that defines the border-width, border-style and border-color of an element's right border in a single declaration. Note that you can use the corresponding longhand properties to set specific individual properties of the right border ‚Äî border-right-width, border-right-style and border-right-color.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/border-right
      */
     borderRight?: types.CssBorderShorthand | KnockoutObservable<types.CssBorderShorthand>;
@@ -278,7 +278,7 @@ export interface Style {
      */
     borderStyle?: types.CssValue<types.CssLineStyleSet> | KnockoutObservable<types.CssValue<types.CssLineStyleSet>>;
     /**
-     * Shorthand property that defines the border-width, border-style and border-color of an element's top border in a single declaration. Note that you can use the corresponding longhand properties to set specific individual properties of the top border ó border-top-width, border-top-style and border-top-color.
+     * Shorthand property that defines the border-width, border-style and border-color of an element's top border in a single declaration. Note that you can use the corresponding longhand properties to set specific individual properties of the top border ‚Äî border-top-width, border-top-style and border-top-color.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/border-top
      */
     borderTop?: types.CssBorderShorthand | KnockoutObservable<types.CssBorderShorthand>;
@@ -500,12 +500,12 @@ export interface Style {
      */
     dominantBaseline?: types.DominantBaseline | KnockoutObservable<types.DominantBaseline>;
     /**
-     * The ëempty-cellsí CSS property specifies how the user agent should render borders and backgrounds around <table> cells that have no visible content.
+     * The ‚Äòempty-cells‚Äô CSS property specifies how the user agent should render borders and backgrounds around <table> cells that have no visible content.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/empty-cells
      */
     emptyCells?: types.CssGlobalValues | "show" | "hide" | KnockoutObservable<types.CssGlobalValues | "show" | "hide">;
     /**
-     * The ëfillí property paints the interior of the given graphical element. The area to be painted consists of any areas inside the outline of the shape. To determine the inside of the shape, all subpaths are considered, and the interior is determined according to the rules associated with the current value of the ëfill-ruleí property. The zero-width geometric outline of a shape is included in the area to be painted.
+     * The ‚Äòfill‚Äô property paints the interior of the given graphical element. The area to be painted consists of any areas inside the outline of the shape. To determine the inside of the shape, all subpaths are considered, and the interior is determined according to the rules associated with the current value of the ‚Äòfill-rule‚Äô property. The zero-width geometric outline of a shape is included in the area to be painted.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/fill
      */
     fill?: types.CssColor | "context-stroke" | "context-fill" | KnockoutObservable<types.CssColor | "context-stroke" | "context-fill">;
@@ -515,8 +515,8 @@ export interface Style {
      */
     fillOpacity?: number | KnockoutObservable<number>;
     /**
-     * The ëfill-ruleí property indicates the algorithm which is to be used to determine what parts of the canvas are included inside the shape. For a simple, non-intersecting path, it is intuitively clear what region lies "inside"; however, for a more complex path, such as a path that intersects itself or where one subpath encloses another, the interpretation of "inside" is not so obvious.
-     * The ëfill-ruleí property provides two options for how the inside of a shape is determined:
+     * The ‚Äòfill-rule‚Äô property indicates the algorithm which is to be used to determine what parts of the canvas are included inside the shape. For a simple, non-intersecting path, it is intuitively clear what region lies "inside"; however, for a more complex path, such as a path that intersects itself or where one subpath encloses another, the interpretation of "inside" is not so obvious.
+     * The ‚Äòfill-rule‚Äô property provides two options for how the inside of a shape is determined:
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/fill-rule
      */
     fillRule?: "nonzero" | "evenodd" | KnockoutObservable<"nonzero" | "evenodd">;
@@ -701,7 +701,7 @@ export interface Style {
      */
     gridRow?: any | KnockoutObservable<any>;
     /**
-     * Determines a grid itemís placement by specifying the block-end. A grid item's placement in a grid area consists of a grid position and a grid span. The grid-row-end property (with grid-row-start, grid-column-start, and grid-column-end) determines a grid item's placement by specifying the grid lines of a grid item's grid area.
+     * Determines a grid item‚Äôs placement by specifying the block-end. A grid item's placement in a grid area consists of a grid position and a grid span. The grid-row-end property (with grid-row-start, grid-column-start, and grid-column-end) determines a grid item's placement by specifying the grid lines of a grid item's grid area.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/grid-row-end
      */
     gridRowEnd?: any | KnockoutObservable<any>;
@@ -711,7 +711,7 @@ export interface Style {
      */
     gridRowGap?: any | KnockoutObservable<any>;
     /**
-     * Determines a grid itemís start position within the grid row by contributing a line, a span, or nothing (automatic) to its grid placement, thereby specifying the inline-start edge of its grid area.
+     * Determines a grid item‚Äôs start position within the grid row by contributing a line, a span, or nothing (automatic) to its grid placement, thereby specifying the inline-start edge of its grid area.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/grid-row-start
      */
     gridRowStart?: any | KnockoutObservable<any>;
@@ -732,12 +732,12 @@ export interface Style {
      */
     gridTemplateAreas?: any | KnockoutObservable<any>;
     /**
-     * Specifies (with grid-template-rows) the line names and track sizing functions of the grid. Each sizing function can be specified as a length, a percentage of the grid containerís size, a measurement of the contents occupying the column or row, or a fraction of the free space in the grid.
+     * Specifies (with grid-template-rows) the line names and track sizing functions of the grid. Each sizing function can be specified as a length, a percentage of the grid container‚Äôs size, a measurement of the contents occupying the column or row, or a fraction of the free space in the grid.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns
      */
     gridTemplateColumns?: any | KnockoutObservable<any>;
     /**
-     * Specifies (with grid-template-columns) the line names and track sizing functions of the grid. Each sizing function can be specified as a length, a percentage of the grid containerís size, a measurement of the contents occupying the column or row, or a fraction of the free space in the grid.
+     * Specifies (with grid-template-columns) the line names and track sizing functions of the grid. Each sizing function can be specified as a length, a percentage of the grid container‚Äôs size, a measurement of the contents occupying the column or row, or a fraction of the free space in the grid.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-rows
      */
     gridTemplateRows?: any | KnockoutObservable<any>;
@@ -752,7 +752,7 @@ export interface Style {
      */
     hyphenateLimitChars?: any | KnockoutObservable<any>;
     /**
-     * Indicates the maximum number of successive hyphenated lines in an element. The ëno-limití value means that there is no limit.
+     * Indicates the maximum number of successive hyphenated lines in an element. The ‚Äòno-limit‚Äô value means that there is no limit.
      * @see https://msdn.microsoft.com/en-us/library/hh771867(v=vs.85).aspx
      */
     hyphenateLimitLines?: any | KnockoutObservable<any>;
@@ -960,8 +960,8 @@ export interface Style {
     orphans?: number | KnockoutObservable<number>;
     /**
      * The CSS outline property is a shorthand property for setting one or more of the individual outline properties outline-style, outline-width and outline-color in a single rule. In most cases the use of this shortcut is preferable and more convenient.
-     * Outlines differ from borders in the following ways:  ï       Outlines do not take up space, they are drawn above the content.
-     *      ï       Outlines may be non-rectangular. They are rectangular in Gecko/Firefox. Internet Explorer attempts to place the smallest contiguous outline around all elements or shapes that are indicated to have an outline. Opera draws a non-rectangular shape around a construct.
+     * Outlines differ from borders in the following ways:  ‚Ä¢       Outlines do not take up space, they are drawn above the content.
+     *      ‚Ä¢       Outlines may be non-rectangular. They are rectangular in Gecko/Firefox. Internet Explorer attempts to place the smallest contiguous outline around all elements or shapes that are indicated to have an outline. Opera draws a non-rectangular shape around a construct.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/outline
      */
     outline?: any | KnockoutObservable<any>;
@@ -1247,7 +1247,7 @@ export interface Style {
     textDecorationNone?: any | KnockoutObservable<any>;
     textDecorationOverline?: any | KnockoutObservable<any>;
     /**
-     * Specifies what parts of an elementís content are skipped over when applying any text decoration.
+     * Specifies what parts of an element‚Äôs content are skipped over when applying any text decoration.
      * @see https://developer.mozilla.org/en/docs/Web/CSS/text-decoration-skip
      */
     textDecorationSkip?: any | KnockoutObservable<any>;
@@ -1307,7 +1307,7 @@ export interface Style {
      */
     textLineThroughWidth?: types.CssValue<types.CssLength | types.CssPercentage> | KnockoutObservable<types.CssValue<types.CssLength | types.CssPercentage>>;
     /**
-     * The text-overflow shorthand CSS property determines how overflowed content that is not displayed is signaled to the users. It can be clipped, display an ellipsis ('Ö', U+2026 HORIZONTAL ELLIPSIS) or a Web author-defined string. It covers the two long-hand properties text-overflow-mode and text-overflow-ellipsis
+     * The text-overflow shorthand CSS property determines how overflowed content that is not displayed is signaled to the users. It can be clipped, display an ellipsis ('‚Ä¶', U+2026 HORIZONTAL ELLIPSIS) or a Web author-defined string. It covers the two long-hand properties text-overflow-mode and text-overflow-ellipsis
      * @see https://developer.mozilla.org/en/docs/Web/CSS/text-overflow
      */
     textOverflow?: types.CssGlobalValues | "clip" | "ellipsis" | string | KnockoutObservable<types.CssGlobalValues | "clip" | "ellipsis" | string>;
@@ -1395,7 +1395,7 @@ export interface Style {
      */
     transition?: any | KnockoutObservable<any>;
     /**
-     * Defines when the transition will start. A value of ë0sí means the transition will execute as soon as the property is changed. Otherwise, the value specifies an offset from the moment the property is changed, and the transition will delay execution by that offset.
+     * Defines when the transition will start. A value of ‚Äò0s‚Äô means the transition will execute as soon as the property is changed. Otherwise, the value specifies an offset from the moment the property is changed, and the transition will delay execution by that offset.
      * @see https://developer.mozilla.org/en/docs/Web/CSS/transition-delay
      */
     transitionDelay?: any | KnockoutObservable<any>;
@@ -1500,7 +1500,7 @@ export interface Style {
      */
     width?: types.CssValue<"auto" | types.CssLength | types.CssPercentage | types.CssGlobalValues> | KnockoutObservable<types.CssValue<"auto" | types.CssLength | types.CssPercentage | types.CssGlobalValues>>;
     /**
-     * The ëwill-changeí CSS property provides a way for authors to hint browsers about the kind of changes to be expected on an element, so that the browser can set up appropriate optimizations ahead of time before the element is actually changed. These kind of optimizations can increase the responsiveness of a page by doing potentially expensive work ahead of time before they are actually required.
+     * The ‚Äòwill-change‚Äô CSS property provides a way for authors to hint browsers about the kind of changes to be expected on an element, so that the browser can set up appropriate optimizations ahead of time before the element is actually changed. These kind of optimizations can increase the responsiveness of a page by doing potentially expensive work ahead of time before they are actually required.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/will-change
      */
     willChange?: types.CssValue<"auto" | "scroll-position" | "contents" | types.CssValueString> | KnockoutObservable<types.CssValue<"auto" | "scroll-position" | "contents" | types.CssValueString>>;
