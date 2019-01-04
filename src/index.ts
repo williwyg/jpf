@@ -1,3 +1,10 @@
-﻿export { FrameworkElement, FrameworkElementOptions, Attribute } from "./frameworkElement";
-export { Style } from "./style";
-export { Types } from "./types";
+﻿import { Anchor } from "./controls/anchor/anchor";
+
+
+
+//Export the public classes
+export { FrameworkElement } from "./framework/frameworkElement";
+
+export const controls = {
+    Anchor: Anchor
+}

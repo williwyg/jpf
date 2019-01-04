@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -26,7 +26,7 @@
   "files": [
     "dist",
     "lib",
-    "index.d.ts",
+    "declarations",
     "LICENSE",
     "package.json",
     "README.md"
