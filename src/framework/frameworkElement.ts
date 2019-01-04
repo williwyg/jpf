@@ -1,11 +1,9 @@
-import * as ko from "knockout";
-import * as types from "../types/types";
+﻿import { FrameworkElementOptions } from "./frameworkElementOptions";
 import { Style } from "../style/style";
-import { FrameworkElementOptions } from "./frameworkElementOptions";
 import { Attribute } from "./attribute";
+import * as types from "../types/types";
 
 export class FrameworkElement {
-
     constructor(tagName: string, type: string, options?: FrameworkElementOptions) {
 
         this.tagName = tagName;
@@ -64,7 +62,7 @@ export class FrameworkElement {
                 bindings["css"] = this.className;
             } else {
                 bindings["css"] = {
-                     [this.className]: true
+                    [this.className]: true
                 };
             }
         }

@@ -1,4 +1,4 @@
-import { Attribute } from "./attribute";
+﻿import { Attribute } from "./attribute";
 import { Style } from "../style/style";
 
 export interface FrameworkElementOptions {

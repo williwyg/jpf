@@ -1,8 +1,8 @@
 /// <reference types="knockout" />
-import * as types from "../types/types";
-import { Style } from "../style/style";
 import { FrameworkElementOptions } from "./frameworkElementOptions";
+import { Style } from "../style/style";
 import { Attribute } from "./attribute";
+import * as types from "../types/types";
 export declare class FrameworkElement {
     constructor(tagName: string, type: string, options?: FrameworkElementOptions);
     private display;

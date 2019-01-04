@@ -1,13 +1,5 @@
-﻿import { FrameworkElement } from "./framework/frameworkElement";
-import { Anchor } from "./controls/anchor/anchor";
+﻿import * as Framework from "./framework/framework";
+import * as Controls from "./controls/controls";
 
-export var namespace = "Jpf";
-
-export const Framework =
-{
-    FrameworkElement: FrameworkElement
-}
-
-export const Controls = {
-    Anchor: Anchor
-}
+export { Framework };
+export { Controls };
