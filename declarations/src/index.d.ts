@@ -1,8 +1,6 @@
 import { FrameworkElement } from "./framework/frameworkElement";
 import { Anchor } from "./controls/anchor/anchor";
-
-export as namespace Jpf;
-
+export declare var x: any;
 export declare const Framework: {
     FrameworkElement: typeof FrameworkElement;
 };

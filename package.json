@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -37,7 +37,7 @@
     "webpackDistProduction": "webpack --config webpack.dist.production.ts",
     "webpackLibDevelopment": "webpack --config webpack.lib.development.ts",
     "webpackLibProduction": "webpack --config webpack.lib.production.ts",
-    "npmPublish":  "npm publish" 
+    "npmPublish": "npm publish"
   },
   "dependencies": {
     "knockout": "^3.4.2"
@@ -46,6 +46,7 @@
     "@types/knockout": "3.4.60",
     "babel-polyfill": "6.26.0",
     "path": "0.12.7",
+    "replace-in-file-webpack-plugin": "^1.0.6",
     "ts-loader": "5.3.1",
     "ts-node": "7.0.1",
     "typescript": "3.2.2",

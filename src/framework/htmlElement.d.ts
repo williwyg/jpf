@@ -1,0 +1,4 @@
+﻿
+interface HTMLElement {
+    data: any;
+}

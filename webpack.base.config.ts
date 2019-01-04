@@ -1,5 +1,6 @@
 import * as webpack from "webpack";
 import * as path from "path";
+import * as ReplaceInFileWebpackPlugin from "replace-in-file-webpack-plugin";
 
 let currentDir = path.resolve("./");
 
@@ -45,7 +46,19 @@ export function getConfig(forBrowserUse: boolean, mode: string): webpack.Configu
         },
 
         plugins: [
-            new webpack.optimize.OccurrenceOrderPlugin(false)
+            new webpack.optimize.OccurrenceOrderPlugin(false),
+            new ReplaceInFileWebpackPlugin([
+                {
+                    dir: "declarations",
+                    files: ["index.d.ts"],
+                    rules: [
+                        {
+                            search: "export declare var namespace: string;",
+                            replace: "\nexport as namespace Jpf;\n"
+                        }
+                    ]
+                }
+            ])
         ]
     };
 

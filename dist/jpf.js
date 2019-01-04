@@ -3870,7 +3870,7 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nva
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar anchor_1 = __webpack_require__(/*! ./controls/anchor/anchor */ \"./src/controls/anchor/anchor.ts\");\r\nvar frameworkElement_1 = __webpack_require__(/*! ./framework/frameworkElement */ \"./src/framework/frameworkElement.ts\");\r\nexports.FrameworkElement = frameworkElement_1.FrameworkElement;\r\nexports.controls = {\r\n    Anchor: anchor_1.Anchor\r\n};\r\n\n\n//# sourceURL=webpack:///./src/index.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar frameworkElement_1 = __webpack_require__(/*! ./framework/frameworkElement */ \"./src/framework/frameworkElement.ts\");\r\nvar anchor_1 = __webpack_require__(/*! ./controls/anchor/anchor */ \"./src/controls/anchor/anchor.ts\");\r\nexports.namespace = \"Jpf\";\r\nexports.Framework = {\r\n    FrameworkElement: frameworkElement_1.FrameworkElement\r\n};\r\nexports.Controls = {\r\n    Anchor: anchor_1.Anchor\r\n};\r\n\n\n//# sourceURL=webpack:///./src/index.ts?");
 
 /***/ }),
 
