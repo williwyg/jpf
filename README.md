@@ -14,8 +14,3 @@ The tooling support to make sure that the View with its binding expressions is i
 1. **Support binding expression checking at compile time** 
 1. **Discover programming errors at compile time instead of runtime**
 1. **Hide HTML complexity from the developer by providing a rich control set**
-
-# Including in the browser
-If you intend to use this library directly in a browser and are not using UMD/AMD then there is a compiled version in the ~/dist folder. It is already bundled/minified and contains the necessary dependencies and polyfills (mainly for ES6 features such as Promises).
-
-If you are using UMD/AMD and/or you already have included an ES6 polyfill (such as babel-polyfill.js) then you can include the UMD packaged version of the file from the ~/lib folder.
