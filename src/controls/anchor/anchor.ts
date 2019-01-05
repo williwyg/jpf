@@ -1,4 +1,4 @@
-﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/framework";
+﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
 
 export class Anchor extends FrameworkElement {
     constructor(options: AnchorOptions) {

@@ -1,5 +1,5 @@
-﻿import * as Framework from "./framework/framework";
-import * as Controls from "./controls/controls";
+﻿import * as Framework from "./framework/index";
+import * as Controls from "./controls/index";
 
 export { Framework };
 export { Controls };

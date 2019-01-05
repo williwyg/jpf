@@ -47,7 +47,7 @@ export class FrameworkElement {
         }
     }
 
-    build() {
+    build(): void {
         this.element.id = this.id;
         if (this.type) {
             this.element.attributes["type"] = this.type;
@@ -85,6 +85,10 @@ export class FrameworkElement {
     }
 
     render(): HTMLElement {
+        if (this.element) {
+            throw "This Framework element has already been rendered.";
+        }
+
         //Check if the build property is pointing to a function.
         if (typeof this.build === "function") {
             //Create the html element.
@@ -97,6 +101,18 @@ export class FrameworkElement {
             return this.element;
         }
         throw "The build method of this FrameworkElement has not been defined";
+    }
+
+    remove(): void {
+        if (this.element) {
+            if (this.element.remove) {
+                this.element.remove();
+            } else {
+                this.element.parentElement.removeChild(this.element);
+            }
+
+            this.element = null;
+        }
     }
 
     getAttribute(attributeName: string): string {

@@ -1,4 +1,4 @@
-﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/framework";
+﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
 
 export class Span extends FrameworkElement {
     constructor(options: SpanOptions) {

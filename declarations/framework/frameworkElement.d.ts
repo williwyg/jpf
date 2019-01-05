@@ -9,6 +9,7 @@ export declare class FrameworkElement {
     private setVisibility;
     build(): void;
     render(): HTMLElement;
+    remove(): void;
     getAttribute(attributeName: string): string;
     setAttribute(attribute: Attribute): void;
     deleteAttribute(attributeName: string): void;

@@ -1,5 +1,5 @@
 /// <reference types="knockout" />
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/framework";
+import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
 export declare class Anchor extends FrameworkElement {
     constructor(options: AnchorOptions);
     text: string | KnockoutObservable<string>;
