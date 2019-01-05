@@ -1,3 +1,3 @@
-export * from "./attribute";
-export * from "./frameworkElement";
-export * from "./frameworkElementOptions";
+export * from "./attribute/attribute";
+export * from "./frameworkElement/frameworkElement";
+export * from "./inputElement/inputElement";

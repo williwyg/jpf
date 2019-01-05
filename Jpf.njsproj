@@ -30,17 +30,25 @@
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
-    <TypeScriptCompile Include="src\controls\buttons\button.ts">
+    <TypeScriptCompile Include="src\controls\button\button.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\comboBox\comboBox.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\index.ts" />
-    <TypeScriptCompile Include="src\controls\span\span.ts" />
-    <TypeScriptCompile Include="src\framework\attribute.ts">
+    <TypeScriptCompile Include="src\controls\textBox\textBox.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\framework\frameworkElement.ts" />
-    <TypeScriptCompile Include="src\framework\frameworkElementOptions.ts" />
-    <TypeScriptCompile Include="src\framework\htmlElement.d.ts" />
+    <TypeScriptCompile Include="src\framework\inputelement\inputElement.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\label\label.ts" />
+    <TypeScriptCompile Include="src\framework\attribute\attribute.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\framework\frameworkElement\frameworkElement.ts" />
+    <TypeScriptCompile Include="src\framework\htmlElement\htmlElement.d.ts" />
     <TypeScriptCompile Include="src\controls\hyperlink\hyperlink.ts" />
     <TypeScriptCompile Include="src\framework\index.ts" />
     <TypeScriptCompile Include="src\index.ts">
@@ -57,9 +65,15 @@
     <Folder Include="src\" />
     <Folder Include="src\controls\" />
     <Folder Include="src\controls\hyperlink\" />
-    <Folder Include="src\controls\buttons\" />
-    <Folder Include="src\controls\span\" />
+    <Folder Include="src\controls\button\" />
+    <Folder Include="src\controls\comboBox\" />
+    <Folder Include="src\controls\label\" />
+    <Folder Include="src\controls\textBox\" />
     <Folder Include="src\framework\" />
+    <Folder Include="src\framework\frameworkElement\" />
+    <Folder Include="src\framework\attribute\" />
+    <Folder Include="src\framework\htmlElement\" />
+    <Folder Include="src\framework\inputElement\" />
     <Folder Include="src\style\" />
     <Folder Include="src\types\" />
   </ItemGroup>

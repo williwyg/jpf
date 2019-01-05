@@ -6,18 +6,13 @@ export class Button extends FrameworkElement {
         super("button", "Button", options);
 
         if (options) {
-            if (options.disabled) {
-                if (ko.isObservable(options.disabled)) {
-                    this.disabled = options.disabled;
-                } else {
-                    this.disabled(options.disabled);
-                }
-            }
+            this.content = options.content;
+            this.disabled = options.disabled;
         }
 
-        const build = this.build;
+        const buildSuper = this.build;
         this.build = () => {
-            build();
+            buildSuper();
 
             if (this.content instanceof FrameworkElement) {
                 const frameworkElement = this.content as FrameworkElement;
@@ -26,12 +21,14 @@ export class Button extends FrameworkElement {
                 ko.applyBindingsToNode(this.element, { text: this.content });
             }
 
-            ko.applyBindingsToNode(this.element, { attr: { disabled: this.disabled } });
+            if (this.disabled) {
+                ko.applyBindingsToNode(this.element, { attr: { disabled: this.disabled } });
+            }
         }
     }
 
     content: string| KnockoutObservable<string> | FrameworkElement;
-    disabled = ko.observable<boolean>(false);
+    disabled: boolean| KnockoutObservable<boolean>;
 }
 
 export interface ButtonOptions extends FrameworkElementOptions {

@@ -1,4 +1,4 @@
-﻿import * as types from "../types/types";
+﻿import * as types from "../../types/types";
 
 export interface Attribute {
     name: types.AttributeName;

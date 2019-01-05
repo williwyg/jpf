@@ -1,12 +1,12 @@
 ﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
 
-export class Hyperlink extends FrameworkElement {
-    constructor(options?: HyperlinkOptions) {
-        super("a", "Hyperlink", options);
+export class Label extends FrameworkElement {
+    constructor(options?: LabelOptions) {
+        super("label", "Label", options);
 
         if (options) {
             this.text = options.text;
-            this.href = options.href;
+            this.for = options.for;
         }
 
         const buildSuper = this.build;
@@ -16,20 +16,20 @@ export class Hyperlink extends FrameworkElement {
             ko.applyBindingsToNode(
                 this.element,
                 {
-                    text: this.text,
+                    html: this.text,
                     attr: {
-                        href: this.href
-                    }
+                          for: this.for
+                     }
                 }
             );
         }
     }
 
     text: string | KnockoutObservable<string>;
-    href: string | KnockoutObservable<string>;
+    for: string;
 }
 
-export interface HyperlinkOptions extends FrameworkElementOptions {
+export interface LabelOptions extends FrameworkElementOptions {
     text?: string | KnockoutObservable<string>;
-    href?: string | KnockoutObservable<string>;
+    for?: string;
 }
