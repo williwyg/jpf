@@ -1,4 +1,8 @@
-import * as Framework from "./framework/index";
 import * as Controls from "./controls/index";
-export { Framework };
+import * as Framework from "./framework/index";
+import * as Style from "./style/style";
+import * as Types from "./types/types";
 export { Controls };
+export { Framework };
+export { Style };
+export { Types };
