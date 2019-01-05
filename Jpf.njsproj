@@ -20,6 +20,7 @@
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
     <StartWebBrowser>True</StartWebBrowser>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+    <UseIISExpress>true</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -30,30 +31,21 @@
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
-    <TypeScriptCompile Include="src\controls\button\button.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\comboBox\comboBox.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\button\button.ts" />
+    <TypeScriptCompile Include="src\controls\comboBox\comboBox.ts" />
     <TypeScriptCompile Include="src\controls\index.ts" />
-    <TypeScriptCompile Include="src\controls\textBox\textBox.ts">
+    <TypeScriptCompile Include="src\controls\slider\slider.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\framework\inputelement\inputElement.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\textBox\textBox.ts" />
+    <TypeScriptCompile Include="src\framework\inputelement\inputElement.ts" />
     <TypeScriptCompile Include="src\controls\label\label.ts" />
-    <TypeScriptCompile Include="src\framework\attribute\attribute.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\framework\attribute\attribute.ts" />
     <TypeScriptCompile Include="src\framework\frameworkElement\frameworkElement.ts" />
     <TypeScriptCompile Include="src\framework\htmlElement\htmlElement.d.ts" />
     <TypeScriptCompile Include="src\controls\hyperlink\hyperlink.ts" />
     <TypeScriptCompile Include="src\framework\index.ts" />
-    <TypeScriptCompile Include="src\index.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\index.ts" />
     <TypeScriptCompile Include="src\style\style.ts" />
     <TypeScriptCompile Include="src\types\types.ts" />
     <TypeScriptCompile Include="webpack.base.config.ts" />
@@ -68,6 +60,7 @@
     <Folder Include="src\controls\button\" />
     <Folder Include="src\controls\comboBox\" />
     <Folder Include="src\controls\label\" />
+    <Folder Include="src\controls\slider\" />
     <Folder Include="src\controls\textBox\" />
     <Folder Include="src\framework\" />
     <Folder Include="src\framework\frameworkElement\" />
@@ -76,13 +69,9 @@
     <Folder Include="src\framework\inputElement\" />
     <Folder Include="src\style\" />
     <Folder Include="src\types\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="lib\jpf.js" />
     <Compile Include="lib\jpf.min.js" />
-    <Compile Include="LICENSE">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LICENSE" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
@@ -92,14 +81,15 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:48022/</IISUrl>
+          <IISUrl>http://localhost:52100/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
-          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
@@ -120,7 +110,7 @@
           </StartCmdLineArguments>
           <StartWorkingDirectory>
           </StartWorkingDirectory>
-          <EnableENC>False</EnableENC>
+          <EnableENC>True</EnableENC>
           <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
         </WebProjectProperties>
       </FlavorProperties>
