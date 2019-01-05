@@ -12,7 +12,7 @@ The tooling support to make sure that the View with its binding expressions is i
 1. **Support the MVVM design pattern**
 1. **Eliminate the use of text based templating**
 1. **Support binding expression checking at compile time** 
-1. **Discover programming errors at compile time instead at runtime**
+1. **Discover programming errors at compile time instead of runtime**
 1. **Hide HTML complexity from the developer by providing a rich control set**
 
 # Including in the browser
