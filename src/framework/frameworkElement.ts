@@ -47,7 +47,7 @@ export class FrameworkElement {
         }
     }
 
-    build(): void {
+    protected build(): void {
         this.element.id = this.id;
         if (this.type) {
             this.element.attributes["type"] = this.type;
@@ -57,6 +57,7 @@ export class FrameworkElement {
             style: this.style,
             attr: this.attributes
         }
+
         if (this.className) {
             if (ko.isObservable(this.className)) {
                 bindings["css"] = this.className;
@@ -68,6 +69,34 @@ export class FrameworkElement {
         }
 
         ko.applyBindingsToNode(this.element, bindings);
+
+        //Find out if the element is none selectable
+        if (this.selectable === false) {
+            this.element.onselectstart = () => {
+                return false;
+            }
+            this.element.style.userSelect = "none";
+            this.element.style["-webkit-user-select"] = "none";
+            this.element.style["-moz-user-select"] = "none";
+            this.element.style["-ms-user-select"] = "none";
+        }
+
+        //Add the mouse event listeners to the element
+        this.element.onclick = this.onclick;
+        this.element.oncontextmenu = this.oncontextmenu;
+        this.element.ondblclick = this.ondblclick;
+        this.element.onmousedown = this.onmousedown;
+        this.element.onmouseenter = this.onmouseenter;
+        this.element.onmouseleave = this.onmouseleave;
+        this.element.onmousemove = this.onmousemove;
+        this.element.onmouseout = this.onmouseout;
+        this.element.onmouseover = this.onmouseover;
+        this.element.onmouseup = this.onmouseup;
+        //Add the touch event listeners to the element
+        this.element.ontouchcancel = this.ontouchcancel;
+        this.element.ontouchend = this.ontouchend;
+        this.element.ontouchmove = this.ontouchmove;
+        this.element.ontouchstart = this.ontouchstart;
 
         //Set the initial visibility of the element
         this.setVisibility(this.visible());
@@ -153,5 +182,24 @@ export class FrameworkElement {
     attributes: { [index: string]: string | KnockoutObservable<string> } = {};
 
     style: Style;
+    selectable: boolean = true;
     addControlToDataDictionary: boolean = false;
+
+    //Mouse events
+    onclick: (event: MouseEvent) => void;
+    oncontextmenu: (event: MouseEvent) => void;
+    ondblclick: (event: MouseEvent) => void;
+    onmousedown: (event: MouseEvent) => void;
+    onmouseenter: (event: MouseEvent) => void;
+    onmouseleave: (event: MouseEvent) => void;
+    onmousemove: (event: MouseEvent) => void;
+    onmouseout: (event: MouseEvent) => void;
+    onmouseover: (event: MouseEvent) => void;
+    onmouseup: (event: MouseEvent) => void;
+
+    //Touch events
+    ontouchcancel?: (event: TouchEvent) => void;
+    ontouchend?: (event: TouchEvent) => void;
+    ontouchmove?: (event: TouchEvent) => void;
+    ontouchstart?: (event: TouchEvent) => void;
 }
