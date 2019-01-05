@@ -1,3 +1,3 @@
 ﻿import * as webpackBaseConfig from "./webpack.base.config";
 
-export default webpackBaseConfig.getConfig(false, "production");
+export default webpackBaseConfig.getConfig("production");

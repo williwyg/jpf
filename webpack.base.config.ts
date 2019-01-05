@@ -3,27 +3,17 @@ import * as path from "path";
 
 let currentDir = path.resolve("./");
 
-export function getConfig(forBrowserUse: boolean, mode: string): webpack.Configuration {
-    let entry: Array<string> | string;
-    let outputPath: string;
-    if (forBrowserUse) {
-        entry = ["babel-polyfill", path.resolve("./src/index.ts")];
-        outputPath = "dist";
-    } else {
-        entry = path.resolve("./src/index.ts");
-        outputPath = "lib";
-    }
-
+export function getConfig(mode: string): webpack.Configuration {
     let filename = "jpf.js";
     if (mode.toLocaleLowerCase() === "production") {
         filename = "jpf.min.js";
     }
 
     const webpackConfiguration = webpack.Configuration = {
-        entry: entry,
+        entry: path.resolve("./src/index.ts"),
 
         output: {
-            path: path.resolve(currentDir, outputPath),
+            path: path.resolve(currentDir, "lib"),
             filename: filename
         },
 

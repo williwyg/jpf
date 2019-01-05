@@ -1,8 +1,8 @@
 ﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
 
-export class Anchor extends FrameworkElement {
-    constructor(options: AnchorOptions) {
-        super("a", "Anchor", options);
+export class Hyperlink extends FrameworkElement {
+    constructor(options: HyperlinkOptions) {
+        super("a", "Hyperlink", options);
 
         this.setAttribute({name: "href", value: this.text });
 
@@ -12,7 +12,7 @@ export class Anchor extends FrameworkElement {
     href: string | KnockoutObservable<string>;
 }
 
-export interface AnchorOptions extends FrameworkElementOptions {
+export interface HyperlinkOptions extends FrameworkElementOptions {
     text?: string | KnockoutObservable<string>;
     href?: string | KnockoutObservable<string>;
 }

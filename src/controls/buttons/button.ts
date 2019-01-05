@@ -28,7 +28,6 @@ export class Button extends FrameworkElement {
 
             ko.applyBindingsToNode(this.element, { attr: { disabled: this.disabled } });
         }
-
     }
 
     content: string| KnockoutObservable<string> | FrameworkElement;

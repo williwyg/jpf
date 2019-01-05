@@ -33,8 +33,6 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpackDistDevelopment": "webpack --config webpack.dist.development.ts",
-    "webpackDistProduction": "webpack --config webpack.dist.production.ts",
     "webpackLibDevelopment": "webpack --config webpack.lib.development.ts",
     "webpackLibProduction": "webpack --config webpack.lib.production.ts",
     "npmPublish": "npm publish"

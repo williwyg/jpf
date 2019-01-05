@@ -1,11 +1,11 @@
 /// <reference types="knockout" />
 import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
-export declare class Anchor extends FrameworkElement {
-    constructor(options: AnchorOptions);
+export declare class Hyperlink extends FrameworkElement {
+    constructor(options: HyperlinkOptions);
     text: string | KnockoutObservable<string>;
     href: string | KnockoutObservable<string>;
 }
-export interface AnchorOptions extends FrameworkElementOptions {
+export interface HyperlinkOptions extends FrameworkElementOptions {
     text?: string | KnockoutObservable<string>;
     href?: string | KnockoutObservable<string>;
 }

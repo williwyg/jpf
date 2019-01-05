@@ -41,7 +41,7 @@
     <TypeScriptCompile Include="src\framework\frameworkElement.ts" />
     <TypeScriptCompile Include="src\framework\frameworkElementOptions.ts" />
     <TypeScriptCompile Include="src\framework\htmlElement.d.ts" />
-    <TypeScriptCompile Include="src\controls\anchor\anchor.ts" />
+    <TypeScriptCompile Include="src\controls\hyperlink\hyperlink.ts" />
     <TypeScriptCompile Include="src\framework\index.ts" />
     <TypeScriptCompile Include="src\index.ts">
       <SubType>Code</SubType>
@@ -49,17 +49,14 @@
     <TypeScriptCompile Include="src\style\style.ts" />
     <TypeScriptCompile Include="src\types\types.ts" />
     <TypeScriptCompile Include="webpack.base.config.ts" />
-    <TypeScriptCompile Include="webpack.dist.development.ts" />
-    <TypeScriptCompile Include="webpack.dist.production.ts" />
     <TypeScriptCompile Include="webpack.lib.production.ts" />
     <TypeScriptCompile Include="webpack.lib.development.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="dist\" />
     <Folder Include="lib\" />
     <Folder Include="src\" />
     <Folder Include="src\controls\" />
-    <Folder Include="src\controls\anchor\" />
+    <Folder Include="src\controls\hyperlink\" />
     <Folder Include="src\controls\buttons\" />
     <Folder Include="src\controls\span\" />
     <Folder Include="src\framework\" />
@@ -67,8 +64,6 @@
     <Folder Include="src\types\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dist\jpf.js" />
-    <Compile Include="dist\jpf.min.js" />
     <Compile Include="lib\jpf.js" />
     <Compile Include="lib\jpf.min.js" />
     <Compile Include="LICENSE">
