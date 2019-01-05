@@ -33,6 +33,12 @@
     <Content Include="README.md" />
     <TypeScriptCompile Include="src\controls\button\button.ts" />
     <TypeScriptCompile Include="src\controls\comboBox\comboBox.ts" />
+    <TypeScriptCompile Include="src\controls\panel\stackPanel.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\framework\dialog\dialog.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\index.ts" />
     <TypeScriptCompile Include="src\controls\slider\slider.ts">
       <SubType>Code</SubType>
@@ -45,6 +51,9 @@
     <TypeScriptCompile Include="src\framework\htmlElement\htmlElement.d.ts" />
     <TypeScriptCompile Include="src\controls\hyperlink\hyperlink.ts" />
     <TypeScriptCompile Include="src\framework\index.ts" />
+    <TypeScriptCompile Include="src\framework\itemsElement\itemsElement.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\index.ts" />
     <TypeScriptCompile Include="src\style\style.ts" />
     <TypeScriptCompile Include="src\types\types.ts" />
@@ -60,6 +69,8 @@
     <Folder Include="src\controls\button\" />
     <Folder Include="src\controls\comboBox\" />
     <Folder Include="src\controls\label\" />
+    <Folder Include="src\controls\panel\" />
+    <Folder Include="src\framework\dialog\" />
     <Folder Include="src\controls\slider\" />
     <Folder Include="src\controls\textBox\" />
     <Folder Include="src\framework\" />
@@ -67,6 +78,7 @@
     <Folder Include="src\framework\attribute\" />
     <Folder Include="src\framework\htmlElement\" />
     <Folder Include="src\framework\inputElement\" />
+    <Folder Include="src\framework\itemsElement\" />
     <Folder Include="src\style\" />
     <Folder Include="src\types\" />
     <Compile Include="lib\jpf.js" />
