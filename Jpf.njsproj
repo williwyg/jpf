@@ -36,6 +36,9 @@
     <TypeScriptCompile Include="src\controls\div\div.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\labeledControl\labeledControl.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\panel\stackPanel.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -76,6 +79,7 @@
     <Folder Include="src\controls\comboBox\" />
     <Folder Include="src\controls\label\" />
     <Folder Include="src\controls\div\" />
+    <Folder Include="src\controls\labeledControl\" />
     <Folder Include="src\controls\panel\" />
     <Folder Include="src\framework\dialog\" />
     <Folder Include="src\controls\slider\" />
