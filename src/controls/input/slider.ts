@@ -2,8 +2,10 @@
 import {InputElement, InputElementOptions} from "../../framework/index";
 
 export class Slider extends InputElement<number> {
-    constructor(options: ISliderOptions) {
+    constructor(options?: ISliderOptions) {
         super("Slider", options);
+
+        this.inputType = "range";
 
         if (options) {
             this.min = options.min;
@@ -17,9 +19,6 @@ export class Slider extends InputElement<number> {
         this.build = () => {
             buildSuper();
 
-            var input = this.element as HTMLInputElement;
-            input.type = "range";
-
             this.element.setAttribute("min", this.min.toString());
             this.element.setAttribute("max", this.max.toString());
             if (this.step) {
@@ -30,6 +29,7 @@ export class Slider extends InputElement<number> {
 
             this.element.onchange = () => {
                 if (this.onchange) {
+                    const input = this.element as HTMLInputElement;
                     const value = Number(input.value);
                     this.onchange(value);
                 }
@@ -46,6 +46,6 @@ export class Slider extends InputElement<number> {
 export interface ISliderOptions extends InputElementOptions<number> {
     min: number;
     max: number;
-    step: number;
+    step?: number;
     value?: number| KnockoutObservable<number>;
 }

@@ -2,8 +2,8 @@
 import { FrameworkElement, FrameworkElementOptions } from "../index";
 
 export class InputElement<TInput> extends FrameworkElement {
-    constructor(type: string, options?: InputElementOptions<TInput>) {
-        super("input", type, options);
+    constructor(elementType: string, options?: InputElementOptions<TInput>) {
+        super("input", elementType, options);
 
         if (options) {
             this.disabled = options.disabled;
@@ -16,6 +16,7 @@ export class InputElement<TInput> extends FrameworkElement {
             buildSuper();
 
             var input = this.element as HTMLInputElement;
+            input.type = this.inputType;
             input.placeholder = this.placeholder;
 
             if (this.disabled) {
@@ -26,6 +27,7 @@ export class InputElement<TInput> extends FrameworkElement {
         }
     }
 
+    inputType: InputElementType;
     disabled: boolean | KnockoutObservable<boolean>;
     placeholder: string;
     onchange: (newValue: TInput) => void;
@@ -36,3 +38,8 @@ export interface InputElementOptions<TInput> extends FrameworkElementOptions {
     placeholder?: string;
     onchange?: (newValue: TInput) => void;
 }
+
+export type InputElementType =
+    "button" | "checkbox" | "color" | "date" | "datetime-local" | "email" | "file" |
+    "hidden" | "image" | "month" | "number" | "password" | "radio" | "range" |
+    "reset" | "search" | "submit" | "tel" | "text" | "time" | "url" | "week";

@@ -32,7 +32,10 @@
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
     <TypeScriptCompile Include="src\controls\button\button.ts" />
-    <TypeScriptCompile Include="src\controls\input\comboBox.ts" />
+    <TypeScriptCompile Include="src\controls\input\checkBox.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\comboBox\comboBox.ts" />
     <TypeScriptCompile Include="src\controls\div\div.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -78,6 +81,7 @@
     <Folder Include="src\controls\button\" />
     <Folder Include="src\controls\label\" />
     <Folder Include="src\controls\div\" />
+    <Folder Include="src\controls\comboBox\" />
     <Folder Include="src\controls\panel\" />
     <Folder Include="src\framework\dialog\" />
     <Folder Include="src\controls\input\" />

@@ -4,6 +4,8 @@ export class TextBox extends InputElement<string> {
     constructor(options?: TextBoxOptions) {
         super("TextBox", options);
 
+        this.inputType = "text";
+
         if (options) {
             this.text = options.text;
             if (options.valueUpdateMode) {

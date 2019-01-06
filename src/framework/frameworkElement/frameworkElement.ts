@@ -3,14 +3,14 @@ import { Attribute } from "../attribute/attribute";
 import * as types from "../../types/types";
 
 export class FrameworkElement {
-    constructor(tagName: string, type: string, options?: FrameworkElementOptions) {
+    constructor(tagName: string, elementType: string, options?: FrameworkElementOptions) {
 
         this.tagName = tagName;
-        this.type = type;
+        this.elementType = elementType;
         if (options) {
             this.id = options.id;
-            if (options.type) {
-                this.type = options.type;
+            if (options. elementType) {
+                this.elementType = options.elementType;
             }
             if (options.hasOwnProperty("visible")) {
                 if (ko.isObservable(options.visible)) {
@@ -48,8 +48,8 @@ export class FrameworkElement {
 
     protected build(): void {
         this.element.id = this.id;
-        if (this.type) {
-            this.element.attributes["type"] = this.type;
+        if (this.elementType) {
+            this.element.attributes["type"] = this.elementType;
         }
 
         const bindings = {
@@ -175,7 +175,7 @@ export class FrameworkElement {
 
     tagName: string;
     id: string;
-    type: string;
+    elementType: string;
     visible: KnockoutObservable<boolean> = ko.observable<boolean>();
     className: string | KnockoutObservable<string>;
     attributes: { [index: string]: string | KnockoutObservable<string> } = {};
@@ -205,7 +205,7 @@ export class FrameworkElement {
 
 export interface FrameworkElementOptions {
     id?: string;
-    type?: string;
+    elementType?: string;
     visible?: boolean | KnockoutObservable<boolean>;
     className?: string | KnockoutObservable<string>;
     attributes?: Array<Attribute>;

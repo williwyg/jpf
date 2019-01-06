@@ -3,7 +3,7 @@ import { Style } from "../../style/style";
 import { Attribute } from "../attribute/attribute";
 import * as types from "../../types/types";
 export declare class FrameworkElement {
-    constructor(tagName: string, type: string, options?: FrameworkElementOptions);
+    constructor(tagName: string, elementType: string, options?: FrameworkElementOptions);
     private display;
     private setVisibility;
     protected build(): void;
@@ -18,7 +18,7 @@ export declare class FrameworkElement {
     element: HTMLElement;
     tagName: string;
     id: string;
-    type: string;
+    elementType: string;
     visible: KnockoutObservable<boolean>;
     className: string | KnockoutObservable<string>;
     attributes: {
@@ -44,7 +44,7 @@ export declare class FrameworkElement {
 }
 export interface FrameworkElementOptions {
     id?: string;
-    type?: string;
+    elementType?: string;
     visible?: boolean | KnockoutObservable<boolean>;
     className?: string | KnockoutObservable<string>;
     attributes?: Array<Attribute>;
