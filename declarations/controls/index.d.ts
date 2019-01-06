@@ -5,3 +5,4 @@ export * from "./label/label";
 export * from "./panel/stackPanel";
 export * from "./slider/slider";
 export * from "./textBox/textBox";
+export * from "./textBox/passwordBox";
