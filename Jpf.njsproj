@@ -36,6 +36,9 @@
     <TypeScriptCompile Include="src\controls\panel\stackPanel.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\textBox\passwordBox.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\framework\dialog\dialog.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
