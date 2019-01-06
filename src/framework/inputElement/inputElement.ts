@@ -1,13 +1,14 @@
 ﻿import * as ko from "knockout";
 import { FrameworkElement, FrameworkElementOptions } from "../index";
 
-export class InputElement extends FrameworkElement {
-    constructor(type: string, options?: InputElementOptions) {
+export class InputElement<TInput> extends FrameworkElement {
+    constructor(type: string, options?: InputElementOptions<TInput>) {
         super("input", type, options);
 
         if (options) {
             this.disabled = options.disabled;
             this.placeholder = options.placeholder;
+            this.onchange = options.onchange;
         }
 
         const buildSuper = this.build;
@@ -25,11 +26,13 @@ export class InputElement extends FrameworkElement {
         }
     }
 
-    disabled:  boolean | KnockoutObservable<boolean>;
+    disabled: boolean | KnockoutObservable<boolean>;
     placeholder: string;
+    onchange: (newValue: TInput) => void;
 }
 
-export interface InputElementOptions extends FrameworkElementOptions {
-    disabled?: boolean| KnockoutObservable<boolean>;
+export interface InputElementOptions<TInput> extends FrameworkElementOptions {
+    disabled?: boolean | KnockoutObservable<boolean>;
     placeholder?: string;
+    onchange?: (newValue: TInput) => void;
 }

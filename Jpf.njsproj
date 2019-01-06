@@ -32,27 +32,27 @@
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
     <TypeScriptCompile Include="src\controls\button\button.ts" />
-    <TypeScriptCompile Include="src\controls\comboBox\comboBox.ts" />
+    <TypeScriptCompile Include="src\controls\input\comboBox.ts" />
     <TypeScriptCompile Include="src\controls\div\div.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\labeledControl\labeledControl.ts">
+    <TypeScriptCompile Include="src\controls\label\labeledControl.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\panel\stackPanel.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\textBox\passwordBox.ts">
+    <TypeScriptCompile Include="src\controls\input\passwordBox.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\framework\dialog\dialog.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\index.ts" />
-    <TypeScriptCompile Include="src\controls\slider\slider.ts">
+    <TypeScriptCompile Include="src\controls\input\slider.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\textBox\textBox.ts" />
+    <TypeScriptCompile Include="src\controls\input\textBox.ts" />
     <TypeScriptCompile Include="src\framework\inputelement\inputElement.ts" />
     <TypeScriptCompile Include="src\controls\label\label.ts" />
     <TypeScriptCompile Include="src\framework\attribute\attribute.ts" />
@@ -76,14 +76,11 @@
     <Folder Include="src\controls\" />
     <Folder Include="src\controls\hyperlink\" />
     <Folder Include="src\controls\button\" />
-    <Folder Include="src\controls\comboBox\" />
     <Folder Include="src\controls\label\" />
     <Folder Include="src\controls\div\" />
-    <Folder Include="src\controls\labeledControl\" />
     <Folder Include="src\controls\panel\" />
     <Folder Include="src\framework\dialog\" />
-    <Folder Include="src\controls\slider\" />
-    <Folder Include="src\controls\textBox\" />
+    <Folder Include="src\controls\input\" />
     <Folder Include="src\framework\" />
     <Folder Include="src\framework\frameworkElement\" />
     <Folder Include="src\framework\attribute\" />

@@ -1,4 +1,4 @@
-﻿import { Label, LabelOptions } from "../label/label";
+﻿import { Label, LabelOptions } from "./label";
 import { FrameworkElement } from "../../framework/frameworkElement/frameworkElement";
 import { StackPanel, StackPanelOptions } from "../panel/stackPanel";
 
