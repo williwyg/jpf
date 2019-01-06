@@ -1,5 +1,5 @@
 /// <reference types="knockout" />
-import { InputElement, InputElementOptions } from "../../framework/index";
+import { InputElement, InputElementOptions } from "../../framework/inputElement/inputElement";
 export declare class Slider extends InputElement<number> {
     constructor(options?: ISliderOptions);
     min: number;

@@ -1,5 +1,5 @@
 /// <reference types="knockout" />
-import { InputElement, InputElementOptions } from "../../framework/index";
+import { InputElement, InputElementOptions } from "../../framework/inputElement/inputElement";
 export declare class CheckBox extends InputElement<boolean> {
     constructor(options?: CheckBoxOptions);
     checked: boolean | KnockoutObservable<boolean>;

@@ -1,4 +1,5 @@
-﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
+﻿import * as ko from "knockout";
+import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement/frameworkElement";
 
 export class ComboBox<TItem, TValue> extends FrameworkElement {
     constructor(options?: ComboBoxOptions<TItem, TValue>) {

@@ -1,4 +1,5 @@
-﻿import { InputElement, InputElementOptions } from "../../framework/index";
+﻿import * as ko from "knockout";
+import { InputElement, InputElementOptions } from "../../framework/inputElement/inputElement";
 
 export class TextBox extends InputElement<string> {
     constructor(options?: TextBoxOptions) {

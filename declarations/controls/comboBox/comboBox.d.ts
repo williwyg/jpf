@@ -1,5 +1,5 @@
 /// <reference types="knockout" />
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
+import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement/frameworkElement";
 export declare class ComboBox<TItem, TValue> extends FrameworkElement {
     constructor(options?: ComboBoxOptions<TItem, TValue>);
     dataTextField: string;

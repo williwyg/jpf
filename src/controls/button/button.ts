@@ -1,5 +1,5 @@
 ﻿import * as ko from "knockout";
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
+import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement/frameworkElement";
 
 export class Button extends FrameworkElement {
     constructor(options?: ButtonOptions) {

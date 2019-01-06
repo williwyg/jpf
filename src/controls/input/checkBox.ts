@@ -1,5 +1,5 @@
 ﻿import * as ko from "knockout";
-import { InputElement, InputElementOptions } from "../../framework/index";
+import { InputElement, InputElementOptions } from "../../framework/inputElement/inputElement";
 
 export class CheckBox extends InputElement<boolean> {
     constructor(options?: CheckBoxOptions) {

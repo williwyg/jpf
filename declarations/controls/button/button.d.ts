@@ -1,5 +1,5 @@
 /// <reference types="knockout" />
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
+import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement/frameworkElement";
 export declare class Button extends FrameworkElement {
     constructor(options?: ButtonOptions);
     content: string | KnockoutObservable<string> | FrameworkElement;

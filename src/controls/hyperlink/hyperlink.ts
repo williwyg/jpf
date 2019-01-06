@@ -1,4 +1,5 @@
-﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
+﻿import * as ko from "knockout";
+import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement/frameworkElement";
 
 export class Hyperlink extends FrameworkElement {
     constructor(options?: HyperlinkOptions) {
