@@ -19,6 +19,13 @@ export class CheckBox extends InputElement<boolean> {
 
             ko.applyBindingsToNode(input, { checked: this.checked });
 
+            if (this.scale) {
+                const scale = "scale(" + this.scale + ")";
+                //this.element.style["transform"] = scale;
+                //this.element.style["WebkitTransform"] = scale;
+                //this.element.style["msTransform"] = scale;
+            }
+
             this.element.onchange = () => {
                 if (this.onchange) {
                     this.onchange(input.checked);
@@ -28,8 +35,10 @@ export class CheckBox extends InputElement<boolean> {
     }
 
     checked: boolean | KnockoutObservable<boolean>;
+    scale: number;
 }
 
 export interface CheckBoxOptions extends InputElementOptions<boolean> {
-    checked?: boolean| KnockoutObservable<boolean>;
+    checked?: boolean | KnockoutObservable<boolean>;
+    scale?: number;
 }

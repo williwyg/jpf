@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.30",
+  "version": "2.0.33",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -21,8 +21,8 @@
     "type": "git",
     "url": "https://github.com/williwyg/jpf"
   },
-  "main": "./lib/jpf.min.js",
-  "types": "./declarations/index.d.ts",
+  "main": "lib/jpf.min.js",
+  "types": "declarations/index.d.ts",
   "files": [
     "declarations",
     "lib",
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@types/knockout": "3.4.60",
+    "@types/webpack": "^4.4.22",
     "babel-polyfill": "6.26.0",
     "path": "0.12.7",
     "ts-loader": "5.3.1",

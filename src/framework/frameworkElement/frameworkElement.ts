@@ -152,9 +152,24 @@ export class FrameworkElement {
         }
     }
 
-    setAttribute(attribute: Attribute): void { throw new Error("Not implemented"); }
+    setAttribute(attribute: Attribute): void {
+        const currentAttribute = this.attributes[attribute.name];
+        if (currentAttribute) {
+            if (ko.isObservable(currentAttribute)) {
+                currentAttribute(ko.unwrap(attribute.value));
+            } else {
+                this.attributes[attribute.name] = attribute.value;
+            }
+        } else {
+            this.attributes[attribute.name] = attribute.value;
+        }
+    }
 
-    deleteAttribute(attributeName: string): void { throw new Error("Not implemented"); }
+    deleteAttribute(attributeName: string): void {
+        if (this.attributes[attributeName]) {
+            delete this.attributes[attributeName];
+        }
+    }
 
     getStyle(cssProperties: Array<types.CssProperty>): Style {
         const style = {};
@@ -168,16 +183,53 @@ export class FrameworkElement {
         return style;
     }
 
-    setStyle(style: Style, overwriteExisting?: boolean): void { throw new Error("Not implemented"); }
+    setStyle(style: Style, overwriteExisting?: boolean): void {
+        for (let styleName in style) {
+            if (style.hasOwnProperty(styleName)) {
+                if (!overwriteExisting) {
+                    return;
+                }
+                const newValue = style[styleName];
+                const currentValue = this.style[styleName];
+                if (currentValue) {
+                    if (ko.isObservable(currentValue)) {
+                        if (ko.isObservable(newValue)) {
+                            //Cast the style to an observable and set the value to the unwrapped value of value
+                            currentValue(ko.unwrap(newValue));
+                        } else {
+                            //Cast the style to an observable and set the value to the value
+                            currentValue(newValue);
+                        }
+                    } else {
+                        (this.style)[styleName] = newValue;
+                    }
+                } else {
+                    (this.style)[styleName] = newValue;
+                }
+            }
+        }
+    }
 
-    deleteStyle(style: types.CssProperty | Array<types.CssProperty>): void { throw new Error("Not implemented"); }
+    deleteStyle(style: types.CssProperty | Array<types.CssProperty>): void {
+        let styles: Array<types.CssProperty>;
+        if (style instanceof Array) {
+            styles = style;
+        } else {
+            styles = [style];
+        }
+        for (let cssProperty in styles) {
+            if (this.style.hasOwnProperty(cssProperty)) {
+                delete this.style[cssProperty];
+            }
+        }
+    }
 
     element: HTMLElement;
 
     tagName: string;
     id: string;
     elementType: string;
-    visible: KnockoutObservable<boolean> = ko.observable<boolean>();
+    visible: KnockoutObservable<boolean> = ko.observable<boolean>(true);
     className: string | KnockoutObservable<string>;
     attributes: { [index: string]: string | KnockoutObservable<string> } = {};
 
@@ -198,10 +250,10 @@ export class FrameworkElement {
     onmouseup: (event: MouseEvent) => void;
 
     //Touch events
-    ontouchcancel?: (event: TouchEvent) => void;
-    ontouchend?: (event: TouchEvent) => void;
-    ontouchmove?: (event: TouchEvent) => void;
-    ontouchstart?: (event: TouchEvent) => void;
+    ontouchcancel: (event: TouchEvent) => void;
+    ontouchend: (event: TouchEvent) => void;
+    ontouchmove: (event: TouchEvent) => void;
+    ontouchstart: (event: TouchEvent) => void;
 }
 
 export interface FrameworkElementOptions {

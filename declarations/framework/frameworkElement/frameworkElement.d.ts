@@ -37,10 +37,10 @@ export declare class FrameworkElement {
     onmouseout: (event: MouseEvent) => void;
     onmouseover: (event: MouseEvent) => void;
     onmouseup: (event: MouseEvent) => void;
-    ontouchcancel?: (event: TouchEvent) => void;
-    ontouchend?: (event: TouchEvent) => void;
-    ontouchmove?: (event: TouchEvent) => void;
-    ontouchstart?: (event: TouchEvent) => void;
+    ontouchcancel: (event: TouchEvent) => void;
+    ontouchend: (event: TouchEvent) => void;
+    ontouchmove: (event: TouchEvent) => void;
+    ontouchstart: (event: TouchEvent) => void;
 }
 export interface FrameworkElementOptions {
     id?: string;

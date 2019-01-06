@@ -3,16 +3,20 @@ import * as path from "path";
 
 let currentDir = path.resolve("./");
 
-export function getConfig(mode: string): webpack.Configuration {
+export function getConfig(mode: "development" | "production" | "none"): webpack.Configuration {
     let filename = "jpf.js";
+
     if (mode.toLocaleLowerCase() === "production") {
         filename = "jpf.min.js";
     }
 
-    const webpackConfiguration = webpack.Configuration = {
+    const webpackConfiguration: webpack.Configuration = {
         entry: path.resolve("./src/index.ts"),
 
         output: {
+            library: "jpf",
+            auxiliaryComment: "Javascript Presentation Foundation",
+            libraryTarget: "umd",
             path: path.resolve(currentDir, "lib"),
             filename: filename
         },
