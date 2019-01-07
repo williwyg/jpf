@@ -17,7 +17,7 @@ export class Label extends FrameworkElement {
             ko.applyBindingsToNode(
                 this.element,
                 {
-                    html: this.text,
+                    text: this.text,
                     attr: {
                           for: this.for
                      }

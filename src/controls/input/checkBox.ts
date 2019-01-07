@@ -9,6 +9,7 @@ export class CheckBox extends InputElement<boolean> {
 
         if (options) {
             this.checked = options.checked;
+            this.scale = options.scale;
         }
 
         const buildSuper = this.build;
@@ -21,9 +22,9 @@ export class CheckBox extends InputElement<boolean> {
 
             if (this.scale) {
                 const scale = "scale(" + this.scale + ")";
-                //this.element.style["transform"] = scale;
-                //this.element.style["WebkitTransform"] = scale;
-                //this.element.style["msTransform"] = scale;
+                this.element.style["transform"] = scale;
+                this.element.style["WebkitTransform"] = scale;
+                this.element.style["msTransform"] = scale;
             }
 
             this.element.onchange = () => {

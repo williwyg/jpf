@@ -1,7 +1,6 @@
 ﻿import * as ko from "knockout";
 import { FrameworkElement, FrameworkElementOptions } from "../frameworkElement/frameworkElement";
 
-
 export abstract class ItemsElement extends FrameworkElement {
     protected constructor(tagName: string, type: string, options?: ItemsElementOptions) {
         super(tagName, type, options);
@@ -12,6 +11,13 @@ export abstract class ItemsElement extends FrameworkElement {
         const buildSuper = this.build;
         this.build = () => {
             buildSuper();
+
+            //Make sure the items are rerendered when the items collection changes.
+            if (ko.isObservable(this.items)) {
+                this.items.subscribe(() => {
+                    this.renderItems();
+                });
+            }
 
             this.renderItems();
         }

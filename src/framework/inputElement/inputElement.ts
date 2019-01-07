@@ -17,8 +17,11 @@ export class InputElement<TInput> extends FrameworkElement {
 
             var input = this.element as HTMLInputElement;
             input.type = this.inputType;
-            input.placeholder = this.placeholder;
 
+            if (this.placeholder) {
+                input.placeholder = this.placeholder;
+            }
+            
             if (this.disabled) {
                 //If the disabled property is either "true" or a knockout observable
                 //Then we bind the element to the disabled property
