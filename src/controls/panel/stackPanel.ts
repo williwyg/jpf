@@ -5,7 +5,7 @@ export class StackPanel extends ItemsElement {
     constructor(options?: StackPanelOptions) {
         super("div", "StackPanel", options);
 
-        this.setStyle({ display: "flex" });
+        this.setStyle({ display: "flex" }, true);
 
         if (options) {
             this.flexDirection = options.flexDirection;

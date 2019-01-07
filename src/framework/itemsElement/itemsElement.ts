@@ -15,13 +15,11 @@ export abstract class ItemsElement extends FrameworkElement {
 
             this.renderItems();
         }
-
-
     }
 
     items: Array<FrameworkElement> | KnockoutObservableArray<FrameworkElement> = [];
 
-    insertItem(newItem: FrameworkElement, referenceItem?: FrameworkElement) {
+    insertItem = (newItem: FrameworkElement, referenceItem?: FrameworkElement): void => {
         const items = ko.unwrap(this.items);
         if (referenceItem) {
             //Find the index of the referenceItem
@@ -40,7 +38,7 @@ export abstract class ItemsElement extends FrameworkElement {
         }
     }
 
-    renderItems() {
+    renderItems = (): void => {
         if (this.element) {
             //Remove all exiting children
             while (this.element.firstChild) {
@@ -56,7 +54,7 @@ export abstract class ItemsElement extends FrameworkElement {
         }
     }
 
-    removeItem(itemToRemove: FrameworkElement) {
+    removeItem = (itemToRemove: FrameworkElement): void => {
         const items = ko.unwrap(this.items);
         const index = items.indexOf(itemToRemove);
         if (index > -1) {
@@ -67,7 +65,7 @@ export abstract class ItemsElement extends FrameworkElement {
         }
     }
 
-    setItems(items: Array<FrameworkElement>) {
+    setItems = (items: Array<FrameworkElement>): void => {
         if (ko.isObservable(this.items)) {
             this.items(items);
         } else {

@@ -10,7 +10,7 @@ export class FrameworkElement {
         this.elementType = elementType;
         if (options) {
             this.id = options.id;
-            if (options. elementType) {
+            if (options.elementType) {
                 this.elementType = options.elementType;
             }
             if (options.hasOwnProperty("visible")) {
@@ -29,12 +29,28 @@ export class FrameworkElement {
             if (options.style) {
                 this.style = options.style;
             }
-        }
 
+            //Add the mouse event listeners to the element
+            this.onclick = options.onclick;
+            this.oncontextmenu = options.oncontextmenu;
+            this.ondblclick = options.ondblclick;
+            this.onmousedown = options.onmousedown;
+            this.onmouseenter = options.onmouseenter;
+            this.onmouseleave = options.onmouseleave;
+            this.onmousemove = options.onmousemove;
+            this.onmouseout = options.onmouseout;
+            this.onmouseover = options.onmouseover;
+            this.onmouseup = options.onmouseup;
+            //Add the touch event listeners to the element
+            this.ontouchcancel = options.ontouchcancel;
+            this.ontouchend = options.ontouchend;
+            this.ontouchmove = options.ontouchmove;
+            this.ontouchstart = options.ontouchstart;
+        }
     }
 
     private display: string;
-    private setVisibility(visible: boolean) {
+    private setVisibility = (visible: boolean) => {
         if (this.element) {
             if (visible) {
                 this.element.style.display = this.display;
@@ -47,10 +63,18 @@ export class FrameworkElement {
         }
     }
 
-    protected build(): void {
-        this.element.id = this.id;
+    protected build = (): void => {
+        if (this.id) {
+            this.element.id = this.id;
+        }
+
         if (this.elementType) {
-            this.element.attributes["type"] = this.elementType;
+            this.setAttribute(
+                {
+                    name: "elementtype",
+                    value: this.elementType
+                }
+            );
         }
 
         const bindings = {
@@ -113,7 +137,7 @@ export class FrameworkElement {
         }
     }
 
-    render(): HTMLElement {
+    render = (): HTMLElement => {
         if (this.element) {
             throw "This Framework element has already been rendered.";
         }
@@ -132,7 +156,7 @@ export class FrameworkElement {
         throw "The build method of this FrameworkElement has not been defined";
     }
 
-    remove(): void {
+    remove = (): void => {
         if (this.element) {
             if (this.element.remove) {
                 this.element.remove();
@@ -144,7 +168,7 @@ export class FrameworkElement {
         }
     }
 
-    getAttribute(attributeName: string): string {
+    getAttribute = (attributeName: string): string => {
         if (this.element) {
             return this.element.getAttribute(attributeName);
         } else {
@@ -152,7 +176,7 @@ export class FrameworkElement {
         }
     }
 
-    setAttribute(attribute: Attribute): void {
+    setAttribute = (attribute: Attribute): void => {
         const currentAttribute = this.attributes[attribute.name];
         if (currentAttribute) {
             if (ko.isObservable(currentAttribute)) {
@@ -165,13 +189,13 @@ export class FrameworkElement {
         }
     }
 
-    deleteAttribute(attributeName: string): void {
+    deleteAttribute = (attributeName: string): void => {
         if (this.attributes[attributeName]) {
             delete this.attributes[attributeName];
         }
     }
 
-    getStyle(cssProperties: Array<types.CssProperty>): Style {
+    getStyle = (cssProperties: Array<types.CssProperty>): Style => {
         const style = {};
         for (let cssProperty of cssProperties) {
             if (this.element) {
@@ -183,34 +207,32 @@ export class FrameworkElement {
         return style;
     }
 
-    setStyle(style: Style, overwriteExisting?: boolean): void {
-        for (let styleName in style) {
-            if (style.hasOwnProperty(styleName)) {
+    setStyle = (newStyle: Style, overwriteExisting?: boolean): void => {
+        //Check of the style property has already been defined.
+        if (!this.style) {
+            this.style = {};
+        }
+
+        for (let styleName in newStyle) {
+            if (this.style.hasOwnProperty(styleName)) {
                 if (!overwriteExisting) {
-                    return;
+                    continue;;
                 }
-                const newValue = style[styleName];
-                const currentValue = this.style[styleName];
-                if (currentValue) {
-                    if (ko.isObservable(currentValue)) {
-                        if (ko.isObservable(newValue)) {
-                            //Cast the style to an observable and set the value to the unwrapped value of value
-                            currentValue(ko.unwrap(newValue));
-                        } else {
-                            //Cast the style to an observable and set the value to the value
-                            currentValue(newValue);
-                        }
-                    } else {
-                        (this.style)[styleName] = newValue;
-                    }
-                } else {
-                    (this.style)[styleName] = newValue;
+            }
+            const newValue = newStyle[styleName];
+            const currentValue = this.style[styleName];
+            if (currentValue && ko.isObservable(currentValue)) {
+                currentValue(ko.unwrap(newValue));
+            } else {
+                this.style[styleName] = newValue;
+                if (this.element) {
+                    this.element[styleName] = newValue;
                 }
             }
         }
     }
 
-    deleteStyle(style: types.CssProperty | Array<types.CssProperty>): void {
+    deleteStyle = (style: types.CssProperty | Array<types.CssProperty>): void => {
         let styles: Array<types.CssProperty>;
         if (style instanceof Array) {
             styles = style;
@@ -218,8 +240,11 @@ export class FrameworkElement {
             styles = [style];
         }
         for (let cssProperty in styles) {
-            if (this.style.hasOwnProperty(cssProperty)) {
+            if (this.style && this.style.hasOwnProperty(cssProperty)) {
                 delete this.style[cssProperty];
+            }
+            if (this.element) {
+                this.element.style[cssProperty] = undefined;
             }
         }
     }
