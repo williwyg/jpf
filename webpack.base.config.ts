@@ -40,7 +40,9 @@ export function getConfig(mode: "development" | "production" | "none"): webpack.
 
         plugins: [
             new webpack.optimize.OccurrenceOrderPlugin(false)
-        ]
+        ],
+
+        externals: "knockout"
     };
 
     return webpackConfiguration;

@@ -1,4 +1,4 @@
-﻿import * as ko from "knockout";
+﻿import ko = require("knockout");
 import { Style } from "../../style/style";
 import { Attribute } from "../attribute/attribute";
 import * as types from "../../types/types";

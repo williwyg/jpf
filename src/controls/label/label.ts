@@ -1,4 +1,4 @@
-﻿import * as ko from "knockout";
+﻿import ko = require("knockout");
 import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
 
 export class Label extends FrameworkElement {

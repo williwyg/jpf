@@ -1,4 +1,4 @@
-﻿import * as ko from "knockout";
+﻿import ko = require("knockout");
 import { FrameworkElement, FrameworkElementOptions } from "../index";
 
 export class InputElement<TInput> extends FrameworkElement {
