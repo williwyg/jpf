@@ -1,5 +1,5 @@
 ﻿import ko = require("knockout");
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement/frameworkElement";
+import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
 
 export class SelectBox<TItem> extends FrameworkElement {
     constructor(options?: SelectOptions<TItem>) {

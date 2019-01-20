@@ -1,4 +1,4 @@
-﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement/frameworkElement";
+﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
 
 export class Div extends FrameworkElement {
     constructor(options?: DivOptions) {

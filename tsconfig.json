@@ -20,9 +20,9 @@
     "declarationDir": "declarations"
   },
   "exclude": [
-    "webpack.base.config.ts",
-    "webpack.dist.development.ts",
-    "webpack.dist.production.ts",
+    "webpack.examples.base.ts",
+    "webpack.examples.ts",
+    "webpack.lib.base.ts",
     "webpack.lib.development.ts",
     "webpack.lib.production.ts"
   ]

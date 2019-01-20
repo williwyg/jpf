@@ -1,8 +1,8 @@
 ﻿import { Label, LabelOptions } from "./label";
-import { FrameworkElement } from "../../framework/frameworkElement/frameworkElement";
+import { FrameworkElement } from "../../framework/frameworkElement";
 import { StackPanel, StackPanelOptions } from "../panel/stackPanel";
 
-export class LabeledControl extends StackPanel {
+export class LabeledControl extends StackPanel<FrameworkElement> {
     constructor(options?: LabeledControlOptions) {
         super(options);
 
@@ -14,7 +14,7 @@ export class LabeledControl extends StackPanel {
 
         const buildSuper = this.build;
         this.build = () => {
-            this.items = [this.label, this.control];
+            this.setItems([this.label, this.control]);
 
             buildSuper();
         }
@@ -24,7 +24,7 @@ export class LabeledControl extends StackPanel {
     control: FrameworkElement;
 }
 
-export interface LabeledControlOptions extends StackPanelOptions {
+export interface LabeledControlOptions extends StackPanelOptions<FrameworkElement> {
     labelOptions: LabelOptions;
     control: FrameworkElement;
 }

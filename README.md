@@ -1,5 +1,5 @@
 # JPF   (Javascript Presentation Foundation)
-Library for building Graphical User Interfaces for the web following the MVVM pattern similar to WPF for Windows. 
+Knockout plugin for building Graphical User Interfaces for the web following the MVVM pattern similar to WPF for Windows. 
 The base class "FrameworkElement" implements the fundamental binding mechanism that is needed to support the MVVM pattern.
 
 # Goals of this library

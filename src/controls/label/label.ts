@@ -1,5 +1,5 @@
 ﻿import ko = require("knockout");
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/index";
+import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
 
 export class Label extends FrameworkElement {
     constructor(options?: LabelOptions) {

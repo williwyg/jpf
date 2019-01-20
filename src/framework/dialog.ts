@@ -1,5 +1,4 @@
-﻿
-import { FrameworkElement } from "../index";
+﻿import { FrameworkElement } from "../index";
 
 export class Dialog {
     constructor(options?: DialogOptions) {

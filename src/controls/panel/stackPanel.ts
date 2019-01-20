@@ -1,8 +1,9 @@
-﻿import { ItemsElement, ItemsElementOptions } from "../../framework/index";
+﻿import { FrameworkElement, } from "../../framework/frameworkElement";
+import { ItemsElement, ItemsElementOptions } from "../../framework/itemsElement";
 import * as types from "../../types/types";
 
-export class StackPanel extends ItemsElement {
-    constructor(options?: StackPanelOptions) {
+export class StackPanel<TItem extends FrameworkElement> extends ItemsElement<TItem> {
+    constructor(options?: StackPanelOptions<TItem>) {
         super("div", "StackPanel", options);
 
         this.setStyle({ display: "flex" }, true);
@@ -34,10 +35,9 @@ export class StackPanel extends ItemsElement {
     justifyContent: types.JustifyContent = "flex-start";
     alignItems: types.AlignItems = "flex-start";
     alignContent: types.AlignContent = "flex-start";
-    
 }
 
-export interface StackPanelOptions extends ItemsElementOptions {
+export interface StackPanelOptions<TItem extends FrameworkElement> extends ItemsElementOptions<TItem> {
     flexDirection?: types.FlexDirection;
     flexWrap?: types.FlexWrap;
     justifyContent?: types.JustifyContent;

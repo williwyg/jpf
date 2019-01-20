@@ -1,7 +1,7 @@
 ﻿import ko = require("knockout");
-import { Style } from "../../style/style";
-import { Attribute } from "../attribute/attribute";
-import * as types from "../../types/types";
+import { Style } from "../style/style";
+import { Attribute } from "./attribute";
+import * as types from "../types/types";
 
 export class FrameworkElement {
     constructor(tagName: string, elementType: string, options?: FrameworkElementOptions) {
@@ -232,12 +232,15 @@ export class FrameworkElement {
         }
     }
 
-    deleteStyle = (style: types.CssProperty | Array<types.CssProperty>): void => {
-        let styles: Array<types.CssProperty>;
+    deleteStyle = (style: types.CssProperty | Array<types.CssProperty> | Style): void => {
+        let styles: Array<string>;
         if (style instanceof Array) {
             styles = style;
-        } else {
-            styles = [style];
+        } else if (style instanceof Object) {
+            styles = Object.keys(style);
+        }
+        else {
+            styles = [style as string];
         }
         for (let cssProperty in styles) {
             if (this.style && this.style.hasOwnProperty(cssProperty)) {
