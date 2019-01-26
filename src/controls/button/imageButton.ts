@@ -1,8 +1,13 @@
-﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
+﻿import { UiElement, UiElementOptions } from "../../framework/uiElement";
 import { Button, ButtonOptions } from "./button";
 import { Image, ImageOptions } from "../image/image";
 
-export class ImageButton extends FrameworkElement {
+export interface ImageButtonOption extends UiElementOptions {
+    imageOptions: ImageOptions;
+    buttonOptions: ButtonOptions;
+}
+
+export class ImageButton extends UiElement {
     constructor(options?: ImageButtonOption) {
         super("button", "ImageButton", options);
 
@@ -26,7 +31,3 @@ export class ImageButton extends FrameworkElement {
     buttonOptions: ButtonOptions;
 }
 
-export interface ImageButtonOption extends FrameworkElementOptions {
-    imageOptions: ImageOptions;
-    buttonOptions: ButtonOptions;
-}

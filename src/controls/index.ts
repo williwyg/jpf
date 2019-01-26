@@ -12,3 +12,4 @@ export * from "./label/label";
 export * from "./label/labeledControl";
 export * from "./panel/stackPanel";
 export * from "./selectBox/selectBox";
+export * from "./span/span";

@@ -1,6 +1,11 @@
 ﻿import ko = require("knockout");
 import { InputElement, InputElementOptions } from "../../framework/inputElement";
 
+export interface CheckBoxOptions extends InputElementOptions<boolean> {
+    checked?: boolean | KnockoutObservable<boolean>;
+    scale?: number;
+}
+
 export class CheckBox extends InputElement<boolean> {
     constructor(options?: CheckBoxOptions) {
         super("CheckBox", options);
@@ -37,9 +42,4 @@ export class CheckBox extends InputElement<boolean> {
 
     checked: boolean | KnockoutObservable<boolean>;
     scale: number;
-}
-
-export interface CheckBoxOptions extends InputElementOptions<boolean> {
-    checked?: boolean | KnockoutObservable<boolean>;
-    scale?: number;
 }

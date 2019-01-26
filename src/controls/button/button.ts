@@ -1,7 +1,12 @@
 ﻿import ko = require("knockout");
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-export class Button extends FrameworkElement {
+export interface ButtonOptions extends UiElementOptions {
+    content?: string | KnockoutObservable<string> | UiElement;
+    disabled?: boolean | KnockoutObservable<boolean>;
+}
+
+export class Button extends UiElement {
     constructor(options?: ButtonOptions) {
         super("button", "Button", options);
 
@@ -14,8 +19,8 @@ export class Button extends FrameworkElement {
         this.build = () => {
             buildSuper();
 
-            if (this.content instanceof FrameworkElement) {
-                const frameworkElement = this.content as FrameworkElement;
+            if (this.content instanceof UiElement) {
+                const frameworkElement = this.content as UiElement;
                 this.element.appendChild(frameworkElement.render());
             } else {
                 ko.applyBindingsToNode(this.element, { text: this.content });
@@ -27,11 +32,6 @@ export class Button extends FrameworkElement {
         }
     }
 
-    content: string| KnockoutObservable<string> | FrameworkElement;
+    content: string| KnockoutObservable<string> | UiElement;
     disabled: boolean| KnockoutObservable<boolean>;
-}
-
-export interface ButtonOptions extends FrameworkElementOptions {
-    content?: string | KnockoutObservable<string> | FrameworkElement;
-    disabled?: boolean | KnockoutObservable<boolean>;
 }

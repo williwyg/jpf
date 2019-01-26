@@ -63,7 +63,10 @@
     <TypeScriptCompile Include="src\controls\input\passwordBox.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\framework\dialog.ts">
+    <TypeScriptCompile Include="src\controls\span\span.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\dialog\dialog.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\index.ts" />
@@ -74,10 +77,10 @@
     <TypeScriptCompile Include="src\framework\inputElement.ts" />
     <TypeScriptCompile Include="src\controls\label\label.ts" />
     <TypeScriptCompile Include="src\framework\attribute.ts" />
-    <TypeScriptCompile Include="src\framework\frameworkElement.ts" />
+    <TypeScriptCompile Include="src\framework\uiElement.ts" />
     <TypeScriptCompile Include="src\framework\typeDefinitions.d.ts" />
     <TypeScriptCompile Include="src\controls\hyperlink\hyperlink.ts" />
-    <TypeScriptCompile Include="src\framework\itemsElement.ts">
+    <TypeScriptCompile Include="src\framework\uiChildrensElement.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\index.ts" />
@@ -103,10 +106,12 @@
     <Folder Include="src\controls\div\" />
     <Folder Include="src\controls\audioRecorder\" />
     <Folder Include="src\controls\image\" />
+    <Folder Include="src\controls\span\" />
     <Folder Include="src\controls\selectBox\" />
     <Folder Include="src\controls\panel\" />
     <Folder Include="src\controls\input\" />
     <Folder Include="src\framework\" />
+    <Folder Include="src\dialog\" />
     <Folder Include="src\style\" />
     <Folder Include="src\types\" />
     <Compile Include="lib\jpf.js" />

@@ -1,13 +1,12 @@
 ﻿import * as Controls from "./controls/index";
-import * as Style from "./style/style";
 import * as Types from "./types/types";
 
+export * from "./dialog/dialog";
 export * from "./framework/attribute";
-export * from "./framework/dialog";
-export * from "./framework/frameworkElement";
 export * from "./framework/inputElement";
-export * from "./framework/itemsElement";
+export * from "./framework/uiElement";
+export * from "./framework/uiChildrensElement";
+export * from "./style/style";
 
 export { Controls };
-export { Style };
 export { Types };

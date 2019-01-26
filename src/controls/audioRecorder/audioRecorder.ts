@@ -82,7 +82,7 @@ export class AudioRecorder extends StackPanel<ToggleButton> {
             };
 
 
-            this.setItems([this.startStopButton, this.pauseResumeButton]);
+            this.setChildren([this.startStopButton, this.pauseResumeButton]);
 
             superBuild();
         }

@@ -1,6 +1,13 @@
 ﻿import ko = require("knockout");
 import { InputElement, InputElementOptions } from "../../framework/inputElement";
 
+export interface TextBoxOptions extends InputElementOptions<string> {
+    text?: string | KnockoutObservable<string>;
+    valueUpdateMode?: TextBoxValueUpdateMode;
+}
+
+export type TextBoxValueUpdateMode = "OnLostFocus" | "OnKeyPress";
+
 export class TextBox extends InputElement<string> {
     constructor(options?: TextBoxOptions) {
         super("TextBox", options);
@@ -51,10 +58,3 @@ export class TextBox extends InputElement<string> {
     text: string | KnockoutObservable<string>;
     valueUpdateMode: TextBoxValueUpdateMode = "OnLostFocus";
 }
-
-export interface TextBoxOptions extends InputElementOptions<string> {
-    text?: string | KnockoutObservable<string>;
-    valueUpdateMode?: TextBoxValueUpdateMode;
-}
-
-export type TextBoxValueUpdateMode = "OnLostFocus" | "OnKeyPress";

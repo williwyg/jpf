@@ -3,8 +3,37 @@ import { Style } from "../style/style";
 import { Attribute } from "./attribute";
 import * as types from "../types/types";
 
-export class FrameworkElement {
-    constructor(tagName: string, elementType: string, options?: FrameworkElementOptions) {
+
+export interface UiElementOptions {
+    id?: string;
+    elementType?: string;
+    visible?: boolean | KnockoutObservable<boolean>;
+    className?: string | KnockoutObservable<string>;
+    attributes?: Array<Attribute>;
+    style?: Style;
+    selectable?: boolean;
+
+    //Mouse events
+    onclick?: (event: MouseEvent) => void;
+    oncontextmenu?: (event: MouseEvent) => void;
+    ondblclick?: (event: MouseEvent) => void;
+    onmousedown?: (event: MouseEvent) => void;
+    onmouseenter?: (event: MouseEvent) => void;
+    onmouseleave?: (event: MouseEvent) => void;
+    onmousemove?: (event: MouseEvent) => void;
+    onmouseout?: (event: MouseEvent) => void;
+    onmouseover?: (event: MouseEvent) => void;
+    onmouseup?: (event: MouseEvent) => void;
+
+    //Touch events
+    ontouchcancel?: (event: TouchEvent) => void;
+    ontouchend?: (event: TouchEvent) => void;
+    ontouchmove?: (event: TouchEvent) => void;
+    ontouchstart?: (event: TouchEvent) => void;
+}
+
+export class UiElement {
+    constructor(tagName: string, elementType: string, options?: UiElementOptions) {
 
         this.tagName = tagName;
         this.elementType = elementType;
@@ -139,7 +168,8 @@ export class FrameworkElement {
 
     render = (): HTMLElement => {
         if (this.element) {
-            throw "This Framework element has already been rendered.";
+            //If the element has already been rendered before then we remove the previously rendered element.
+            this.remove();
         }
 
         //Check if the build property is pointing to a function.
@@ -282,32 +312,4 @@ export class FrameworkElement {
     ontouchend: (event: TouchEvent) => void;
     ontouchmove: (event: TouchEvent) => void;
     ontouchstart: (event: TouchEvent) => void;
-}
-
-export interface FrameworkElementOptions {
-    id?: string;
-    elementType?: string;
-    visible?: boolean | KnockoutObservable<boolean>;
-    className?: string | KnockoutObservable<string>;
-    attributes?: Array<Attribute>;
-    style?: Style;
-    selectable?: boolean;
-
-    //Mouse events
-    onclick?: (event: MouseEvent) => void;
-    oncontextmenu?: (event: MouseEvent) => void;
-    ondblclick?: (event: MouseEvent) => void;
-    onmousedown?: (event: MouseEvent) => void;
-    onmouseenter?: (event: MouseEvent) => void;
-    onmouseleave?: (event: MouseEvent) => void;
-    onmousemove?: (event: MouseEvent) => void;
-    onmouseout?: (event: MouseEvent) => void;
-    onmouseover?: (event: MouseEvent) => void;
-    onmouseup?: (event: MouseEvent) => void;
-
-    //Touch events
-    ontouchcancel?: (event: TouchEvent) => void;
-    ontouchend?: (event: TouchEvent) => void;
-    ontouchmove?: (event: TouchEvent) => void;
-    ontouchstart?: (event: TouchEvent) => void;
 }

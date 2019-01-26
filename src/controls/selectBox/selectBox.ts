@@ -1,7 +1,18 @@
 ﻿import ko = require("knockout");
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-export class SelectBox<TItem> extends FrameworkElement {
+
+export interface SelectOptions<TItem> extends UiElementOptions {
+    options?: Array<TItem> | KnockoutObservableArray<TItem>;
+    optionsCaption?: string;
+    optionsText?: keyof TItem;
+    optionsValue?: keyof TItem;
+    value?: any | KnockoutObservable<any>;
+
+    onchange?: (value: any) => void;
+}
+
+export class SelectBox<TItem> extends UiElement {
     constructor(options?: SelectOptions<TItem>) {
         super("select", "SelectBox", options);
 
@@ -50,14 +61,4 @@ export class SelectBox<TItem> extends FrameworkElement {
     optionsValue: keyof TItem;
     value: any | KnockoutObservable<any>;
     onchange: (value: any) => void;
-}
-
-export interface SelectOptions<TItem> extends FrameworkElementOptions {
-    options?: Array<TItem> | KnockoutObservableArray<TItem>;
-    optionsCaption?: string;
-    optionsText?: keyof TItem;
-    optionsValue?: keyof TItem;
-    value?: any | KnockoutObservable<any>;
-
-    onchange?: (value: any) => void;
 }

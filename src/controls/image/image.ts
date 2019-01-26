@@ -1,6 +1,11 @@
-﻿import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
+﻿import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-export class Image extends FrameworkElement {
+export interface ImageOptions extends UiElementOptions {
+    src: string | KnockoutObservable<string>;
+    alt?: string;
+}
+
+export class Image extends UiElement {
     constructor(options?: ImageOptions) {
         super("img", "Image", options);
 
@@ -9,9 +14,8 @@ export class Image extends FrameworkElement {
             this.alt = options.alt;
         }
 
-
         const buildSuper = this.build;
-       this.build = () => {
+        this.build = () => {
             buildSuper();
 
             ko.applyBindingsToNode(this.element, {
@@ -25,10 +29,4 @@ export class Image extends FrameworkElement {
 
     src: string | KnockoutObservable<string>;
     alt: string;
-
-}
-
-export interface ImageOptions extends FrameworkElementOptions {
-    src: string | KnockoutObservable<string>;
-    alt?: string;
 }

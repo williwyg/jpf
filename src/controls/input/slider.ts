@@ -1,6 +1,13 @@
 ﻿import ko = require("knockout");
 import { InputElement, InputElementOptions } from "../../framework/inputElement";
 
+export interface ISliderOptions extends InputElementOptions<number> {
+    min: number;
+    max: number;
+    step?: number;
+    value?: number | KnockoutObservable<number>;
+}
+
 export class Slider extends InputElement<number> {
     constructor(options?: ISliderOptions) {
         super("Slider", options);
@@ -41,11 +48,4 @@ export class Slider extends InputElement<number> {
     max: number;
     step: number;
     value: number| KnockoutObservable<number>;
-}
-
-export interface ISliderOptions extends InputElementOptions<number> {
-    min: number;
-    max: number;
-    step?: number;
-    value?: number| KnockoutObservable<number>;
 }

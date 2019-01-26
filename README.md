@@ -1,6 +1,6 @@
 # JPF   (Javascript Presentation Foundation)
 Knockout plugin for building Graphical User Interfaces for the web following the MVVM pattern similar to WPF for Windows. 
-The base class "FrameworkElement" implements the fundamental binding mechanism that is needed to support the MVVM pattern.
+The base class "UiElement" implements the fundamental binding mechanism that is needed to support the MVVM pattern.
 
 # Goals of this library
 When moving away from server-side rendering to client-side rendering I found myself going back in time if it comes to RAD support in tooling. 

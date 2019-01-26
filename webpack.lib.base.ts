@@ -1,5 +1,6 @@
 import * as webpack from "webpack";
 import * as path from "path";
+import * as FileManagerWebpackPlugin from "filemanager-webpack-plugin";
 
 let currentDir = path.resolve("./");
 
@@ -39,7 +40,14 @@ export function getConfig(mode: "development" | "production" | "none"): webpack.
         },
 
         plugins: [
-            new webpack.optimize.OccurrenceOrderPlugin(false)
+            new webpack.optimize.OccurrenceOrderPlugin(false),
+            new FileManagerWebpackPlugin({
+                onStart: {
+                    delete: [
+                        "./declarations"
+                    ]
+                }
+            }),
         ],
 
         externals: "knockout"

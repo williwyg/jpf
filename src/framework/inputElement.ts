@@ -1,7 +1,13 @@
 ﻿import ko = require("knockout");
-import { FrameworkElement, FrameworkElementOptions } from "../index";
+import { UiElement, UiElementOptions } from "./uiElement";
 
-export class InputElement<TInput> extends FrameworkElement {
+export interface InputElementOptions<TInput> extends UiElementOptions {
+    disabled?: boolean | KnockoutObservable<boolean>;
+    placeholder?: string;
+    onchange?: (newValue: TInput) => void;
+}
+
+export class InputElement<TInput> extends UiElement {
     constructor(elementType: string, options?: InputElementOptions<TInput>) {
         super("input", elementType, options);
 
@@ -34,12 +40,6 @@ export class InputElement<TInput> extends FrameworkElement {
     disabled: boolean | KnockoutObservable<boolean>;
     placeholder: string;
     onchange: (newValue: TInput) => void;
-}
-
-export interface InputElementOptions<TInput> extends FrameworkElementOptions {
-    disabled?: boolean | KnockoutObservable<boolean>;
-    placeholder?: string;
-    onchange?: (newValue: TInput) => void;
 }
 
 export type InputElementType =

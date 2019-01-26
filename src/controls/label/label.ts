@@ -1,7 +1,12 @@
 ﻿import ko = require("knockout");
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-export class Label extends FrameworkElement {
+export interface LabelOptions extends UiElementOptions {
+    text?: string | KnockoutObservable<string>;
+    for?: string;
+}
+
+export class Label extends UiElement {
     constructor(options?: LabelOptions) {
         super("label", "Label", options);
 
@@ -28,9 +33,4 @@ export class Label extends FrameworkElement {
 
     text: string | KnockoutObservable<string>;
     for: string;
-}
-
-export interface LabelOptions extends FrameworkElementOptions {
-    text?: string | KnockoutObservable<string>;
-    for?: string;
 }

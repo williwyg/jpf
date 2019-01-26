@@ -1,8 +1,16 @@
-﻿import { FrameworkElement, } from "../../framework/frameworkElement";
-import { ItemsElement, ItemsElementOptions } from "../../framework/itemsElement";
+﻿import { UiElement, } from "../../framework/uiElement";
+import { UiChildrensElement, UiChildrensElementOptions } from "../../framework/uiChildrensElement";
 import * as types from "../../types/types";
 
-export class StackPanel<TItem extends FrameworkElement> extends ItemsElement<TItem> {
+export interface StackPanelOptions<TItem extends UiElement> extends UiChildrensElementOptions<TItem> {
+    flexDirection?: types.FlexDirection;
+    flexWrap?: types.FlexWrap;
+    justifyContent?: types.JustifyContent;
+    alignItems?: types.AlignItems;
+    alignContent?: types.AlignContent;
+}
+
+export class StackPanel<TItem extends UiElement> extends UiChildrensElement<TItem> {
     constructor(options?: StackPanelOptions<TItem>) {
         super("div", "StackPanel", options);
 
@@ -35,12 +43,4 @@ export class StackPanel<TItem extends FrameworkElement> extends ItemsElement<TIt
     justifyContent: types.JustifyContent = "flex-start";
     alignItems: types.AlignItems = "flex-start";
     alignContent: types.AlignContent = "flex-start";
-}
-
-export interface StackPanelOptions<TItem extends FrameworkElement> extends ItemsElementOptions<TItem> {
-    flexDirection?: types.FlexDirection;
-    flexWrap?: types.FlexWrap;
-    justifyContent?: types.JustifyContent;
-    alignItems?: types.AlignItems;
-    alignContent?: types.AlignContent;
 }

@@ -1,4 +1,8 @@
-﻿import { TextBox, TextBoxOptions} from "./textBox";
+﻿import { TextBox, TextBoxOptions } from "./textBox";
+
+export interface PasswordBoxOptions extends TextBoxOptions {
+
+}
 
 export class PasswordBox extends TextBox {
     constructor(options?: PasswordBoxOptions) {
@@ -9,6 +13,3 @@ export class PasswordBox extends TextBox {
     }  
 }
 
-export interface PasswordBoxOptions extends TextBoxOptions {
-    
-}

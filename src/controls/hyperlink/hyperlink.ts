@@ -1,7 +1,12 @@
 ﻿import ko = require("knockout");
-import { FrameworkElement, FrameworkElementOptions } from "../../framework/frameworkElement";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-export class Hyperlink extends FrameworkElement {
+export interface HyperlinkOptions extends UiElementOptions {
+    text?: string | KnockoutObservable<string>;
+    href?: string | KnockoutObservable<string>;
+}
+
+export class Hyperlink extends UiElement {
     constructor(options?: HyperlinkOptions) {
         super("a", "Hyperlink", options);
 
@@ -28,9 +33,4 @@ export class Hyperlink extends FrameworkElement {
 
     text: string | KnockoutObservable<string>;
     href: string | KnockoutObservable<string>;
-}
-
-export interface HyperlinkOptions extends FrameworkElementOptions {
-    text?: string | KnockoutObservable<string>;
-    href?: string | KnockoutObservable<string>;
 }
