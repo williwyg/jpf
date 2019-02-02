@@ -1,4 +1,5 @@
-﻿import { UiElement, UiElementOptions } from "../../framework/uiElement";
+﻿import * as ko from "knockout";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 export interface ImageOptions extends UiElementOptions {
     src: string | KnockoutObservable<string>;

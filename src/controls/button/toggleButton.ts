@@ -1,14 +1,19 @@
-﻿import { Button, ButtonOptions } from "./button";
+﻿import * as ko from "knockout";
+import { Button, ButtonOptions } from "./button";
 import { Style } from "../../style/style";
 
 export class ToggleButton extends Button {
     constructor(options: ToggleButtonOptions) {
         super(options);
 
+        if (options) {
+            this.styleSelected = options.styleSelected;
+            this.selected = options.selected;
+            this.selectedchanged = options.selectedchanged;
+        }
+
         const buildSuper = this.build;
         this.build = () => {
-            buildSuper();
-
             //Store the normal style for later use
             this.styleNormal = window.getComputedStyle(this.element) as any as Style;
 
@@ -32,17 +37,19 @@ export class ToggleButton extends Button {
                     this.selectedchanged(newValue);
                 }
             };
+
+            buildSuper();
         }
     }
 
     private styleNormal: Style;
     styleSelected: Style;
-    selected: boolean | KnockoutObservable<boolean>;
-    selectedchanged: (selected: boolean)=>void;
+    selected: boolean | KnockoutObservable<boolean> = false;
+    selectedchanged: (selected: boolean) => void;
 }
 
 export interface ToggleButtonOptions extends ButtonOptions {
     styleSelected?: Style;
     selected?: boolean | KnockoutObservable<boolean>;
-    selectedchanged? : (selected: boolean) =>void;
+    selectedchanged?: (selected: boolean) => void;
 }

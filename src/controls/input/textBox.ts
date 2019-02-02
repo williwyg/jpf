@@ -49,8 +49,14 @@ export class TextBox extends InputElement<string> {
 
             this.element.onblur = () => {
                 if (this.valueUpdateMode === "OnLostFocus") {
-                   setText(innerText());
+                    setText(innerText());
                 }
+            }
+
+            if (ko.isObservable(this.text)) {
+                this.text.subscribe((newValue: string) => {
+                    innerText(newValue);
+                });
             }
         }
     }

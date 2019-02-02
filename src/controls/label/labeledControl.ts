@@ -19,6 +19,10 @@ export class LabeledControl extends StackPanel<UiElement> {
 
         const buildSuper = this.build;
         this.build = () => {
+            if (!this.style.alignItems) {
+                this.setStyle({ alignItems: "baseline" });
+            }
+
             this.setChildren([this.label, this.control]);
 
             buildSuper();

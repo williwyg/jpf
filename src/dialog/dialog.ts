@@ -3,6 +3,15 @@ import { StackPanel } from "../controls/panel/stackPanel";
 import { Label } from "../controls/label/label";
 import { Style } from "../style/style";
 
+export interface DialogOptions {
+    title?: string | UiElement;
+    titleStyle?: Style;
+    content?: UiElement;
+    contentStyle?: Style;
+    actions?: Array<DialogAction> | KnockoutObservableArray<DialogAction>;
+    actionsStyle?: Style;
+}
+
 export class Dialog {
     constructor(options?: DialogOptions) {
         if (options) {
@@ -59,14 +68,7 @@ export class Dialog {
     actions: Array<DialogAction> | KnockoutObservableArray<DialogAction>;
 }
 
-export interface DialogOptions {
-    title: string | UiElement;
-    titleStyle: Style;
-    content: UiElement;
-    contentStyle: Style;
-    actions: Array<DialogAction> | KnockoutObservableArray<DialogAction>;
-    actionsStyle: Style;
-}
+
 
 export interface DialogAction {
     caption: string | UiElement;

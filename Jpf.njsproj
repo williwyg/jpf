@@ -78,7 +78,7 @@
     <TypeScriptCompile Include="src\controls\label\label.ts" />
     <TypeScriptCompile Include="src\framework\attribute.ts" />
     <TypeScriptCompile Include="src\framework\uiElement.ts" />
-    <TypeScriptCompile Include="src\framework\typeDefinitions.d.ts" />
+    <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
     <TypeScriptCompile Include="src\controls\hyperlink\hyperlink.ts" />
     <TypeScriptCompile Include="src\framework\uiChildrensElement.ts">
       <SubType>Code</SubType>
