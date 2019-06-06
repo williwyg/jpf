@@ -6,7 +6,7 @@ export interface LabelOptions extends UiElementOptions {
     for?: string;
 }
 
-export class Label extends UiElement {
+export class Label extends UiElement<LabelOptions> {
     constructor(options?: LabelOptions) {
         super("label", "Label", options);
 

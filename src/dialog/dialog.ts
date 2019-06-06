@@ -1,12 +1,12 @@
-﻿import { UiElement } from "../framework/uiElement";
+﻿import { UiElement, UiElementOptions } from "../framework/uiElement";
 import { StackPanel } from "../controls/panel/stackPanel";
 import { Label } from "../controls/label/label";
 import { Style } from "../style/style";
 
 export interface DialogOptions {
-    title?: string | UiElement;
+    title?: string | UiElement<UiElementOptions>;
     titleStyle?: Style;
-    content?: UiElement;
+    content?: UiElement<UiElementOptions>;
     contentStyle?: Style;
     actions?: Array<DialogAction> | KnockoutObservableArray<DialogAction>;
     actionsStyle?: Style;
@@ -63,15 +63,15 @@ export class Dialog {
         }
     }
 
-    title: string | UiElement;
-    content: UiElement;
+    title: string | UiElement<UiElementOptions>;
+    content: UiElement<UiElementOptions>;
     actions: Array<DialogAction> | KnockoutObservableArray<DialogAction>;
 }
 
 
 
 export interface DialogAction {
-    caption: string | UiElement;
+    caption: string | UiElement<UiElementOptions>;
     onexecute: () => Promise<boolean> | boolean;
     closeOnFail?: boolean;
 }

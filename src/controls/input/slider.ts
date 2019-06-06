@@ -1,38 +1,30 @@
 ﻿import ko = require("knockout");
 import { InputElement, InputElementOptions } from "../../framework/inputElement";
 
-export interface ISliderOptions extends InputElementOptions<number> {
+export interface SliderOptions extends InputElementOptions<number> {
     min: number;
     max: number;
     step?: number;
     value?: number | KnockoutObservable<number>;
 }
 
-export class Slider extends InputElement<number> {
-    constructor(options?: ISliderOptions) {
+export class Slider extends InputElement<number, SliderOptions> {
+    constructor(options?: SliderOptions) {
         super("Slider", options);
 
         this.inputType = "range";
 
-        if (options) {
-            this.min = options.min;
-            this.max = options.max;
-            this.step = options.step;
-            this.value = options.value;
-            this.onchange = options.onchange;
-        }
-
         var buildSuper = this.build;
         this.build = () => {
             buildSuper();
-
-            this.element.setAttribute("min", this.min.toString());
-            this.element.setAttribute("max", this.max.toString());
-            if (this.step) {
-                this.element.setAttribute("step", this.step.toString());
+            
+            this.element.setAttribute("min", this.options.min.toString());
+            this.element.setAttribute("max", this.options.max.toString());
+            if (this.options.step) {
+                this.element.setAttribute("step", this.options.step.toString());
             }
 
-            ko.applyBindingsToNode(this.element, { value: this.value });
+            ko.applyBindingsToNode(this.element, { value: this.options.value });
 
             this.element.onchange = () => {
                 if (this.onchange) {
@@ -43,9 +35,4 @@ export class Slider extends InputElement<number> {
             }
         }
     }
-
-    min: number;
-    max: number;
-    step: number;
-    value: number| KnockoutObservable<number>;
 }

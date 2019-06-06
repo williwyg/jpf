@@ -6,14 +6,9 @@ export interface ImageOptions extends UiElementOptions {
     alt?: string;
 }
 
-export class Image extends UiElement {
+export class Image extends UiElement<ImageOptions> {
     constructor(options?: ImageOptions) {
         super("img", "Image", options);
-
-        if (options) {
-            this.src = options.src;
-            this.alt = options.alt;
-        }
 
         const buildSuper = this.build;
         this.build = () => {
@@ -21,13 +16,10 @@ export class Image extends UiElement {
 
             ko.applyBindingsToNode(this.element, {
                 attr: {
-                    src: this.src,
-                    alt: this.alt
+                    src: this.options.src,
+                    alt: this.options.alt
                 }
             });
         }
     }
-
-    src: string | KnockoutObservable<string>;
-    alt: string;
 }

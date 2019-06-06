@@ -7,8 +7,8 @@ export interface InputElementOptions<TInput> extends UiElementOptions {
     onchange?: (newValue: TInput) => void;
 }
 
-export class InputElement<TInput> extends UiElement {
-    constructor(elementType: string, options?: InputElementOptions<TInput>) {
+export class InputElement<TInput, TOptions extends InputElementOptions<TInput>> extends UiElement<TOptions> {
+    constructor(elementType: string, options?: TOptions) {
         super("input", elementType, options);
 
         if (options) {
@@ -27,7 +27,7 @@ export class InputElement<TInput> extends UiElement {
             if (this.placeholder) {
                 input.placeholder = this.placeholder;
             }
-            
+
             if (this.disabled) {
                 //If the disabled property is either "true" or a knockout observable
                 //Then we bind the element to the disabled property
@@ -40,6 +40,7 @@ export class InputElement<TInput> extends UiElement {
     disabled: boolean | KnockoutObservable<boolean>;
     placeholder: string;
     onchange: (newValue: TInput) => void;
+    validateInput: (newValue: TInput) => boolean;
 }
 
 export type InputElementType =

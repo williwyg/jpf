@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.58",
+  "version": "2.0.64",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -35,7 +35,8 @@
     "webpackLibDevelopment": "webpack --config webpack.lib.development.ts",
     "webpackLibProduction": "webpack --config webpack.lib.production.ts",
     "webpackExamples": "webpack --config webpack.examples.ts",
-    "npmPublish": "npm publish"
+    "npmPublish": "npm publish",
+    "npmAudit":  "npm audit" 
   },
   "peerDependencies": {
     "knockout": "3.x"

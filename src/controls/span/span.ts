@@ -1,13 +1,13 @@
 ﻿import * as ko from "knockout";
 import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-export interface ISpanOptions extends UiElementOptions {
+export interface SpanOptions extends UiElementOptions {
     text?: string | KnockoutObservable<string>;
     isHtml?: boolean;
 }
 
-export class Span extends UiElement {
-    constructor(options: ISpanOptions) {
+export class Span extends UiElement<SpanOptions> {
+    constructor(options: SpanOptions) {
         super("span", "Span", options);
         const self = this;
 

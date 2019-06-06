@@ -2,31 +2,23 @@
 import { ToggleButton, ToggleButtonOptions } from  "./toggleButton";
 import { Image, ImageOptions } from "../image/image";
 
-export interface ImageToggleButtonOption extends UiElementOptions {
+export interface ImageToggleButtonOptions extends UiElementOptions {
     imageOptions: ImageOptions;
     toggleButtonOptions: ToggleButtonOptions;
 }
 
-export class ImageToggleButton extends UiElement {
-    constructor(options?: ImageToggleButtonOption) {
+export class ImageToggleButton extends UiElement<ImageToggleButtonOptions> {
+    constructor(options?: ImageToggleButtonOptions) {
         super("button", "ImageButton", options);
-
-        if (options) {
-            this.imageOptions = options.imageOptions;
-            this.toggleButtonOptions = options.toggleButtonOptions;
-        }
 
         const buildSuper = this.build;
         this.build = () => {
             buildSuper();
 
-            var button = new ToggleButton(this.toggleButtonOptions);
-            button.content = new Image(this.imageOptions);
+            var button = new ToggleButton(this.options.toggleButtonOptions);
+            button.options.content = new Image(this.options.imageOptions);
 
             this.element = button.render();
         }
     }
-
-    imageOptions: ImageOptions;
-    toggleButtonOptions: ToggleButtonOptions;
 }

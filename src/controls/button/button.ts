@@ -2,36 +2,28 @@
 import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 export interface ButtonOptions extends UiElementOptions {
-    content?: string | KnockoutObservable<string> | UiElement;
+    content?: string | KnockoutObservable<string> | UiElement<UiElementOptions>;
     disabled?: boolean | KnockoutObservable<boolean>;
 }
 
-export class Button extends UiElement {
-    constructor(options?: ButtonOptions) {
+export class Button<TOptions extends ButtonOptions = ButtonOptions> extends UiElement<TOptions> {
+    constructor(options?: TOptions) {
         super("button", "Button", options);
-
-        if (options) {
-            this.content = options.content;
-            this.disabled = options.disabled;
-        }
 
         const buildSuper = this.build;
         this.build = () => {
             buildSuper();
 
-            if (this.content instanceof UiElement) {
-                const frameworkElement = this.content as UiElement;
+            if (this.options.content instanceof UiElement) {
+                const frameworkElement = this.options.content as UiElement<UiElementOptions>;
                 this.element.appendChild(frameworkElement.render());
             } else {
-                ko.applyBindingsToNode(this.element, { text: this.content });
+                ko.applyBindingsToNode(this.element, { text: this.options.content });
             }
 
-            if (this.disabled) {
-                ko.applyBindingsToNode(this.element, { attr: { disabled: this.disabled } });
+            if (this.options.disabled) {
+                ko.applyBindingsToNode(this.element, { attr: { disabled: this.options.disabled } });
             }
         }
     }
-
-    content: string| KnockoutObservable<string> | UiElement;
-    disabled: boolean| KnockoutObservable<boolean>;
 }

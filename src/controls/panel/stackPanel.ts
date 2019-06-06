@@ -1,8 +1,8 @@
-﻿import { UiElement, } from "../../framework/uiElement";
+﻿import { UiElement, UiElementOptions } from "../../framework/uiElement";
 import { UiChildrensElement, UiChildrensElementOptions } from "../../framework/uiChildrensElement";
 import * as types from "../../types/types";
 
-export interface StackPanelOptions<TItem extends UiElement> extends UiChildrensElementOptions<TItem> {
+export interface StackPanelOptions<TItem extends UiElement<UiElementOptions>> extends UiChildrensElementOptions<TItem> {
     flexDirection?: types.FlexDirection;
     flexWrap?: types.FlexWrap;
     justifyContent?: types.JustifyContent;
@@ -10,7 +10,7 @@ export interface StackPanelOptions<TItem extends UiElement> extends UiChildrensE
     alignContent?: types.AlignContent;
 }
 
-export class StackPanel<TItem extends UiElement> extends UiChildrensElement<TItem> {
+export class StackPanel<TItem extends UiElement<UiElementOptions>> extends UiChildrensElement<TItem> {
     constructor(options?: StackPanelOptions<TItem>) {
         super("div", "StackPanel", options);
 
