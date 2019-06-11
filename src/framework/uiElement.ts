@@ -32,8 +32,8 @@ export interface UiElementOptions {
     ontouchstart?: (event: TouchEvent) => void;
 }
 
-export class UiElement<TOptions extends UiElementOptions> {
-    constructor(tagName: string, elementType: string, options?: TOptions) {
+export class UiElement {
+    constructor(tagName: string, elementType: string, options?: UiElementOptions) {
 
         this.tagName = tagName;
         if (options) {
@@ -63,7 +63,7 @@ export class UiElement<TOptions extends UiElementOptions> {
         }
     }
 
-    protected build(): void {
+    protected build = (): void => {
         if (this.options.id) {
             this.element.id = this.options.id;
         }
@@ -120,7 +120,7 @@ export class UiElement<TOptions extends UiElementOptions> {
         }
     }
 
-    render(): HTMLElement {
+    render = (): HTMLElement => {
         if (this.element) {
             //If the element has already been rendered before then we remove the previously rendered element.
             this.remove();
@@ -241,5 +241,5 @@ export class UiElement<TOptions extends UiElementOptions> {
     readonly tagName: string;
     readonly visible = ko.observable<boolean>(true);
     readonly attributes: { [index: string]: string | KnockoutObservable<string> } = {};
-    readonly options = {} as TOptions;
+    readonly options = {} as UiElementOptions;
 }

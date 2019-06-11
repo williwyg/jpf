@@ -1,44 +1,33 @@
 ﻿import ko = require("knockout");
-import { UiElement, UiElementOptions } from "../../framework/uiElement";
+import { UiElement, UiElementOptions} from "../../framework/uiElement";
 
 
-export interface SelectOptions<TItem> extends UiElementOptions {
-    options?: Array<TItem> | KnockoutObservableArray<TItem>;
+export interface SelectBoxOptions<TItem> extends UiElementOptions {
+    items?: Array<TItem> | KnockoutObservableArray<TItem>;
     optionsCaption?: string;
     optionsText?: keyof TItem;
     optionsValue?: keyof TItem;
     value?: any | KnockoutObservable<any>;
-
     onchange?: (value: any) => void;
 }
 
 export class SelectBox<TItem> extends UiElement {
-    constructor(options?: SelectOptions<TItem>) {
+    constructor(options?: SelectBoxOptions<TItem>) {
         super("select", "SelectBox", options);
-
-        if (options) {
-            this.options = options.options;
-            this.optionsCaption = options.optionsCaption;
-            this.optionsText = options.optionsText;
-            this.optionsValue = options.optionsValue;
-            this.value = options.value;
-
-            this.onchange = options.onchange;
-        }
 
         const buildSuper = this.build;
         this.build = () => {
             buildSuper();
 
             let value: KnockoutObservable<any>;
-            if (ko.isObservable(this.value)) {
-                value = this.value;
+            if (ko.isObservable(this.options.value)) {
+                value = this.options.value;
             } else {
-                value = ko.observable<any>(this.value);
+                value = ko.observable<any>(this.options.value);
             }
             value.subscribe((newValue: any) => {
-                if (this.onchange) {
-                    this.onchange(newValue);
+                if (this.options.onchange) {
+                    this.options.onchange(newValue);
                 }
             });
 
@@ -46,19 +35,14 @@ export class SelectBox<TItem> extends UiElement {
                 this.element,
                 {
                     options: this.options,
-                    optionsCaption: this.optionsCaption,
-                    optionsText: this.optionsText,
-                    optionsValue: this.optionsValue,
+                    optionsCaption: this.options.optionsCaption,
+                    optionsText: this.options.optionsText,
+                    optionsValue: this.options.optionsValue,
                     value: value
                 }
             );
         }
     }
 
-    options: Array<TItem> | KnockoutObservableArray<TItem>;
-    optionsCaption: string;
-    optionsText: keyof TItem;
-    optionsValue: keyof TItem;
-    value: any | KnockoutObservable<any>;
-    onchange: (value: any) => void;
+    readonly  options: SelectBoxOptions<TItem>;
 }

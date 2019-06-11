@@ -2,12 +2,12 @@
 import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 export interface ButtonOptions extends UiElementOptions {
-    content?: string | KnockoutObservable<string> | UiElement<UiElementOptions>;
+    content?: string | KnockoutObservable<string> | UiElement;
     disabled?: boolean | KnockoutObservable<boolean>;
 }
 
-export class Button<TOptions extends ButtonOptions = ButtonOptions> extends UiElement<TOptions> {
-    constructor(options?: TOptions) {
+export class Button extends UiElement {
+    constructor(options?: ButtonOptions) {
         super("button", "Button", options);
 
         const buildSuper = this.build;
@@ -15,7 +15,7 @@ export class Button<TOptions extends ButtonOptions = ButtonOptions> extends UiEl
             buildSuper();
 
             if (this.options.content instanceof UiElement) {
-                const frameworkElement = this.options.content as UiElement<UiElementOptions>;
+                const frameworkElement = this.options.content as UiElement;
                 this.element.appendChild(frameworkElement.render());
             } else {
                 ko.applyBindingsToNode(this.element, { text: this.options.content });
@@ -26,4 +26,6 @@ export class Button<TOptions extends ButtonOptions = ButtonOptions> extends UiEl
             }
         }
     }
+
+    readonly options: ButtonOptions;
 }

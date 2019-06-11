@@ -1,21 +1,16 @@
 ﻿import ko = require("knockout");
-import { UiElement, UiElementOptions } from "./uiElement";
+import { UiElement, UiElementOptions} from "./uiElement";
 
 export interface InputElementOptions<TInput> extends UiElementOptions {
     disabled?: boolean | KnockoutObservable<boolean>;
     placeholder?: string;
     onchange?: (newValue: TInput) => void;
+    validateInput?: (newValue: TInput) => boolean;
 }
 
-export class InputElement<TInput, TOptions extends InputElementOptions<TInput>> extends UiElement<TOptions> {
-    constructor(elementType: string, options?: TOptions) {
+export class InputElement<TInput> extends UiElement {
+    constructor(elementType: string, options?: InputElementOptions<TInput>) {
         super("input", elementType, options);
-
-        if (options) {
-            this.disabled = options.disabled;
-            this.placeholder = options.placeholder;
-            this.onchange = options.onchange;
-        }
 
         const buildSuper = this.build;
         this.build = () => {
@@ -24,23 +19,20 @@ export class InputElement<TInput, TOptions extends InputElementOptions<TInput>> 
             var input = this.element as HTMLInputElement;
             input.type = this.inputType;
 
-            if (this.placeholder) {
-                input.placeholder = this.placeholder;
+            if (this.options.placeholder) {
+                input.placeholder = this.options.placeholder;
             }
 
-            if (this.disabled) {
+            if (this.options.disabled) {
                 //If the disabled property is either "true" or a knockout observable
                 //Then we bind the element to the disabled property
-                ko.applyBindingsToNode(this.element, { attr: { disabled: this.disabled } });
+                ko.applyBindingsToNode(this.element, { attr: { disabled: this.options.disabled } });
             }
         }
     }
 
     inputType: InputElementType;
-    disabled: boolean | KnockoutObservable<boolean>;
-    placeholder: string;
-    onchange: (newValue: TInput) => void;
-    validateInput: (newValue: TInput) => boolean;
+    readonly options: InputElementOptions<TInput>;
 }
 
 export type InputElementType =

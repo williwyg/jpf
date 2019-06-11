@@ -1,8 +1,8 @@
-﻿import { UiElement, UiElementOptions } from "../../framework/uiElement";
+﻿import { UiElement } from "../../framework/uiElement";
 import { UiChildrensElement, UiChildrensElementOptions } from "../../framework/uiChildrensElement";
 import * as types from "../../types/types";
 
-export interface StackPanelOptions<TItem extends UiElement<UiElementOptions>> extends UiChildrensElementOptions<TItem> {
+export interface StackPanelOptions<TItem extends UiElement> extends UiChildrensElementOptions<TItem> {
     flexDirection?: types.FlexDirection;
     flexWrap?: types.FlexWrap;
     justifyContent?: types.JustifyContent;
@@ -10,37 +10,42 @@ export interface StackPanelOptions<TItem extends UiElement<UiElementOptions>> ex
     alignContent?: types.AlignContent;
 }
 
-export class StackPanel<TItem extends UiElement<UiElementOptions>> extends UiChildrensElement<TItem> {
+export class StackPanel<TItem extends UiElement> extends UiChildrensElement<TItem> {
     constructor(options?: StackPanelOptions<TItem>) {
         super("div", "StackPanel", options);
 
         this.setStyle({ display: "flex" }, true);
 
-        if (options) {
-            this.flexDirection = options.flexDirection;
-            this.flexWrap = options.flexWrap;
-            this.justifyContent = options.justifyContent;
-            this.alignItems = options.alignItems;
-            this.alignContent = options.alignContent;
+        //Set the default values
+        if (!this.options.flexDirection) {
+            this.options.flexDirection = "row";
+        }
+        if (!this.options.flexWrap) {
+            this.options.flexWrap = "wrap";
+        }
+        if (!this.options.justifyContent) {
+            this.options.justifyContent = "flex-start";
+        }
+        if (!this.options.alignItems) {
+            this.options.alignItems = "flex-start";
+        }
+        if (!this.options.alignContent) {
+            this.options.alignContent = "flex-start";
         }
 
         const buildSuper = this.build;
         this.build = () => {
             this.setStyle({
-                flexDirection: this.flexDirection,
-                flexWrap: this.flexWrap,
-                justifyContent: this.justifyContent,
-                alignItems: this.alignItems,
-                alignContent: this.alignContent
+                flexDirection: this.options.flexDirection,
+                flexWrap: this.options.flexWrap,
+                justifyContent: this.options.justifyContent,
+                alignItems: this.options.alignItems,
+                alignContent: this.options.alignContent
             });
 
             buildSuper();
         }
     }
 
-    flexDirection: types.FlexDirection = "row";
-    flexWrap: types.FlexWrap = "wrap";
-    justifyContent: types.JustifyContent = "flex-start";
-    alignItems: types.AlignItems = "flex-start";
-    alignContent: types.AlignContent = "flex-start";
+    readonly options: StackPanelOptions<TItem>;
 }

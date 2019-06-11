@@ -1,5 +1,5 @@
 ﻿import { UiElement, UiElementOptions } from "../../framework/uiElement";
-import { ToggleButton, ToggleButtonOptions } from  "./toggleButton";
+import { ToggleButton, ToggleButtonOptions } from "./toggleButton";
 import { Image, ImageOptions } from "../image/image";
 
 export interface ImageToggleButtonOptions extends UiElementOptions {
@@ -7,7 +7,7 @@ export interface ImageToggleButtonOptions extends UiElementOptions {
     toggleButtonOptions: ToggleButtonOptions;
 }
 
-export class ImageToggleButton extends UiElement<ImageToggleButtonOptions> {
+export class ImageToggleButton extends UiElement {
     constructor(options?: ImageToggleButtonOptions) {
         super("button", "ImageButton", options);
 
@@ -21,4 +21,6 @@ export class ImageToggleButton extends UiElement<ImageToggleButtonOptions> {
             this.element = button.render();
         }
     }
+
+    readonly options: ImageToggleButtonOptions;
 }

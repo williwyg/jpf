@@ -8,13 +8,12 @@ export interface TextBoxOptions extends InputElementOptions<string> {
 
 export type TextBoxValueUpdateMode = "OnLostFocus" | "OnKeyPress";
 
-export class TextBox extends InputElement<string, TextBoxOptions> {
+export class TextBox extends InputElement<string> {
     constructor(options?: TextBoxOptions) {
         super("TextBox", options);
 
         this.inputType = "text";
-        this.text =ko.unwrap(this.options.text);
-
+        this.text = ko.unwrap(this.options.text);
 
         const buildSuper = this.build;
         this.build = () => {
@@ -37,13 +36,17 @@ export class TextBox extends InputElement<string, TextBoxOptions> {
                     this.innerSetText(newValue, true, false, false);
                 });
             }
+
+            if (this.text) {
+                (this.element as HTMLInputElement).value = this.text;
+            }
         }
     }
 
     private text: string;
-    private innerSetText (text: string, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
+    private innerSetText(text: string, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
         //Find out if the validateInput method is implemented and if the given text is valid
-        if (this.validateInput && !this.validateInput(text)) {
+        if (this.options.validateInput && !this.options.validateInput(text)) {
             if (this.element) {
                 //Revert the change
                 (this.element as HTMLInputElement).value = this.text;
@@ -58,8 +61,8 @@ export class TextBox extends InputElement<string, TextBoxOptions> {
             (this.element as HTMLInputElement).value = text;
         }
 
-        if (triggerOnchange && this.onchange) {
-            this.onchange(text);
+        if (triggerOnchange && this.options.onchange) {
+            this.options.onchange(text);
         }
 
         if (setObservable && ko.isObservable(this.options.text)) {

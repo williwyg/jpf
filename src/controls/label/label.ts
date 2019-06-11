@@ -6,14 +6,9 @@ export interface LabelOptions extends UiElementOptions {
     for?: string;
 }
 
-export class Label extends UiElement<LabelOptions> {
+export class Label extends UiElement {
     constructor(options?: LabelOptions) {
         super("label", "Label", options);
-
-        if (options) {
-            this.text = options.text;
-            this.for = options.for;
-        }
 
         const buildSuper = this.build;
         this.build = () => {
@@ -22,15 +17,14 @@ export class Label extends UiElement<LabelOptions> {
             ko.applyBindingsToNode(
                 this.element,
                 {
-                    text: this.text,
+                    text: this.options.text,
                     attr: {
-                          for: this.for
-                     }
+                        for: this.options.for
+                    }
                 }
             );
         }
     }
 
-    text: string | KnockoutObservable<string>;
-    for: string;
+    readonly options: LabelOptions;
 }

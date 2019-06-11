@@ -1,26 +1,28 @@
 ﻿import { StackPanel, StackPanelOptions } from "../panel/stackPanel";
 import { ToggleButton, ToggleButtonOptions } from "../button/toggleButton";
 
+export interface AudioRecorderOptions extends StackPanelOptions<ToggleButton> {
+    startStopButtonOptions?: ToggleButtonOptions;
+    pauseResumeButtonOptions?: ToggleButtonOptions;
+    autoStopAfter?: number;
+    onstop?: (recordingResult: RecordingResult) => void;
+    onerror?: (event: MediaRecorderErrorEvent) => void;
+}
+
 export class AudioRecorder extends StackPanel<ToggleButton> {
     constructor(options?: AudioRecorderOptions) {
         super(options);
-
-        if (options) {
-            if (options.startStopButtonOptions) {
-                this.startStopButton = new ToggleButton(options.startStopButtonOptions);
-            }
-            if (options.pauseResumeButtonOptions) {
-                this.pauseResumeButton = new ToggleButton(options.pauseResumeButtonOptions);
-            }
-            this.autoStopAfter = options.autoStopAfter;
-            this.onstop = options.onstop;
-            this.onerror = options.onerror;
+        
+        if (this.options.startStopButtonOptions) {
+            this.startStopButton = new ToggleButton(this.options.startStopButtonOptions);
         }
-
+        if (this.options.pauseResumeButtonOptions) {
+            this.pauseResumeButton = new ToggleButton(this.options.pauseResumeButtonOptions);
+        }
 
         const superBuild = this.build;
         this.build = () => {
-           
+
             if (!this.startStopButton) {
                 this.startStopButton = new ToggleButton({});
             }
@@ -28,7 +30,7 @@ export class AudioRecorder extends StackPanel<ToggleButton> {
                 this.pauseResumeButton = new ToggleButton({});
             }
 
-            this.startStopButton.selectedchanged = (selected: boolean) => {
+            this.startStopButton.options.selectedchanged = (selected: boolean) => {
                 if (selected) {
                     navigator.mediaDevices
                         .getUserMedia(
@@ -49,20 +51,20 @@ export class AudioRecorder extends StackPanel<ToggleButton> {
 
                                 this.mediaRecorder.addEventListener("stop", () => {
                                     const audioBlob = new Blob(audioChunks);
-                                    if (this.onstop) {
-                                        this.onstop({
+                                    if (this.options.onstop) {
+                                        this.options.onstop({
                                             blob: audioBlob,
                                             mimeType: this.mediaRecorder.mimeType
                                         });
                                     }
                                 });
 
-                                if (this.autoStopAfter) {
+                                if (this.options.autoStopAfter) {
                                     setTimeout(
                                         () => {
                                             this.mediaRecorder.stop();
                                         },
-                                        this.autoStopAfter
+                                        this.options.autoStopAfter
                                     );
                                 }
 
@@ -73,7 +75,7 @@ export class AudioRecorder extends StackPanel<ToggleButton> {
                 }
             };
 
-            this.pauseResumeButton.selectedchanged = (selected: boolean) => {
+            this.pauseResumeButton.options.selectedchanged = (selected: boolean) => {
                 if (selected) {
                     this.mediaRecorder.pause();
                 } else {
@@ -96,17 +98,7 @@ export class AudioRecorder extends StackPanel<ToggleButton> {
 
     startStopButton: ToggleButton;
     pauseResumeButton: ToggleButton;
-    autoStopAfter: number;
-    onstop: (recordingResult: RecordingResult) => void;
-    onerror: (event: MediaRecorderErrorEvent) => void;
-}
-
-export interface AudioRecorderOptions extends StackPanelOptions<ToggleButton> {
-    startStopButtonOptions?: ToggleButtonOptions;
-    pauseResumeButtonOptions?: ToggleButtonOptions;
-    autoStopAfter?: number;
-    onstop?: (recordingResult: RecordingResult) => void;
-    onerror?: (event: MediaRecorderErrorEvent) => void;
+    readonly options: AudioRecorderOptions;
 }
 
 export interface RecordingResult {

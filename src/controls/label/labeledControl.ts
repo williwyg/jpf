@@ -11,24 +11,20 @@ export class LabeledControl extends StackPanel<UiElement> {
     constructor(options?: LabeledControlOptions) {
         super(options);
 
-        if (options) {
-            this.label = new Label(options.labelOptions);
-        } else {
-            this.label = new Label();
-        }
-
         const buildSuper = this.build;
         this.build = () => {
-            if (!this.style.alignItems) {
+            this.label = new Label(options.labelOptions);
+
+            if (!this.options.style.alignItems) {
                 this.setStyle({ alignItems: "baseline" });
             }
 
-            this.setChildren([this.label, this.control]);
+            this.setChildren([this.label, this.options.control]);
 
             buildSuper();
         }
     }
 
     label: Label;
-    control: UiElement;
+    readonly options: LabeledControlOptions;
 }

@@ -8,7 +8,7 @@ export interface SliderOptions extends InputElementOptions<number> {
     value?: number | KnockoutObservable<number>;
 }
 
-export class Slider extends InputElement<number, SliderOptions> {
+export class Slider extends InputElement<number> {
     constructor(options?: SliderOptions) {
         super("Slider", options);
 
@@ -17,7 +17,7 @@ export class Slider extends InputElement<number, SliderOptions> {
         var buildSuper = this.build;
         this.build = () => {
             buildSuper();
-            
+
             this.element.setAttribute("min", this.options.min.toString());
             this.element.setAttribute("max", this.options.max.toString());
             if (this.options.step) {
@@ -27,12 +27,14 @@ export class Slider extends InputElement<number, SliderOptions> {
             ko.applyBindingsToNode(this.element, { value: this.options.value });
 
             this.element.onchange = () => {
-                if (this.onchange) {
+                if (this.options.onchange) {
                     const input = this.element as HTMLInputElement;
                     const value = Number(input.value);
-                    this.onchange(value);
+                    this.options.onchange(value);
                 }
             }
         }
     }
+
+    readonly options: SliderOptions;
 }

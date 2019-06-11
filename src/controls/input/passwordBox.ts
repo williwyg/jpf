@@ -1,4 +1,4 @@
-﻿import { TextBox, TextBoxOptions } from "./textBox";
+﻿import { TextBox, TextBoxOptions} from "./textBox";
 
 export interface PasswordBoxOptions extends TextBoxOptions {
 
@@ -9,7 +9,8 @@ export class PasswordBox extends TextBox {
         super(options);
 
         this.inputType = "password";
-        this.elementType = "PasswordBox";
-    }  
-}
+        this.options.elementType = "PasswordBox";
+    }
 
+    readonly options: PasswordBoxOptions;
+}

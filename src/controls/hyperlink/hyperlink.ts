@@ -1,5 +1,5 @@
 ﻿import ko = require("knockout");
-import { UiElement, UiElementOptions } from "../../framework/uiElement";
+import { UiElement, UiElementOptions} from "../../framework/uiElement";
 
 export interface HyperlinkOptions extends UiElementOptions {
     text?: string | KnockoutObservable<string>;
@@ -10,11 +10,6 @@ export class Hyperlink extends UiElement {
     constructor(options?: HyperlinkOptions) {
         super("a", "Hyperlink", options);
 
-        if (options) {
-            this.text = options.text;
-            this.href = options.href;
-        }
-
         const buildSuper = this.build;
         this.build = () => {
             buildSuper();
@@ -22,15 +17,14 @@ export class Hyperlink extends UiElement {
             ko.applyBindingsToNode(
                 this.element,
                 {
-                    text: this.text,
+                    text: this.options.text,
                     attr: {
-                        href: this.href
+                        href: this.options.href
                     }
                 }
             );
         }
     }
 
-    text: string | KnockoutObservable<string>;
-    href: string | KnockoutObservable<string>;
+    readonly options: HyperlinkOptions;
 }

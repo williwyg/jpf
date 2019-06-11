@@ -8,7 +8,7 @@ export interface ToggleButtonOptions extends ButtonOptions {
     selectedchanged?: (selected: boolean) => void;
 }
 
-export class ToggleButton extends Button<ToggleButtonOptions> {
+export class ToggleButton extends Button {
     constructor(options: ToggleButtonOptions) {
         super(options);
 
@@ -41,4 +41,6 @@ export class ToggleButton extends Button<ToggleButtonOptions> {
             };
         }
     }
+
+    readonly options: ToggleButtonOptions;
 }

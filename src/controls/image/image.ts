@@ -1,12 +1,12 @@
 ﻿import * as ko from "knockout";
-import { UiElement, UiElementOptions } from "../../framework/uiElement";
+import { UiElement, UiElementOptions} from "../../framework/uiElement";
 
 export interface ImageOptions extends UiElementOptions {
     src: string | KnockoutObservable<string>;
     alt?: string;
 }
 
-export class Image extends UiElement<ImageOptions> {
+export class Image extends UiElement {
     constructor(options?: ImageOptions) {
         super("img", "Image", options);
 
@@ -22,4 +22,6 @@ export class Image extends UiElement<ImageOptions> {
             });
         }
     }
+
+    readonly  options: ImageOptions;
 }

@@ -12,34 +12,28 @@ export class CheckBox extends InputElement<boolean> {
 
         this.inputType = "checkbox";
 
-        if (options) {
-            this.checked = options.checked;
-            this.scale = options.scale;
-        }
-
         const buildSuper = this.build;
         this.build = () => {
             buildSuper();
 
             const input = this.element as HTMLInputElement;
 
-            ko.applyBindingsToNode(input, { checked: this.checked });
+            ko.applyBindingsToNode(input, { checked: this.options.checked });
 
-            if (this.scale) {
-                const scale = "scale(" + this.scale + ")";
+            if (this.options.scale) {
+                const scale = "scale(" + this.options.scale + ")";
                 this.element.style["transform"] = scale;
                 this.element.style["WebkitTransform"] = scale;
                 this.element.style["msTransform"] = scale;
             }
 
             this.element.onchange = () => {
-                if (this.onchange) {
-                    this.onchange(input.checked);
+                if (this.options.onchange) {
+                    this.options.onchange(input.checked);
                 }
             }
         }
     }
 
-    checked: boolean | KnockoutObservable<boolean>;
-    scale: number;
+    readonly options: CheckBoxOptions;
 }

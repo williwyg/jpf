@@ -7,7 +7,7 @@ export interface ImageButtonOptions extends UiElementOptions {
     buttonOptions: ButtonOptions;
 }
 
-export class ImageButton extends UiElement<ImageButtonOptions> {
+export class ImageButton extends UiElement {
     constructor(options?: ImageButtonOptions) {
         super("button", "ImageButton", options);
 
@@ -21,5 +21,7 @@ export class ImageButton extends UiElement<ImageButtonOptions> {
             this.element = button.render();
         }
     }
+
+    readonly options: ImageButtonOptions;
 }
 
