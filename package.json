@@ -36,7 +36,7 @@
     "webpackLibProduction": "webpack --config webpack.lib.production.ts",
     "webpackExamples": "webpack --config webpack.examples.ts",
     "npmPublish": "npm publish",
-    "npmAudit":  "npm audit" 
+    "npmAudit": "npm audit"
   },
   "peerDependencies": {
     "knockout": "3.x"
