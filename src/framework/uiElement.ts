@@ -1,6 +1,7 @@
-﻿import ko = require("knockout");
+﻿import * as ko from "knockout";
 import { Style } from "../style/style";
 import { Attribute } from "./attribute";
+import { IEventListener } from "./eventListener";
 import * as types from "../types/types";
 
 export interface UiElementOptions {
@@ -9,36 +10,20 @@ export interface UiElementOptions {
     visible?: boolean | KnockoutObservable<boolean>;
     className?: string | KnockoutObservable<string>;
     attributes?: Array<Attribute>;
+    eventListeners?: Array<IEventListener>;
     style?: Style;
     selectable?: boolean;
     addControlToDataDictionary?: boolean;
-
-    //Mouse events
-    onclick?: (event: MouseEvent) => void;
-    oncontextmenu?: (event: MouseEvent) => void;
-    ondblclick?: (event: MouseEvent) => void;
-    onmousedown?: (event: MouseEvent) => void;
-    onmouseenter?: (event: MouseEvent) => void;
-    onmouseleave?: (event: MouseEvent) => void;
-    onmousemove?: (event: MouseEvent) => void;
-    onmouseout?: (event: MouseEvent) => void;
-    onmouseover?: (event: MouseEvent) => void;
-    onmouseup?: (event: MouseEvent) => void;
-
-    //Touch events
-    ontouchcancel?: (event: TouchEvent) => void;
-    ontouchend?: (event: TouchEvent) => void;
-    ontouchmove?: (event: TouchEvent) => void;
-    ontouchstart?: (event: TouchEvent) => void;
 }
 
 export class UiElement {
     constructor(tagName: string, elementType: string, options?: UiElementOptions) {
+        if (!options) {
+            options = {};
+        }
 
         this.tagName = tagName;
-        if (options) {
-            this.options = options;
-        }
+        this.options = options;
 
         if (!this.options.elementType) {
             this.options.elementType = elementType;
@@ -63,7 +48,7 @@ export class UiElement {
         }
     }
 
-    protected build = (): void => {
+    protected build(): void {
         if (this.options.id) {
             this.element.id = this.options.id;
         }
@@ -94,11 +79,16 @@ export class UiElement {
 
         ko.applyBindingsToNode(this.element, bindings);
 
+        //Add the eventListeners to the element
+        if (this.options.eventListeners) {
+            for (let eventListener of this.options.eventListeners) {
+                this.element.addEventListener(eventListener.type, eventListener.listener);
+            }
+        }
+
         //Find out if the element is none selectable
         if (this.options.selectable === false) {
-            this.element.onselectstart = () => {
-                return false;
-            }
+            this.element.addEventListener("selectstart", () => { return false; });
             this.element.style.userSelect = "none";
             this.element.style["-webkit-user-select"] = "none";
             this.element.style["-moz-user-select"] = "none";
@@ -120,7 +110,7 @@ export class UiElement {
         }
     }
 
-    render = (): HTMLElement => {
+    render(): HTMLElement {
         if (this.element) {
             //If the element has already been rendered before then we remove the previously rendered element.
             this.remove();

@@ -1,37 +1,44 @@
 ﻿import ko = require("knockout");
-import { UiElement, UiElementOptions} from "./uiElement";
+import { UiElement, UiElementOptions } from "./uiElement";
 
 export interface InputElementOptions<TInput> extends UiElementOptions {
     disabled?: boolean | KnockoutObservable<boolean>;
     placeholder?: string;
     onchange?: (newValue: TInput) => void;
-    validateInput?: (newValue: TInput) => boolean;
+    validateInput?: (oldValue: TInput, newValue: TInput) => boolean;
 }
 
 export class InputElement<TInput> extends UiElement {
-    constructor(elementType: string, options?: InputElementOptions<TInput>) {
+    constructor(elementType: string, inputType: InputElementType, options?: InputElementOptions<TInput>) {
         super("input", elementType, options);
+        this.inputType = inputType;
+    }
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
+    build() {
+        super.build();
 
-            var input = this.element as HTMLInputElement;
-            input.type = this.inputType;
+        this.element.type = this.inputType;
 
-            if (this.options.placeholder) {
-                input.placeholder = this.options.placeholder;
-            }
+        if (this.options.placeholder) {
+            this.element.placeholder = this.options.placeholder;
+        }
 
-            if (this.options.disabled) {
-                //If the disabled property is either "true" or a knockout observable
-                //Then we bind the element to the disabled property
-                ko.applyBindingsToNode(this.element, { attr: { disabled: this.options.disabled } });
-            }
+        if (this.options.disabled) {
+            //If the disabled property is either "true" or a knockout observable
+            //Then we bind the element to the disabled property
+            ko.applyBindingsToNode(
+                this.element,
+                {
+                    attr: {
+                        disabled: this.options.disabled
+                    }
+                }
+            );
         }
     }
 
-    inputType: InputElementType;
+    readonly element: HTMLInputElement;
+    readonly inputType: InputElementType;
     readonly options: InputElementOptions<TInput>;
 }
 

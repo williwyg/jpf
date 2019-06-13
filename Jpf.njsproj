@@ -18,7 +18,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
-    <StartWebBrowser>True</StartWebBrowser>
+    <StartWebBrowser>False</StartWebBrowser>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
     <UseIISExpress>true</UseIISExpress>
   </PropertyGroup>
@@ -74,6 +74,7 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\input\textBox.ts" />
+    <TypeScriptCompile Include="src\framework\eventListener.ts" />
     <TypeScriptCompile Include="src\framework\inputElement.ts" />
     <TypeScriptCompile Include="src\controls\label\label.ts" />
     <TypeScriptCompile Include="src\framework\attribute.ts" />

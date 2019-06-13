@@ -32,19 +32,18 @@ export class StackPanel<TItem extends UiElement> extends UiChildrensElement<TIte
         if (!this.options.alignContent) {
             this.options.alignContent = "flex-start";
         }
+    }
 
-        const buildSuper = this.build;
-        this.build = () => {
-            this.setStyle({
-                flexDirection: this.options.flexDirection,
-                flexWrap: this.options.flexWrap,
-                justifyContent: this.options.justifyContent,
-                alignItems: this.options.alignItems,
-                alignContent: this.options.alignContent
-            });
+    build () {
+        this.setStyle({
+            flexDirection: this.options.flexDirection,
+            flexWrap: this.options.flexWrap,
+            justifyContent: this.options.justifyContent,
+            alignItems: this.options.alignItems,
+            alignContent: this.options.alignContent
+        });
 
-            buildSuper();
-        }
+        super.build();
     }
 
     readonly options: StackPanelOptions<TItem>;

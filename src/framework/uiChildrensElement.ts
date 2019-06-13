@@ -11,27 +11,26 @@ export abstract class UiChildrensElement<TChild extends UiElement> extends UiEle
         if (options) {
             this.children = options.children;
         }
-
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
-
-            if (!this.children) {
-                this.children = [];
-            }
-
-            //Make sure the items are rerendered when the items collection changes.
-            if (ko.isObservable(this.children)) {
-                this.children.subscribe(() => {
-                    this.renderItems();
-                });
-            }
-
-            this.renderItems();
-        }
     }
 
-    private renderItems = (): void => {
+    build(): void {
+        super.build();
+
+        if (!this.children) {
+            this.children = [];
+        }
+
+        //Make sure the items are rerendered when the items collection changes.
+        if (ko.isObservable(this.children)) {
+            this.children.subscribe(() => {
+                this.renderItems();
+            });
+        }
+
+        this.renderItems();
+    }
+
+    private renderItems(): void {
         if (this.element) {
             //Remove all exiting children
             while (this.element.firstChild) {
@@ -52,16 +51,16 @@ export abstract class UiChildrensElement<TChild extends UiElement> extends UiEle
 
     private children: Array<TChild> = [];
 
-    getChildren = () => {
+    getChildren() {
         return this.children;
     }
 
-    setChildren = (children: Array<TChild>): void => {
+    setChildren(children: Array<TChild>): void {
         this.children = children;
         this.renderItems();
     }
 
-    addChild = (newItem: TChild, referenceItem?: TChild): void => {
+    addChild(newItem: TChild, referenceItem?: TChild): void {
         if (referenceItem) {
             //Find the index of the referenceItem
             const index = this.children.indexOf(referenceItem);
@@ -79,7 +78,7 @@ export abstract class UiChildrensElement<TChild extends UiElement> extends UiEle
         }
     }
 
-    clear = (): void => {
+    clear(): void {
         if (ko.isObservable(this.children)) {
             this.children([]);
         } else {
@@ -92,7 +91,7 @@ export abstract class UiChildrensElement<TChild extends UiElement> extends UiEle
         }
     }
 
-    removeChild = (element: TChild): void => {
+    removeChild(element: TChild): void {
         const index = this.children.indexOf(element);
         if (index > -1) {
             this.children.splice(index, 1);

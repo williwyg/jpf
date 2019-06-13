@@ -1,6 +1,7 @@
 ﻿import * as ko from "knockout";
 import { Button, ButtonOptions } from "./button";
 import { Style } from "../../style/style";
+import { EventListener } from "../../framework/eventListener";
 
 export interface ToggleButtonOptions extends ButtonOptions {
     styleSelected?: Style;
@@ -11,15 +12,16 @@ export interface ToggleButtonOptions extends ButtonOptions {
 export class ToggleButton extends Button {
     constructor(options: ToggleButtonOptions) {
         super(options);
+    }
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
+    build() {
+        super.build();
 
-            //Store the normal style for later use
-            const styleNormal = window.getComputedStyle(this.element) as any as Style;
-
-            this.options.onclick = () => {
+        //Store the normal style for later use
+        const styleNormal = window.getComputedStyle(this.element) as any as Style;
+        this.element.addEventListener("click", (ev: MouseEvent) => { });
+        this.options.eventListeners = [
+            new EventListener("click", () => {
                 var newValue = !ko.unwrap(this.options.selected);
 
                 if (ko.isObservable(this.options.selected)) {
@@ -38,8 +40,8 @@ export class ToggleButton extends Button {
                 if (this.options.selectedchanged) {
                     this.options.selectedchanged(newValue);
                 }
-            };
-        }
+            })
+        ];
     }
 
     readonly options: ToggleButtonOptions;

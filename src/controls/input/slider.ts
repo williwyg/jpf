@@ -10,9 +10,7 @@ export interface SliderOptions extends InputElementOptions<number> {
 
 export class Slider extends InputElement<number> {
     constructor(options?: SliderOptions) {
-        super("Slider", options);
-
-        this.inputType = "range";
+        super("Slider", "range", options);
 
         var buildSuper = this.build;
         this.build = () => {

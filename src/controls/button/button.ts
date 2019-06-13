@@ -9,21 +9,20 @@ export interface ButtonOptions extends UiElementOptions {
 export class Button extends UiElement {
     constructor(options?: ButtonOptions) {
         super("button", "Button", options);
+    }
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
+    build() {
+        super.build();
 
-            if (this.options.content instanceof UiElement) {
-                const frameworkElement = this.options.content as UiElement;
-                this.element.appendChild(frameworkElement.render());
-            } else {
-                ko.applyBindingsToNode(this.element, { text: this.options.content });
-            }
+        const content = this.options.content;
+        if (content instanceof UiElement) {
+            this.element.appendChild(content.render());
+        } else {
+            ko.applyBindingsToNode(this.element, { text: content });
+        }
 
-            if (this.options.disabled) {
-                ko.applyBindingsToNode(this.element, { attr: { disabled: this.options.disabled } });
-            }
+        if (this.options.disabled) {
+            ko.applyBindingsToNode(this.element, { attr: { disabled: this.options.disabled } });
         }
     }
 

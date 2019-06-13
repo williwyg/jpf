@@ -10,16 +10,15 @@ export interface ImageButtonOptions extends UiElementOptions {
 export class ImageButton extends UiElement {
     constructor(options?: ImageButtonOptions) {
         super("button", "ImageButton", options);
+    }
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
+    build () {
+        super.build();
 
-            var button = new Button(this.options.buttonOptions);
-            button.options.content = new Image(this.options.imageOptions);
+        const button = new Button(this.options.buttonOptions);
+        button.options.content = new Image(this.options.imageOptions);
 
-            this.element = button.render();
-        }
+        this.element = button.render();
     }
 
     readonly options: ImageButtonOptions;

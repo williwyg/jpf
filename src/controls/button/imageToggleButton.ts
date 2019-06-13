@@ -10,16 +10,15 @@ export interface ImageToggleButtonOptions extends UiElementOptions {
 export class ImageToggleButton extends UiElement {
     constructor(options?: ImageToggleButtonOptions) {
         super("button", "ImageButton", options);
+    }
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
+    build() {
+        super.build();
 
-            var button = new ToggleButton(this.options.toggleButtonOptions);
-            button.options.content = new Image(this.options.imageOptions);
+        const toggleButton = new ToggleButton(this.options.toggleButtonOptions);
+        toggleButton.options.content = new Image(this.options.imageOptions);
 
-            this.element = button.render();
-        }
+        this.element = toggleButton.render();
     }
 
     readonly options: ImageToggleButtonOptions;

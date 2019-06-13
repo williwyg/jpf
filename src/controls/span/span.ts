@@ -9,21 +9,20 @@ export interface SpanOptions extends UiElementOptions {
 export class Span extends UiElement {
     constructor(options: SpanOptions) {
         super("span", "Span", options);
+    }
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
+    build() {
+        super.build();
 
-            var bindings = {} as any;
-            if (this.options.isHtml) {
-               bindings.html= this.options.text;
-            }
-            else {
-                bindings.text = this.options.text;
-            }
-
-            ko.applyBindingsToNode(this.element, bindings);
+        const bindings = {} as any;
+        if (this.options.isHtml) {
+            bindings.html = this.options.text;
         }
+        else {
+            bindings.text = this.options.text;
+        }
+
+        ko.applyBindingsToNode(this.element, bindings);
     }
 
     readonly options: SpanOptions;

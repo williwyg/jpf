@@ -6,10 +6,7 @@ export interface PasswordBoxOptions extends TextBoxOptions {
 
 export class PasswordBox extends TextBox {
     constructor(options?: PasswordBoxOptions) {
-        super(options);
-
-        this.inputType = "password";
-        this.options.elementType = "PasswordBox";
+        super(options,"PasswordBox", "password");
     }
 
     readonly options: PasswordBoxOptions;

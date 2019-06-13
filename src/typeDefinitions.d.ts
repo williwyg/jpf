@@ -1,7 +1,7 @@
 ﻿
 interface HTMLElement {
     data: any;
-    onselectstart: ()=>void;
+    onselectstart: () => void;
 }
 
 interface MediaRecorderErrorEvent extends Event {

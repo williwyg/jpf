@@ -1,5 +1,5 @@
 ﻿import * as ko from "knockout";
-import { UiElement} from "../../framework/uiElement";
+import { UiElement } from "../../framework/uiElement";
 import { UiChildrensElement, UiChildrensElementOptions } from "../../framework/uiChildrensElement";
 
 export interface DivOptions<TChild extends UiElement> extends UiChildrensElementOptions<TChild> {
@@ -10,18 +10,17 @@ export interface DivOptions<TChild extends UiElement> extends UiChildrensElement
 export class Div<TChild extends UiElement> extends UiChildrensElement<TChild> {
     constructor(options?: DivOptions<TChild>) {
         super("div", "Div", options);
+    }
 
-        const superBuild = this.build;
-        this.build = () => {
-            superBuild();
+    build() {
+        super.build();
 
-            if (this.options.text) {
-                if (this.options.isHtml) {
-                    ko.applyBindingsToNode(this.element, { html: this.options.text });
-                }
-                else {
-                    ko.applyBindingsToNode(this.element, { text: this.options.text });
-                }
+        if (this.options.text) {
+            if (this.options.isHtml) {
+                ko.applyBindingsToNode(this.element, { html: this.options.text });
+            }
+            else {
+                ko.applyBindingsToNode(this.element, { text: this.options.text });
             }
         }
     }

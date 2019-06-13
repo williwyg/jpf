@@ -1,61 +1,57 @@
-﻿import ko = require("knockout");
-import { InputElement, InputElementOptions } from "../../framework/inputElement";
+﻿import * as ko from "knockout";
+import { InputElement, InputElementOptions, InputElementType } from "../../framework/inputElement";
 
 export interface TextBoxOptions extends InputElementOptions<string> {
     text?: string | KnockoutObservable<string>;
     valueUpdateMode?: TextBoxValueUpdateMode;
 }
 
-export type TextBoxValueUpdateMode = "OnLostFocus" | "OnKeyPress";
+export type TextBoxValueUpdateMode = "OnLostFocus" | "OnKeyUp";
 
 export class TextBox extends InputElement<string> {
-    constructor(options?: TextBoxOptions) {
-        super("TextBox", options);
+    constructor(options?: TextBoxOptions, elementType: string = "TextBox", inputElementType: InputElementType = "text") {
+        super(elementType, inputElementType, options);
+    }
 
-        this.inputType = "text";
-        this.text = ko.unwrap(this.options.text);
+    build() {
+        super.build();
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
-
-            this.element.onkeypress = () => {
-                if (this.options.valueUpdateMode === "OnKeyPress") {
-                    this.innerSetText((this.element as HTMLInputElement).value, false, true, true);
-                }
-            }
-
-            this.element.onblur = () => {
-                if (this.options.valueUpdateMode === "OnLostFocus") {
-                    this.innerSetText((this.element as HTMLInputElement).value, false, true, true);
-                }
-            }
-
-            if (ko.isObservable(options.text)) {
-                options.text.subscribe((newValue: string) => {
-                    this.innerSetText(newValue, true, false, false);
+        if (this.options.valueUpdateMode === "OnKeyUp") {
+            this.element.addEventListener(
+                "keyup",
+                () => {
+                    this.innerSetText(this.element.value, false, true, true);
                 });
-            }
+        } else {
+            this.element.addEventListener(
+                "blur",
+                () => {
+                    this.innerSetText(this.element.value, false, true, true);
+                });
+        }
 
-            if (this.text) {
-                (this.element as HTMLInputElement).value = this.text;
-            }
+        const text = this.options.text;
+
+        this.innerText = ko.unwrap(text);
+        if (this.innerText) {
+            this.element.value = this.innerText;
+        }
+
+        if (ko.isObservable(text)) {
+            text.subscribe((newValue: string) => {
+                this.innerSetText(newValue, true, false, false);
+            });
         }
     }
 
-    private text: string;
+    private innerText: string;
     private innerSetText(text: string, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
-        //Find out if the validateInput method is implemented and if the given text is valid
-        if (this.options.validateInput && !this.options.validateInput(text)) {
-            if (this.element) {
-                //Revert the change
-                (this.element as HTMLInputElement).value = this.text;
-            }
-
-            return;
+        if (this.options.validateInput && !this.options.validateInput(this.innerText, text)) {
+            text = this.innerText;
+            setElement = true;
+            triggerOnchange = false;
         }
-
-        this.text = text;
+        this.innerText = text;
 
         if (setElement && this.element) {
             (this.element as HTMLInputElement).value = text;
@@ -65,18 +61,22 @@ export class TextBox extends InputElement<string> {
             this.options.onchange(text);
         }
 
-        if (setObservable && ko.isObservable(this.options.text)) {
-            (this.options.text as KnockoutObservable<string>)(text);
+        if (setObservable) {
+            const optionsText = this.options.text;
+            if (ko.isObservable(optionsText)) {
+                optionsText(text);
+            }
         }
     }
 
     getText() {
-        return this.text;
+        return this.innerText;
     }
 
     setText(text: string, triggerChange: boolean = false) {
-        this.innerSetText(text, true, triggerChange, false);
+        this.innerSetText(text, true, triggerChange, true);
     }
 
+    readonly element: HTMLInputElement;
     readonly options: TextBoxOptions;
 }

@@ -10,21 +10,20 @@ export interface LabeledControlOptions extends StackPanelOptions<UiElement> {
 export class LabeledControl extends StackPanel<UiElement> {
     constructor(options?: LabeledControlOptions) {
         super(options);
-
-        const buildSuper = this.build;
-        this.build = () => {
-            this.label = new Label(options.labelOptions);
-
-            if (!this.options.style.alignItems) {
-                this.setStyle({ alignItems: "baseline" });
-            }
-
-            this.setChildren([this.label, this.options.control]);
-
-            buildSuper();
-        }
     }
 
-    label: Label;
+    build() {
+        this.label = new Label(this.options.labelOptions);
+
+        if (!this.options.style.alignItems) {
+            this.setStyle({ alignItems: "baseline" });
+        }
+
+        this.setChildren([this.label, this.options.control]);
+
+        super.build();
+    }
+
+    protected label: Label;
     readonly options: LabeledControlOptions;
 }

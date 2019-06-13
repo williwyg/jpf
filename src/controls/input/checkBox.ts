@@ -8,29 +8,26 @@ export interface CheckBoxOptions extends InputElementOptions<boolean> {
 
 export class CheckBox extends InputElement<boolean> {
     constructor(options?: CheckBoxOptions) {
-        super("CheckBox", options);
+        super("CheckBox", "checkbox", options);
+    }
 
-        this.inputType = "checkbox";
+    build () {
+        super.build();
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
+        const input = this.element as HTMLInputElement;
 
-            const input = this.element as HTMLInputElement;
+        ko.applyBindingsToNode(input, { checked: this.options.checked });
 
-            ko.applyBindingsToNode(input, { checked: this.options.checked });
+        if (this.options.scale) {
+            const scale = "scale(" + this.options.scale + ")";
+            this.element.style["transform"] = scale;
+            this.element.style["WebkitTransform"] = scale;
+            this.element.style["msTransform"] = scale;
+        }
 
-            if (this.options.scale) {
-                const scale = "scale(" + this.options.scale + ")";
-                this.element.style["transform"] = scale;
-                this.element.style["WebkitTransform"] = scale;
-                this.element.style["msTransform"] = scale;
-            }
-
-            this.element.onchange = () => {
-                if (this.options.onchange) {
-                    this.options.onchange(input.checked);
-                }
+        this.element.onchange = () => {
+            if (this.options.onchange) {
+                this.options.onchange(input.checked);
             }
         }
     }

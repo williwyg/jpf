@@ -47,7 +47,7 @@ export function getConfig(mode: "development" | "production" | "none"): webpack.
                         "./declarations"
                     ]
                 }
-            }),
+            })
         ],
 
         externals: "knockout"

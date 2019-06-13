@@ -14,34 +14,33 @@ export interface SelectBoxOptions<TItem> extends UiElementOptions {
 export class SelectBox<TItem> extends UiElement {
     constructor(options?: SelectBoxOptions<TItem>) {
         super("select", "SelectBox", options);
+    }
 
-        const buildSuper = this.build;
-        this.build = () => {
-            buildSuper();
+    build () {
+        super.build();
 
-            let value: KnockoutObservable<any>;
-            if (ko.isObservable(this.options.value)) {
-                value = this.options.value;
-            } else {
-                value = ko.observable<any>(this.options.value);
-            }
-            value.subscribe((newValue: any) => {
-                if (this.options.onchange) {
-                    this.options.onchange(newValue);
-                }
-            });
-
-            ko.applyBindingsToNode(
-                this.element,
-                {
-                    options: this.options,
-                    optionsCaption: this.options.optionsCaption,
-                    optionsText: this.options.optionsText,
-                    optionsValue: this.options.optionsValue,
-                    value: value
-                }
-            );
+        let value: KnockoutObservable<any>;
+        if (ko.isObservable(this.options.value)) {
+            value = this.options.value;
+        } else {
+            value = ko.observable<any>(this.options.value);
         }
+        value.subscribe((newValue: any) => {
+            if (this.options.onchange) {
+                this.options.onchange(newValue);
+            }
+        });
+
+        ko.applyBindingsToNode(
+            this.element,
+            {
+                options: this.options,
+                optionsCaption: this.options.optionsCaption,
+                optionsText: this.options.optionsText,
+                optionsValue: this.options.optionsValue,
+                value: value
+            }
+        );
     }
 
     readonly  options: SelectBoxOptions<TItem>;
