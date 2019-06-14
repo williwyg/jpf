@@ -1,7 +1,7 @@
 ﻿import * as ko from "knockout";
 import { Style } from "../style/style";
 import { Attribute } from "./attribute";
-import { IEventListener } from "./eventListener";
+import { EventListener, IEventListener } from "./eventListener";
 import * as types from "../types/types";
 
 export interface UiElementOptions {
@@ -54,12 +54,7 @@ export class UiElement {
         }
 
         if (this.options.elementType) {
-            this.setAttribute(
-                {
-                    name: "elementtype",
-                    value: this.options.elementType
-                }
-            );
+            this.setAttribute("elementtype", this.options.elementType);
         }
 
         const bindings = {
@@ -78,13 +73,6 @@ export class UiElement {
         }
 
         ko.applyBindingsToNode(this.element, bindings);
-
-        //Add the eventListeners to the element
-        if (this.options.eventListeners) {
-            for (let eventListener of this.options.eventListeners) {
-                this.element.addEventListener(eventListener.type, eventListener.listener);
-            }
-        }
 
         //Find out if the element is none selectable
         if (this.options.selectable === false) {
@@ -124,9 +112,20 @@ export class UiElement {
             //Build the FrameworkElement
             this.build();
 
+            //Add the eventListeners to the element
+            if (this.options.eventListeners) {
+                for (let eventListener of this.options.eventListeners) {
+                    this.element.addEventListener(eventListener.type, (event) => {
+                        eventListener.listener.call(null, event, this);
+                    });
+                }
+            }
+
             //Return the fully functional html element
             return this.element;
         }
+
+
 
         throw "The build method of this FrameworkElement has not been defined";
     }
@@ -151,16 +150,23 @@ export class UiElement {
         }
     }
 
-    setAttribute(attribute: Attribute): void {
-        const currentAttribute = this.attributes[attribute.name];
+    setAttribute(name: types.AttributeName, value: string | KnockoutObservable<string>): void {
+        const currentAttribute = this.attributes[name];
+        let applyBindings = false;
         if (currentAttribute) {
             if (ko.isObservable(currentAttribute)) {
-                currentAttribute(ko.unwrap(attribute.value));
+                currentAttribute(ko.unwrap(value));
             } else {
-                this.attributes[attribute.name] = attribute.value;
+                this.attributes[name] = value;
+                applyBindings = true;
             }
         } else {
-            this.attributes[attribute.name] = attribute.value;
+            this.attributes[name] = value;
+            applyBindings = true;
+        }
+
+        if (applyBindings && this.element) {
+            ko.applyBindingsToNode(this.element, { attr: { [name as string]: value } });
         }
     }
 
@@ -225,6 +231,17 @@ export class UiElement {
                 this.element.style[cssProperty] = undefined;
             }
         }
+    }
+
+    addEventListener<TType extends keyof HTMLElementEventMap>(
+        type: TType,
+        listener: (this: HTMLElement, event: HTMLElementEventMap[TType], uiElement: UiElement) => any,
+        options?: boolean | AddEventListenerOptions
+    ) {
+        if (!this.options.eventListeners) {
+            this.options.eventListeners = new Array();
+        }
+        this.options.eventListeners.push(new EventListener(type, listener, options));
     }
 
     element: HTMLElement;

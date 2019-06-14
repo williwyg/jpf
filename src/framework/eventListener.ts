@@ -1,13 +1,15 @@
-﻿export interface IEventListener {
+﻿import { UiElement } from "./uiElement";
+
+export interface IEventListener {
     type: keyof HTMLElementEventMap;
-    listener: (this: HTMLElement, ev: any) => any;
+    listener: (this: HTMLElement, event: any, uiElement: any) => any;
     options?: boolean | AddEventListenerOptions;
 }
 
 export class EventListener<TType extends keyof HTMLElementEventMap> implements IEventListener {
     constructor(
         type: TType,
-        listener: (this: HTMLElement, ev: HTMLElementEventMap[TType]) => any,
+        listener: (this: HTMLElement, event: HTMLElementEventMap[TType], uiElement: UiElement) => any,
         options?: boolean | AddEventListenerOptions
     ) {
         this.type = type;
@@ -15,6 +17,6 @@ export class EventListener<TType extends keyof HTMLElementEventMap> implements I
         this.options = options;
     }
     type: TType;
-    listener: (this: HTMLElement, ev: HTMLElementEventMap[TType]) => any;
+    listener: (this: HTMLElement, event: HTMLElementEventMap[TType], uiElement: UiElement) => any;
     options: boolean | AddEventListenerOptions;
 }

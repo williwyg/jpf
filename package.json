@@ -35,8 +35,10 @@
     "webpackLibDevelopment": "webpack --config webpack.lib.development.ts",
     "webpackLibProduction": "webpack --config webpack.lib.production.ts",
     "webpackExamples": "webpack --config webpack.examples.ts",
+    "npmInstall": "npm install",
     "npmPublish": "npm publish",
-    "npmAudit": "npm audit"
+    "npmAudit": "npm audit",
+    "npmAuditFix": "npm audit fix"
   },
   "peerDependencies": {
     "knockout": "3.x"
@@ -47,7 +49,6 @@
     "babel-polyfill": "6.26.0",
     "filemanager-webpack-plugin": "^2.0.5",
     "html-webpack-plugin": "^3.2.0",
-    "knockout": "^3.4.2",
     "listdirs": "^3.1.1",
     "path": "0.12.7",
     "ts-loader": "5.3.1",

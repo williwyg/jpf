@@ -44,7 +44,24 @@ export function getConfig(mode: "development" | "production" | "none"): webpack.
             new FileManagerWebpackPlugin({
                 onStart: {
                     delete: [
-                        "./declarations"
+                        "./declarations",
+                        "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/**/*"
+                    ]
+                },
+                onEnd: {
+                    copy: [
+                        {
+                            source: "./package.json",
+                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/package.json"
+                        },
+                        {
+                            source: "./declarations",
+                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/declarations"
+                        },
+                        {
+                            source: "./lib",
+                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/lib"
+                        }
                     ]
                 }
             })
