@@ -4,9 +4,9 @@ import { UiElement, UiElementOptions} from "../../framework/uiElement";
 
 export interface SelectBoxOptions<TItem> extends UiElementOptions {
     items?: Array<TItem> | KnockoutObservableArray<TItem>;
-    optionsCaption?: string;
-    optionsText?: keyof TItem;
-    optionsValue?: keyof TItem;
+    itemsCaption?: string;
+    itemsText?: keyof TItem;
+    itemsValue?: keyof TItem;
     value?: any | KnockoutObservable<any>;
     onchange?: (value: any) => void;
 }
@@ -34,10 +34,10 @@ export class SelectBox<TItem> extends UiElement {
         ko.applyBindingsToNode(
             this.element,
             {
-                options: this.options,
-                optionsCaption: this.options.optionsCaption,
-                optionsText: this.options.optionsText,
-                optionsValue: this.options.optionsValue,
+                options: this.options.items,
+                optionsCaption: this.options.itemsCaption,
+                optionsText: this.options.itemsText,
+                optionsValue: this.options.itemsValue,
                 value: value
             }
         );

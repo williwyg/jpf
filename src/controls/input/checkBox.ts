@@ -11,7 +11,7 @@ export class CheckBox extends InputElement<boolean> {
         super("CheckBox", "checkbox", options);
     }
 
-    build () {
+    build() {
         super.build();
 
         const input = this.element as HTMLInputElement;
