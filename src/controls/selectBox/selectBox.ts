@@ -1,5 +1,5 @@
 ﻿import ko = require("knockout");
-import { UiElement, UiElementOptions} from "../../framework/uiElement";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 
 export interface SelectBoxOptions<TItem> extends UiElementOptions {
@@ -16,20 +16,10 @@ export class SelectBox<TItem> extends UiElement {
         super("select", "SelectBox", options);
     }
 
-    build () {
+    build() {
         super.build();
 
-        let value: KnockoutObservable<any>;
-        if (ko.isObservable(this.options.value)) {
-            value = this.options.value;
-        } else {
-            value = ko.observable<any>(this.options.value);
-        }
-        value.subscribe((newValue: any) => {
-            if (this.options.onchange) {
-                this.options.onchange(newValue);
-            }
-        });
+        const value = ko.observable<any>(ko.unwrap(this.options.value));
 
         ko.applyBindingsToNode(
             this.element,
@@ -41,7 +31,17 @@ export class SelectBox<TItem> extends UiElement {
                 value: value
             }
         );
+        
+        value.subscribe((newValue: any) => {
+            if (ko.isObservable(this.options.value)) {
+                this.options.value(newValue);
+            }
+
+            if (this.options.onchange) {
+                this.options.onchange(newValue);
+            };
+        });
     }
 
-    readonly  options: SelectBoxOptions<TItem>;
+    readonly options: SelectBoxOptions<TItem>;
 }
