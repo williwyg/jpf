@@ -1375,6 +1375,8 @@ export interface Style {
      * @see https://developer.mozilla.org/en/docs/Web/CSS/transform
      */
     transform?: types.CssTransformFunction | KnockoutObservable<types.CssTransformFunction>;
+    WebKitTransform?: types.CssTransformFunction | KnockoutObservable<types.CssTransformFunction>;
+    msTransform?: types.CssTransformFunction | KnockoutObservable<types.CssTransformFunction>;
     /**
      * This property defines the origin of the transformation axes relative to the element to which the transformation is applied.
      * @see https://developer.mozilla.org/en/docs/Web/CSS/transform-origin

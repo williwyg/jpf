@@ -28,7 +28,7 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <Content Include="package.json" />
-    <Content Include="src\controls\image\image.ts">
+    <Content Include="src\elements\image\image.ts">
       <SubType>Code</SubType>
     </Content>
     <Content Include="tsconfig.json" />
@@ -36,51 +36,42 @@
     <TypeScriptCompile Include="examples\example1\example.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\audioRecorder\audioRecorder.ts">
+    <TypeScriptCompile Include="src\elements\button\button.ts" />
+    <TypeScriptCompile Include="src\elements\input\checkbox\checkbox.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\button\button.ts" />
-    <TypeScriptCompile Include="src\controls\button\imageToggleButton.ts" />
-    <TypeScriptCompile Include="src\controls\button\imageButton.ts">
+    <TypeScriptCompile Include="src\elements\input\index.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\button\toggleButton.ts">
+    <TypeScriptCompile Include="src\elements\input\select\select.ts" />
+    <TypeScriptCompile Include="src\elements\div\div.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\input\checkBox.ts">
+    <TypeScriptCompile Include="src\elements\input\number\number.ts" />
+    <TypeScriptCompile Include="src\elements\panel\stackPanel.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\selectBox\selectBox.ts" />
-    <TypeScriptCompile Include="src\controls\div\div.ts">
+    <TypeScriptCompile Include="src\elements\input\password\password.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\label\labeledControl.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\panel\stackPanel.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\input\passwordBox.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\span\span.ts">
+    <TypeScriptCompile Include="src\elements\span\span.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\dialog\dialog.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\index.ts" />
-    <TypeScriptCompile Include="src\controls\input\slider.ts">
+    <TypeScriptCompile Include="src\elements\index.ts" />
+    <TypeScriptCompile Include="src\elements\input\slider\slider.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\input\textBox.ts" />
+    <TypeScriptCompile Include="src\elements\input\text\text.ts" />
     <TypeScriptCompile Include="src\framework\eventListener.ts" />
     <TypeScriptCompile Include="src\framework\inputElement.ts" />
-    <TypeScriptCompile Include="src\controls\label\label.ts" />
+    <TypeScriptCompile Include="src\elements\label\label.ts" />
     <TypeScriptCompile Include="src\framework\attribute.ts" />
     <TypeScriptCompile Include="src\framework\uiElement.ts" />
     <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
-    <TypeScriptCompile Include="src\controls\hyperlink\hyperlink.ts" />
+    <TypeScriptCompile Include="src\elements\hyperlink\hyperlink.ts" />
     <TypeScriptCompile Include="src\framework\uiChildrensElement.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -100,17 +91,21 @@
     <Folder Include="lib\" />
     <Folder Include="examples\" />
     <Folder Include="src\" />
-    <Folder Include="src\controls\" />
-    <Folder Include="src\controls\hyperlink\" />
-    <Folder Include="src\controls\button\" />
-    <Folder Include="src\controls\label\" />
-    <Folder Include="src\controls\div\" />
-    <Folder Include="src\controls\audioRecorder\" />
-    <Folder Include="src\controls\image\" />
-    <Folder Include="src\controls\span\" />
-    <Folder Include="src\controls\selectBox\" />
-    <Folder Include="src\controls\panel\" />
-    <Folder Include="src\controls\input\" />
+    <Folder Include="src\elements\" />
+    <Folder Include="src\elements\hyperlink\" />
+    <Folder Include="src\elements\button\" />
+    <Folder Include="src\elements\input\checkbox\" />
+    <Folder Include="src\elements\input\text\" />
+    <Folder Include="src\elements\input\slider\" />
+    <Folder Include="src\elements\input\select\" />
+    <Folder Include="src\elements\input\password\" />
+    <Folder Include="src\elements\input\number\" />
+    <Folder Include="src\elements\label\" />
+    <Folder Include="src\elements\div\" />
+    <Folder Include="src\elements\image\" />
+    <Folder Include="src\elements\panel\" />
+    <Folder Include="src\elements\span\" />
+    <Folder Include="src\elements\input\" />
     <Folder Include="src\framework\" />
     <Folder Include="src\dialog\" />
     <Folder Include="src\style\" />

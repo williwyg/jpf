@@ -21,7 +21,7 @@ export class Button extends UiElement {
             ko.applyBindingsToNode(this.element, { text: content });
         }
 
-        if (this.options.disabled) {
+        if (ko.unwrap(this.options.disabled)) {
             ko.applyBindingsToNode(this.element, { attr: { disabled: this.options.disabled } });
         }
     }

@@ -1,5 +1,5 @@
 ﻿import ko = require("knockout");
-import { InputElement, InputElementOptions } from "../../framework/inputElement";
+import { InputElement, InputElementOptions } from "../../../framework/inputElement";
 
 export interface SliderOptions extends InputElementOptions<number> {
     min: number;

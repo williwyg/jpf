@@ -1,6 +1,6 @@
 ﻿import { UiElement } from "../framework/uiElement";
-import { StackPanel } from "../controls/panel/stackPanel";
-import { Label } from "../controls/label/label";
+import { StackPanel } from "../elements/panel/stackPanel";
+import { Label } from "../elements/label/label";
 import { Style } from "../style/style";
 
 export interface DialogOptions {

@@ -1,30 +1,30 @@
 ﻿import * as ko from "knockout";
-import { InputElement, InputElementOptions, InputElementType } from "../../framework/inputElement";
+import { InputElement, InputElementOptions, InputElementType } from "../../../framework/inputElement";
 
-export interface TextBoxOptions extends InputElementOptions<string> {
+export interface TextOptions extends InputElementOptions<string> {
     text?: string | KnockoutObservable<string>;
-    valueUpdateMode?: TextBoxValueUpdateMode;
+    valueUpdateMode?: TextValueUpdateMode;
 }
 
-export type TextBoxValueUpdateMode = "OnLostFocus" | "OnKeyUp";
+export type TextValueUpdateMode = "OnInput" | "OnChange";
 
-export class TextBox extends InputElement<string> {
-    constructor(options?: TextBoxOptions, elementType: string = "TextBox", inputElementType: InputElementType = "text") {
+export class Text extends InputElement<string> {
+    constructor(options?: TextOptions, elementType: string = "InputText", inputElementType: InputElementType = "text") {
         super(elementType, inputElementType, options);
     }
 
     build() {
         super.build();
 
-        if (this.options.valueUpdateMode === "OnKeyUp") {
+        if (this.options.valueUpdateMode === "OnInput") {
             this.element.addEventListener(
-                "keyup",
+                "input",
                 () => {
                     this.innerSetText(this.element.value, false, true, true);
                 });
         } else {
             this.element.addEventListener(
-                "blur",
+                "change",
                 () => {
                     this.innerSetText(this.element.value, false, true, true);
                 });
@@ -46,7 +46,7 @@ export class TextBox extends InputElement<string> {
 
     private innerText: string;
     private innerSetText(text: string, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
-        if (this.options.validateInput && !this.options.validateInput(this.innerText, text)) {
+        if (this.options.checkValidity && !this.options.checkValidity(this.innerText, text)) {
             text = this.innerText;
             setElement = true;
             triggerOnchange = false;
@@ -77,6 +77,5 @@ export class TextBox extends InputElement<string> {
         this.innerSetText(text, true, triggerChange, true);
     }
 
-    readonly element: HTMLInputElement;
-    readonly options: TextBoxOptions;
+    readonly options: TextOptions;
 }

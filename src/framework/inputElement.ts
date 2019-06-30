@@ -5,7 +5,7 @@ export interface InputElementOptions<TInput> extends UiElementOptions {
     disabled?: boolean | KnockoutObservable<boolean>;
     placeholder?: string;
     onchange?: (newValue: TInput) => void;
-    validateInput?: (oldValue: TInput, newValue: TInput) => boolean;
+    checkValidity?: (oldValue: TInput, newValue: TInput) => boolean;
 }
 
 export class InputElement<TInput> extends UiElement {

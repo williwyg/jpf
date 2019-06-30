@@ -1,5 +1,5 @@
 ﻿import ko = require("knockout");
-import { InputElement, InputElementOptions } from "../../framework/inputElement";
+import { InputElement, InputElementOptions } from "../../../framework/inputElement";
 
 export interface CheckBoxOptions extends InputElementOptions<boolean> {
     checked?: boolean | KnockoutObservable<boolean>;
@@ -14,22 +14,23 @@ export class CheckBox extends InputElement<boolean> {
     build() {
         super.build();
 
-        const input = this.element as HTMLInputElement;
-
-        ko.applyBindingsToNode(input, { checked: this.options.checked });
+        ko.applyBindingsToNode(this.element, { checked: this.options.checked });
 
         if (this.options.scale) {
             const scale = "scale(" + this.options.scale + ")";
-            this.element.style["transform"] = scale;
-            this.element.style["WebkitTransform"] = scale;
-            this.element.style["msTransform"] = scale;
+            this.setStyle({
+                transform: scale,
+                WebKitTransform: scale,
+                msTransform: scale
+            });
         }
 
-        this.element.onchange = () => {
+        this.addEventListener("change", () => {
             if (this.options.onchange) {
-                this.options.onchange(input.checked);
+                const checkbox = this.element as HTMLInputElement;
+                this.options.onchange(checkbox.checked);
             }
-        }
+        });
     }
 
     readonly options: CheckBoxOptions;

@@ -248,5 +248,5 @@ export class UiElement {
     readonly tagName: string;
     readonly visible = ko.observable<boolean>(true);
     readonly attributes: { [index: string]: string | KnockoutObservable<string> } = {};
-    readonly options = {} as UiElementOptions;
+    options = {} as UiElementOptions;
 }
