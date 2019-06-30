@@ -1,15 +1,13 @@
 ﻿import * as ko from "knockout";
-import { Button, ButtonOptions } from "./button";
-import { Style } from "../../style/style";
-import { EventListener } from "../../framework/eventListener";
+import * as jpf from "jpf";
 
-export interface ToggleButtonOptions extends ButtonOptions {
-    styleSelected?: Style;
+export interface ToggleButtonOptions extends jpf.Elements.ButtonOptions {
+    styleSelected?: jpf.Style;
     selected?: boolean | KnockoutObservable<boolean>;
     selectedchanged?: (selected: boolean) => void;
 }
 
-export class ToggleButton extends Button {
+export class ToggleButton extends jpf.Elements.Button {
     constructor(options: ToggleButtonOptions) {
         super(options);
     }
@@ -18,10 +16,9 @@ export class ToggleButton extends Button {
         super.build();
 
         //Store the normal style for later use
-        const styleNormal = window.getComputedStyle(this.element) as any as Style;
-        this.element.addEventListener("click", (ev: MouseEvent) => { });
+        const styleNormal = window.getComputedStyle(this.element) as any as jpf.Style;
         this.options.eventListeners = [
-            new EventListener("click", () => {
+            new jpf.EventListener("click", () => {
                 var newValue = !ko.unwrap(this.options.selected);
 
                 if (ko.isObservable(this.options.selected)) {

@@ -28,9 +28,6 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <Content Include="package.json" />
-    <Content Include="src\controls\image\image.ts">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
     <TypeScriptCompile Include="examples\example1\example.ts">
@@ -39,54 +36,19 @@
     <TypeScriptCompile Include="src\controls\audioRecorder\audioRecorder.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\button\button.ts" />
-    <TypeScriptCompile Include="src\controls\button\imageToggleButton.ts" />
-    <TypeScriptCompile Include="src\controls\button\imageButton.ts">
+    <TypeScriptCompile Include="src\controls\buttons\imageToggleButton.ts" />
+    <TypeScriptCompile Include="src\controls\buttons\imageButton.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\button\toggleButton.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\input\checkBox.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\selectBox\selectBox.ts" />
-    <TypeScriptCompile Include="src\controls\div\div.ts">
+    <TypeScriptCompile Include="src\controls\buttons\toggleButton.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\label\labeledControl.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\panel\stackPanel.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\input\passwordBox.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\span\span.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\dialog\dialog.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="src\controls\index.ts" />
-    <TypeScriptCompile Include="src\controls\input\slider.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="src\controls\input\textBox.ts" />
-    <TypeScriptCompile Include="src\framework\eventListener.ts" />
-    <TypeScriptCompile Include="src\framework\inputElement.ts" />
-    <TypeScriptCompile Include="src\controls\label\label.ts" />
-    <TypeScriptCompile Include="src\framework\attribute.ts" />
-    <TypeScriptCompile Include="src\framework\uiElement.ts" />
-    <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
-    <TypeScriptCompile Include="src\controls\hyperlink\hyperlink.ts" />
-    <TypeScriptCompile Include="src\framework\uiChildrensElement.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="src\index.ts" />
-    <TypeScriptCompile Include="src\style\style.ts" />
-    <TypeScriptCompile Include="src\types\types.ts" />
+    <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
     <TypeScriptCompile Include="webpack.examples.base.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -101,20 +63,9 @@
     <Folder Include="examples\" />
     <Folder Include="src\" />
     <Folder Include="src\controls\" />
-    <Folder Include="src\controls\hyperlink\" />
-    <Folder Include="src\controls\button\" />
+    <Folder Include="src\controls\buttons\" />
     <Folder Include="src\controls\label\" />
-    <Folder Include="src\controls\div\" />
     <Folder Include="src\controls\audioRecorder\" />
-    <Folder Include="src\controls\image\" />
-    <Folder Include="src\controls\span\" />
-    <Folder Include="src\controls\selectBox\" />
-    <Folder Include="src\controls\panel\" />
-    <Folder Include="src\controls\input\" />
-    <Folder Include="src\framework\" />
-    <Folder Include="src\dialog\" />
-    <Folder Include="src\style\" />
-    <Folder Include="src\types\" />
     <Compile Include="lib\jpf.js" />
     <Compile Include="lib\jpf.min.js" />
     <Compile Include="LICENSE" />

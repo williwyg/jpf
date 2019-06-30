@@ -1,9 +1,4 @@
 ﻿
-interface HTMLElement {
-    data: any;
-    onselectstart: () => void;
-}
-
 interface MediaRecorderErrorEvent extends Event {
     name: string;
 }

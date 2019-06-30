@@ -1,7 +1,7 @@
-﻿import { StackPanel, StackPanelOptions } from "../panel/stackPanel";
-import { ToggleButton, ToggleButtonOptions } from "../button/toggleButton";
+﻿import * as jpf from "jpf";
+import { ToggleButton, ToggleButtonOptions } from "../buttons/toggleButton";
 
-export interface AudioRecorderOptions extends StackPanelOptions<ToggleButton> {
+export interface AudioRecorderOptions extends jpf.Elements.StackPanelOptions<ToggleButton> {
     startStopButtonOptions?: ToggleButtonOptions;
     pauseResumeButtonOptions?: ToggleButtonOptions;
     autoStopAfter?: number;
@@ -9,7 +9,7 @@ export interface AudioRecorderOptions extends StackPanelOptions<ToggleButton> {
     onerror?: (event: MediaRecorderErrorEvent) => void;
 }
 
-export class AudioRecorder extends StackPanel<ToggleButton> {
+export class AudioRecorder extends jpf.Elements.StackPanel<ToggleButton> {
     constructor(options?: AudioRecorderOptions) {
         super(options);
 

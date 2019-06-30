@@ -1,19 +1,17 @@
-﻿import { Label, LabelOptions } from "./label";
-import { UiElement } from "../../framework/uiElement";
-import { StackPanel, StackPanelOptions } from "../panel/stackPanel";
+﻿import * as jpf from "jpf";
 
-export interface LabeledControlOptions extends StackPanelOptions<UiElement> {
-    labelOptions: LabelOptions;
-    control: UiElement;
+export interface LabeledControlOptions extends jpf.Elements.StackPanelOptions< jpf.UiElement> {
+    labelOptions:jpf.Elements.LabelOptions;
+    control:jpf.UiElement;
 }
 
-export class LabeledControl extends StackPanel<UiElement> {
+export class LabeledControl extends jpf.Elements.StackPanel<jpf.UiElement> {
     constructor(options?: LabeledControlOptions) {
         super(options);
     }
 
     build() {
-        this.label = new Label(this.options.labelOptions);
+        this.label = new jpf.Elements.Label(this.options.labelOptions);
 
         if (!this.options.style.alignItems) {
             this.setStyle({ alignItems: "baseline" });
@@ -24,6 +22,6 @@ export class LabeledControl extends StackPanel<UiElement> {
         super.build();
     }
 
-    protected label: Label;
+    protected label: jpf.Elements.Label;
     readonly options: LabeledControlOptions;
 }

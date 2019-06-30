@@ -1,13 +1,12 @@
-﻿import { UiElement, UiElementOptions } from "../../framework/uiElement";
+﻿import * as jpf from "jpf";
 import { ToggleButton, ToggleButtonOptions } from "./toggleButton";
-import { Image, ImageOptions } from "../image/image";
 
-export interface ImageToggleButtonOptions extends UiElementOptions {
-    imageOptions: ImageOptions;
+export interface ImageToggleButtonOptions extends jpf. UiElementOptions {
+    imageOptions: jpf.Elements.ImageOptions;
     toggleButtonOptions: ToggleButtonOptions;
 }
 
-export class ImageToggleButton extends UiElement {
+export class ImageToggleButton extends jpf.UiElement {
     constructor(options?: ImageToggleButtonOptions) {
         super("button", "ImageButton", options);
     }
@@ -16,7 +15,7 @@ export class ImageToggleButton extends UiElement {
         super.build();
 
         const toggleButton = new ToggleButton(this.options.toggleButtonOptions);
-        toggleButton.options.content = new Image(this.options.imageOptions);
+        toggleButton.options.content = new jpf.Elements.Image(this.options.imageOptions);
 
         this.element = toggleButton.render();
     }
