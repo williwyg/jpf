@@ -28,9 +28,12 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <Content Include="package.json" />
+<<<<<<< HEAD:Jpf.njsproj
     <Content Include="src\elements\image\image.ts">
       <SubType>Code</SubType>
     </Content>
+=======
+>>>>>>> 7128b35bef49b1687cbffadacbe56abcf808c579:Jpf-Controls.njsproj
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
     <TypeScriptCompile Include="examples\example1\example.ts">
@@ -40,6 +43,7 @@
     <TypeScriptCompile Include="src\elements\input\checkbox\checkbox.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+<<<<<<< HEAD:Jpf.njsproj
     <TypeScriptCompile Include="src\elements\input\index.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -75,9 +79,21 @@
     <TypeScriptCompile Include="src\framework\uiChildrensElement.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+=======
+    <TypeScriptCompile Include="src\controls\buttons\imageToggleButton.ts" />
+    <TypeScriptCompile Include="src\controls\buttons\imageButton.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\buttons\toggleButton.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\label\labeledControl.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\controls\index.ts" />
+>>>>>>> 7128b35bef49b1687cbffadacbe56abcf808c579:Jpf-Controls.njsproj
     <TypeScriptCompile Include="src\index.ts" />
-    <TypeScriptCompile Include="src\style\style.ts" />
-    <TypeScriptCompile Include="src\types\types.ts" />
+    <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
     <TypeScriptCompile Include="webpack.examples.base.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -91,6 +107,7 @@
     <Folder Include="lib\" />
     <Folder Include="examples\" />
     <Folder Include="src\" />
+<<<<<<< HEAD:Jpf.njsproj
     <Folder Include="src\elements\" />
     <Folder Include="src\elements\hyperlink\" />
     <Folder Include="src\elements\button\" />
@@ -110,6 +127,12 @@
     <Folder Include="src\dialog\" />
     <Folder Include="src\style\" />
     <Folder Include="src\types\" />
+=======
+    <Folder Include="src\controls\" />
+    <Folder Include="src\controls\buttons\" />
+    <Folder Include="src\controls\label\" />
+    <Folder Include="src\controls\audioRecorder\" />
+>>>>>>> 7128b35bef49b1687cbffadacbe56abcf808c579:Jpf-Controls.njsproj
     <Compile Include="lib\jpf.js" />
     <Compile Include="lib\jpf.min.js" />
     <Compile Include="LICENSE" />
