@@ -1,13 +1,7 @@
 {
-<<<<<<< HEAD
   "name": "jpf",
   "version": "2.0.84",
   "description": "Javascript Presentation Foundation",
-=======
-  "name": "jpf-controls",
-  "version": "1.0.1",
-  "description": "Control suite for JPF",
->>>>>>> 7128b35bef49b1687cbffadacbe56abcf808c579
   "keywords": [
     "mvvm",
     "framework",
@@ -16,7 +10,7 @@
     "single page application",
     "spa"
   ],
-  "homepage": "https://github.com/williwyg/jpf-controls#readme",
+  "homepage": "https://github.com/williwyg/jpf#readme",
   "bugs": "",
   "license": "MIT",
   "author": {
@@ -25,9 +19,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/williwyg/jpf-controls"
+    "url": "https://github.com/williwyg/jpf"
   },
-  "main": "lib/jpf-controls.js",
+  "main": "lib/jpf.js",
   "types": "declarations/src/index.d.ts",
   "files": [
     "declarations",
@@ -44,11 +38,7 @@
     "npmInstall": "npm install",
     "npmPublish": "npm publish",
     "npmAudit": "npm audit",
-    "npmAuditFix": "npm audit fix",
-    "gitAdd":  "git add" 
-  },
-  "dependencies": {
-    "jpf": "^2.0.84"
+    "npmAuditFix": "npm audit fix"
   },
   "peerDependencies": {
     "knockout": "3.x"
@@ -65,7 +55,6 @@
     "ts-node": "7.0.1",
     "typescript": "3.2.2",
     "webpack": "4.27.1",
-    "webpack-cli": "3.1.2",
-    "knockout": "3.x"
+    "webpack-cli": "3.1.2"
   }
 }

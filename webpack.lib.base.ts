@@ -5,17 +5,17 @@ import * as FileManagerWebpackPlugin from "filemanager-webpack-plugin";
 let currentDir = path.resolve("./");
 
 export function getConfig(mode: "development" | "production" | "none"): webpack.Configuration {
-    let filename = "jpf-controls.js";
+    let filename = "jpf.js";
 
     if (mode.toLocaleLowerCase() === "production") {
-        filename = "jpf-controls.min.js";
+        filename = "jpf.min.js";
     }
 
     const webpackConfiguration: webpack.Configuration = {
         entry: path.resolve("./src/index.ts"),
 
         output: {
-            library: "jpf-controls",
+            library: "jpf",
             auxiliaryComment: "Control suite for JPF",
             libraryTarget: "umd",
             path: path.resolve(currentDir, "lib"),
@@ -45,27 +45,28 @@ export function getConfig(mode: "development" | "production" | "none"): webpack.
                 onStart: {
                     delete: [
                         "./declarations",
-                        "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf-controls/**/*"
+                        "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/**/*"
                     ]
                 },
                 onEnd: {
                     copy: [
                         {
                             source: "./package.json",
-                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf-controls/package.json"
+                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/package.json"
                         },
                         {
                             source: "./declarations",
-                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf-controls/declarations"
+                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/declarations"
                         },
                         {
                             source: "./lib",
-                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf-controls/lib"
+                            destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/lib"
                         }
                     ]
                 }
             })
-        ]
+        ],
+        externals: "knockout"
     };
 
     return webpackConfiguration;
