@@ -1,10 +1,14 @@
 ﻿import ko = require("knockout");
-import { UiElement, UiElementOptions } from "./uiElement";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 export interface InputElementOptions<TInput> extends UiElementOptions {
     disabled?: boolean | KnockoutObservable<boolean>;
-    placeholder?: string;
+    placeholder?: string | KnockoutObservable<string>;
     onchange?: (newValue: TInput) => void;
+
+}
+
+export interface InputElementValidityCheckOptions<TInput> {
     checkValidity?: (oldValue: TInput, newValue: TInput) => boolean;
 }
 
@@ -19,22 +23,15 @@ export class InputElement<TInput> extends UiElement {
 
         this.element.type = this.inputType;
 
-        if (this.options.placeholder) {
-            this.element.placeholder = this.options.placeholder;
-        }
-
-        if (this.options.disabled) {
-            //If the disabled property is either "true" or a knockout observable
-            //Then we bind the element to the disabled property
-            ko.applyBindingsToNode(
-                this.element,
-                {
-                    attr: {
-                        disabled: this.options.disabled
-                    }
+        ko.applyBindingsToNode(
+            this.element,
+            {
+                attr: {
+                    disabled: this.options.disabled,
+                    placeholder: this.options.placeholder
                 }
-            );
-        }
+            }
+        );
     }
 
     readonly element: HTMLInputElement;

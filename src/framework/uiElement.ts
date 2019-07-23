@@ -18,19 +18,11 @@ export interface UiElementOptions {
 
 export class UiElement {
     constructor(tagName: string, elementType: string, options?: UiElementOptions) {
-        if (!options) {
-            options = {};
-        }
-
         this.tagName = tagName;
-        this.options = options;
+        this.options = options || {};
 
         if (!this.options.elementType) {
             this.options.elementType = elementType;
-        }
-
-        if (!this.options.addControlToDataDictionary) {
-            this.options.addControlToDataDictionary = false;
         }
     }
 
@@ -47,6 +39,7 @@ export class UiElement {
             }
         }
     }
+    private knockoutSubscriptions = Array<KnockoutSubscription>();
 
     protected build(): void {
         if (this.options.id) {
@@ -120,6 +113,15 @@ export class UiElement {
                     });
                 }
             }
+
+            //create an mutation observer to dispose all knockoutSubscriptions created by this UiElement when the element is removed from the dom
+            new MutationObserver(
+                () => {
+                    for (let knockoutSubscription of this.knockoutSubscriptions) {
+                        knockoutSubscription.dispose();
+                    }
+                }
+            ).observe(this.element);
 
             //Return the fully functional html element
             return this.element;
@@ -207,7 +209,7 @@ export class UiElement {
             } else {
                 this.options.style[styleName] = newValue;
                 if (this.element) {
-                    this.element[styleName] = newValue;
+                    this.element.style[styleName] = newValue;
                 }
             }
         }
@@ -223,7 +225,8 @@ export class UiElement {
         else {
             styles = [style as string];
         }
-        for (let cssProperty in styles) {
+
+        for (let cssProperty of styles) {
             if (this.options.style && this.options.style.hasOwnProperty(cssProperty)) {
                 delete this.options.style[cssProperty];
             }
@@ -242,6 +245,10 @@ export class UiElement {
             this.options.eventListeners = new Array();
         }
         this.options.eventListeners.push(new EventListener(type, listener, options));
+    }
+
+    addSubscription(observable: KnockoutObservable<any>, callback: (newValue) => void) {
+        this.knockoutSubscriptions.push(observable.subscribe(callback));
     }
 
     element: HTMLElement;

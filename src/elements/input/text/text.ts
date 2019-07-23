@@ -1,7 +1,7 @@
 ﻿import * as ko from "knockout";
-import { InputElement, InputElementOptions, InputElementType } from "../../../framework/inputElement";
+import { InputElement, InputElementOptions,InputElementValidityCheckOptions, InputElementType } from "../inputElement";
 
-export interface TextOptions extends InputElementOptions<string> {
+export interface TextOptions extends InputElementOptions<string>,InputElementValidityCheckOptions<string>  {
     text?: string | KnockoutObservable<string>;
     valueUpdateMode?: TextValueUpdateMode;
 }
@@ -11,10 +11,23 @@ export type TextValueUpdateMode = "OnInput" | "OnChange";
 export class Text extends InputElement<string> {
     constructor(options?: TextOptions, elementType: string = "InputText", inputElementType: InputElementType = "text") {
         super(elementType, inputElementType, options);
+
+        const optionsText = this.options.text;
+
+        this.innerText = ko.unwrap(optionsText);
+        if (ko.isObservable(optionsText)) {
+            optionsText.subscribe((newValue: string) => {
+                this.innerSetText(newValue, true, false, false);
+            });
+        }
     }
 
     build() {
         super.build();
+
+        if (this.innerText) {
+            this.element.value = this.innerText;
+        }
 
         if (this.options.valueUpdateMode === "OnInput") {
             this.element.addEventListener(
@@ -28,19 +41,6 @@ export class Text extends InputElement<string> {
                 () => {
                     this.innerSetText(this.element.value, false, true, true);
                 });
-        }
-
-        const text = this.options.text;
-
-        this.innerText = ko.unwrap(text);
-        if (this.innerText) {
-            this.element.value = this.innerText;
-        }
-
-        if (ko.isObservable(text)) {
-            text.subscribe((newValue: string) => {
-                this.innerSetText(newValue, true, false, false);
-            });
         }
     }
 

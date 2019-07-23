@@ -1,5 +1,5 @@
 ﻿import ko = require("knockout");
-import { UiElement, UiElementOptions } from "../../../framework/uiElement";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 
 export interface SelectOptions<TItem> extends UiElementOptions {

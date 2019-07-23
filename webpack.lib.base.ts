@@ -61,6 +61,18 @@ export function getConfig(mode: "development" | "production" | "none"): webpack.
                         {
                             source: "./lib",
                             destination: "C:/Data/TFS/Workspaces/OBP/OBP.Clients.Jpf/node_modules/jpf/lib"
+                        },
+                        {
+                            source: "./package.json",
+                            destination: "C:/Data/GitHub/jpf-controls/jpf-controls/node_modules/jpf/package.json"
+                        },
+                        {
+                            source: "./declarations",
+                            destination: "C:/Data/GitHub/jpf-controls/jpf-controls/node_modules/jpf/declarations"
+                        },
+                        {
+                            source: "./lib",
+                            destination: "C:/Data/GitHub/jpf-controls/jpf-controls/node_modules/jpf/lib"
                         }
                     ]
                 }

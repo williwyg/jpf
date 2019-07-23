@@ -1,14 +1,14 @@
 ﻿import ko = require("knockout");
 import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-export interface HyperlinkOptions extends UiElementOptions {
+export interface AnchorOptions extends UiElementOptions {
     text?: string | KnockoutObservable<string>;
     href?: string | KnockoutObservable<string>;
 }
 
-export class Hyperlink extends UiElement {
-    constructor(options?: HyperlinkOptions) {
-        super("a", "Hyperlink", options);
+export class Anchor extends UiElement {
+    constructor(options?: AnchorOptions) {
+        super("a", "Anchor", options);
     }
 
     build() {
@@ -25,5 +25,5 @@ export class Hyperlink extends UiElement {
         );
     }
 
-    readonly options: HyperlinkOptions;
+    readonly options: AnchorOptions;
 }

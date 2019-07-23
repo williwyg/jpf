@@ -1,8 +1,8 @@
 ﻿import { UiElement } from "../../framework/uiElement";
-import { UiChildrensElement, UiChildrensElementOptions } from "../../framework/uiChildrensElement";
+import { ChildrensElement, ChildrensElementOptions } from "../../framework/childrensElement";
 import * as types from "../../types/types";
 
-export interface StackPanelOptions<TItem extends UiElement> extends UiChildrensElementOptions<TItem> {
+export interface FlexboxOptions<TItem extends UiElement> extends ChildrensElementOptions<TItem> {
     flexDirection?: types.FlexDirection;
     flexWrap?: types.FlexWrap;
     justifyContent?: types.JustifyContent;
@@ -10,8 +10,8 @@ export interface StackPanelOptions<TItem extends UiElement> extends UiChildrensE
     alignContent?: types.AlignContent;
 }
 
-export class StackPanel<TItem extends UiElement> extends UiChildrensElement<TItem> {
-    constructor(options?: StackPanelOptions<TItem>) {
+export class Flexbox<TItem extends UiElement> extends ChildrensElement<TItem> {
+    constructor(options?: FlexboxOptions<TItem>) {
         super("div", "StackPanel", options);
 
         this.setStyle({ display: "flex" }, true);
@@ -46,5 +46,5 @@ export class StackPanel<TItem extends UiElement> extends UiChildrensElement<TIte
         super.build();
     }
 
-    readonly options: StackPanelOptions<TItem>;
+    readonly options: FlexboxOptions<TItem>;
 }

@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ac0515fc-6a73-4c4e-a08c-52950ce56a58}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <StartupFile>
     </StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
@@ -33,30 +33,27 @@
     <TypeScriptCompile Include="examples\example1\example.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\dialog\dialog.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="src\elements\button\button.ts" />
     <TypeScriptCompile Include="src\elements\div\div.ts" />
-    <TypeScriptCompile Include="src\elements\hyperlink\hyperlink.ts" />
+    <TypeScriptCompile Include="src\elements\anchor\anchor.ts" />
     <TypeScriptCompile Include="src\elements\image\image.ts" />
     <TypeScriptCompile Include="src\elements\index.ts" />
     <TypeScriptCompile Include="src\elements\input\checkbox\checkbox.ts" />
     <TypeScriptCompile Include="src\elements\input\index.ts" />
     <TypeScriptCompile Include="src\elements\input\number\number.ts" />
     <TypeScriptCompile Include="src\elements\input\password\password.ts" />
-    <TypeScriptCompile Include="src\elements\input\select\select.ts" />
+    <TypeScriptCompile Include="src\elements\select\select.ts" />
     <TypeScriptCompile Include="src\elements\input\slider\slider.ts" />
     <TypeScriptCompile Include="src\elements\input\text\text.ts" />
     <TypeScriptCompile Include="src\elements\label\label.ts" />
-    <TypeScriptCompile Include="src\elements\panel\stackPanel.ts" />
+    <TypeScriptCompile Include="src\elements\flexbox\flexbox.ts" />
     <TypeScriptCompile Include="src\elements\span\span.ts" />
     <TypeScriptCompile Include="src\framework\eventListener.ts" />
-    <TypeScriptCompile Include="src\framework\inputElement.ts" />
+    <TypeScriptCompile Include="src\elements\input\inputElement.ts" />
     <TypeScriptCompile Include="src\framework\attribute.ts" />
     <TypeScriptCompile Include="src\framework\uiElement.ts" />
     <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
-    <TypeScriptCompile Include="src\framework\uiChildrensElement.ts">
+    <TypeScriptCompile Include="src\framework\childrensElement.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\index.ts" />
@@ -78,20 +75,19 @@
     <Folder Include="src\elements\" />
     <Folder Include="src\elements\button\" />
     <Folder Include="src\elements\div\" />
-    <Folder Include="src\elements\hyperlink\" />
+    <Folder Include="src\elements\anchor\" />
     <Folder Include="src\elements\image\" />
     <Folder Include="src\elements\input\" />
     <Folder Include="src\elements\input\checkbox\" />
     <Folder Include="src\elements\input\number\" />
     <Folder Include="src\elements\input\password\" />
-    <Folder Include="src\elements\input\select\" />
+    <Folder Include="src\elements\select\" />
     <Folder Include="src\elements\input\slider\" />
     <Folder Include="src\elements\input\text\" />
     <Folder Include="src\elements\label\" />
-    <Folder Include="src\elements\panel\" />
+    <Folder Include="src\elements\flexbox\" />
     <Folder Include="src\elements\span\" />
     <Folder Include="src\framework\" />
-    <Folder Include="src\dialog\" />
     <Folder Include="src\style\" />
     <Folder Include="src\types\" />
     <Compile Include="lib\jpf.js" />

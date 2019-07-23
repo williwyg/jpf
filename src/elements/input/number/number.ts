@@ -1,7 +1,7 @@
 ﻿import * as ko from "knockout";
-import { InputElement, InputElementOptions, InputElementType } from "../../../framework/inputElement";
+import { InputElement, InputElementOptions, InputElementValidityCheckOptions as InputElementValidityOptions, InputElementType } from "../inputElement";
 
-export interface NumberOptions extends InputElementOptions<number> {
+export interface NumberOptions extends InputElementOptions<number>, InputElementValidityOptions<number> {
     value?: number | KnockoutObservable<number>;
     valueUpdateMode?: NumberValueUpdateMode;
 }
@@ -43,9 +43,12 @@ export class Number extends InputElement<number> {
         }
 
         if (ko.isObservable(value)) {
-            value.subscribe((newValue: number) => {
-                this.innerSetValue(newValue, true, false, false);
-            });
+            this.addSubscription(
+                value,
+                (newValue: number) => {
+                    this.innerSetValue(newValue, true, false, false);
+                }
+            );
         }
     }
 

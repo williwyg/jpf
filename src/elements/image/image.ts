@@ -14,12 +14,15 @@ export class Image extends UiElement {
     build() {
         super.build();
 
-        ko.applyBindingsToNode(this.element, {
-            attr: {
-                src: this.options.src,
-                alt: this.options.alt
+        ko.applyBindingsToNode(
+            this.element,
+            {
+                attr: {
+                    src: this.options.src,
+                    alt: this.options.alt
+                }
             }
-        });
+        );
     }
 
     readonly options: ImageOptions;

@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.84",
+  "version": "2.0.89",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -44,15 +44,15 @@
     "knockout": "3.x"
   },
   "devDependencies": {
-    "@types/knockout": "^3.4.63",
-    "@types/webpack": "^4.4.22",
+    "@types/knockout": "^3.4.66",
+    "@types/webpack": "^4.4.35",
     "babel-polyfill": "6.26.0",
     "filemanager-webpack-plugin": "^2.0.5",
     "html-webpack-plugin": "^3.2.0",
     "listdirs": "^3.1.1",
     "path": "0.12.7",
-    "ts-loader": "5.3.1",
-    "ts-node": "7.0.1",
+    "ts-loader": "6.0.4",
+    "ts-node": "8.3.0",
     "typescript": "3.2.2",
     "webpack": "4.27.1",
     "webpack-cli": "3.1.2"
