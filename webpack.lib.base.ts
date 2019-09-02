@@ -1,6 +1,6 @@
 import * as webpack from "webpack";
 import * as path from "path";
-import * as FileManagerWebpackPlugin from "filemanager-webpack-plugin";
+import * as FileManagerWebpackPlugin from "file-callback-webpack-plugin";
 
 let currentDir = path.resolve("./");
 

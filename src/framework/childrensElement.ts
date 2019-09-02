@@ -17,6 +17,7 @@ export abstract class ChildrensElement<TChild extends UiElement> extends UiEleme
         }
     }
 
+    //Private members
     private renderChildren(): void {
         if (this.element) {
             //Remove all existing children
@@ -37,12 +38,15 @@ export abstract class ChildrensElement<TChild extends UiElement> extends UiEleme
         }
     }
 
-    build(): void {
+    //Protected members
+    protected build(): void {
         super.build();
 
         this.renderChildren();
     }
+    protected options: ChildrensElementOptions<TChild>;
 
+    //Public members
     getChildren(): Array<TChild> {
         return ko.unwrap(this.options.children);
     }
@@ -93,6 +97,4 @@ export abstract class ChildrensElement<TChild extends UiElement> extends UiEleme
             }
         }
     }
-
-    options: ChildrensElementOptions<TChild>;
-}
+    }

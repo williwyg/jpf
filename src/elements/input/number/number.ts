@@ -13,7 +13,36 @@ export class Number extends InputElement<number> {
         super(elementType, inputElementType, options);
     }
 
-    build() {
+
+    //Private members
+    private innerValue: number;
+    private innerSetValue(value: number, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
+        if (this.options.checkValidity && !this.options.checkValidity(this.innerValue, value)) {
+            value = this.innerValue;
+            setElement = true;
+            triggerOnchange = false;
+        }
+        this.innerValue = value;
+
+        if (setElement && this.element) {
+            (this.element as HTMLInputElement).value = value.toString();
+        }
+
+        if (triggerOnchange && this.options.onchange) {
+            this.options.onchange(value);
+        }
+
+        if (setObservable) {
+            const optionsValue = this.options.value;
+            if (ko.isObservable(optionsValue)) {
+                optionsValue(value);
+            }
+        }
+    }
+
+    //Protected members
+    protected options: NumberOptions;
+    protected build() {
         super.build();
 
         if (this.options.valueUpdateMode === "OnInput") {
@@ -52,31 +81,7 @@ export class Number extends InputElement<number> {
         }
     }
 
-    private innerValue: number;
-    private innerSetValue(value: number, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
-        if (this.options.checkValidity && !this.options.checkValidity(this.innerValue, value)) {
-            value = this.innerValue;
-            setElement = true;
-            triggerOnchange = false;
-        }
-        this.innerValue = value;
-
-        if (setElement && this.element) {
-            (this.element as HTMLInputElement).value = value.toString();
-        }
-
-        if (triggerOnchange && this.options.onchange) {
-            this.options.onchange(value);
-        }
-
-        if (setObservable) {
-            const optionsValue = this.options.value;
-            if (ko.isObservable(optionsValue)) {
-                optionsValue(value);
-            }
-        }
-    }
-
+    //Public members
     getValue() {
         return this.innerValue;
     }
@@ -84,6 +89,4 @@ export class Number extends InputElement<number> {
     setValue(value: number, triggerChange: boolean = false) {
         this.innerSetValue(value, true, triggerChange, true);
     }
-
-    readonly options: NumberOptions;
 }

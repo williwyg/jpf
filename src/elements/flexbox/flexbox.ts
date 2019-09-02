@@ -12,7 +12,7 @@ export interface FlexboxOptions<TItem extends UiElement> extends ChildrensElemen
 
 export class Flexbox<TItem extends UiElement> extends ChildrensElement<TItem> {
     constructor(options?: FlexboxOptions<TItem>) {
-        super("div", "StackPanel", options);
+        super("div", "Flexbox", options);
 
         this.setStyle({ display: "flex" }, true);
 
@@ -32,9 +32,7 @@ export class Flexbox<TItem extends UiElement> extends ChildrensElement<TItem> {
         if (!this.options.alignContent) {
             this.options.alignContent = "flex-start";
         }
-    }
 
-    build () {
         this.setStyle({
             flexDirection: this.options.flexDirection,
             flexWrap: this.options.flexWrap,
@@ -42,9 +40,11 @@ export class Flexbox<TItem extends UiElement> extends ChildrensElement<TItem> {
             alignItems: this.options.alignItems,
             alignContent: this.options.alignContent
         });
+    }
 
+    protected build() {
         super.build();
     }
 
-    readonly options: FlexboxOptions<TItem>;
+    protected options: FlexboxOptions<TItem>;
 }

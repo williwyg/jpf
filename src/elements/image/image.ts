@@ -11,7 +11,7 @@ export class Image extends UiElement {
         super("img", "Image", options);
     }
 
-    build() {
+    protected build() {
         super.build();
 
         ko.applyBindingsToNode(
@@ -25,5 +25,5 @@ export class Image extends UiElement {
         );
     }
 
-    readonly options: ImageOptions;
+    protected options: ImageOptions;
 }

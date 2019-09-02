@@ -1,5 +1,5 @@
 ﻿import * as ko from "knockout";
-import { Style } from "../style/style";
+import { Style, StyleObservable } from "../style/style";
 import { Attribute } from "./attribute";
 import { EventListener, IEventListener } from "./eventListener";
 import * as types from "../types/types";
@@ -11,7 +11,7 @@ export interface UiElementOptions {
     className?: string | KnockoutObservable<string>;
     attributes?: Array<Attribute>;
     eventListeners?: Array<IEventListener>;
-    style?: Style;
+    style?: StyleObservable;
     selectable?: boolean;
     addControlToDataDictionary?: boolean;
 }
@@ -26,6 +26,7 @@ export class UiElement {
         }
     }
 
+    //Private members
     private display: string;
     private setVisibility(visible: boolean) {
         if (this.element) {
@@ -41,6 +42,9 @@ export class UiElement {
     }
     private knockoutSubscriptions = Array<KnockoutSubscription>();
 
+
+    //Protected members
+    protected options: UiElementOptions;
     protected build(): void {
         if (this.options.id) {
             this.element.id = this.options.id;
@@ -91,6 +95,8 @@ export class UiElement {
         }
     }
 
+
+    //Public members
     render(): HTMLElement {
         if (this.element) {
             //If the element has already been rendered before then we remove the previously rendered element.
@@ -178,13 +184,14 @@ export class UiElement {
         }
     }
 
-    getStyle(cssProperties: Array<types.CssProperty>): Style {
-        const style = {};
+    getStyle(...cssProperties: Array<types.CssProperty>): Style {
+        const style: Style = {};
         for (let cssProperty of cssProperties) {
-            if (this.element) {
+            if (this.options.style[cssProperty]) {
+                style[cssProperty] = ko.unwrap(this.options.style[cssProperty]);
+            }
+            else if (this.element) {
                 style[cssProperty] = this.element.style[cssProperty];
-            } else {
-                style[cssProperty] = this.options.style[cssProperty];
             }
         }
         return style;
@@ -255,5 +262,4 @@ export class UiElement {
     readonly tagName: string;
     readonly visible = ko.observable<boolean>(true);
     readonly attributes: { [index: string]: string | KnockoutObservable<string> } = {};
-    options = {} as UiElementOptions;
 }

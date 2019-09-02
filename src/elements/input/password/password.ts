@@ -9,5 +9,7 @@ export class Password extends Text {
         super(options,"PasswordBox", "password");
     }
 
-    readonly options: PasswordOptions;
+    //#region Protected members
+    protected options: PasswordOptions;
+    //#endregion
 }

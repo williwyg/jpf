@@ -18,7 +18,9 @@ export class InputElement<TInput> extends UiElement {
         this.inputType = inputType;
     }
 
-    build() {
+    //Protected members
+    protected options: InputElementOptions<TInput>;
+    protected build() {
         super.build();
 
         this.element.type = this.inputType;
@@ -34,9 +36,9 @@ export class InputElement<TInput> extends UiElement {
         );
     }
 
+    //Public members
     readonly element: HTMLInputElement;
     readonly inputType: InputElementType;
-    readonly options: InputElementOptions<TInput>;
 }
 
 export type InputElementType =

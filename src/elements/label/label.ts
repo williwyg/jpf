@@ -10,8 +10,9 @@ export class Label extends UiElement {
     constructor(options?: LabelOptions) {
         super("label", "Label", options);
     }
- 
-    build () {
+
+    protected options: LabelOptions;
+    protected build () {
         super.build();
 
         ko.applyBindingsToNode(
@@ -24,6 +25,4 @@ export class Label extends UiElement {
             }
         );
     }
-
-    readonly options: LabelOptions;
 }

@@ -1,5 +1,5 @@
 ﻿import * as ko from "knockout";
-import { UiElement, UiElementOptions} from "../../framework/uiElement";
+import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 export interface SpanOptions extends UiElementOptions {
     text?: string | KnockoutObservable<string>;
@@ -11,7 +11,9 @@ export class Span extends UiElement {
         super("span", "Span", options);
     }
 
-    build() {
+    //Protected members
+    protected options: SpanOptions;
+    protected build() {
         super.build();
 
         const bindings = {} as any;
@@ -24,6 +26,4 @@ export class Span extends UiElement {
 
         ko.applyBindingsToNode(this.element, bindings);
     }
-
-    readonly options: SpanOptions;
 }

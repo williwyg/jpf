@@ -11,7 +11,7 @@ export class Button extends UiElement {
         super("button", "Button", options);
     }
 
-    build() {
+    protected build() {
         super.build();
 
         const content = this.options.content;
@@ -26,5 +26,5 @@ export class Button extends UiElement {
         }
     }
 
-    readonly options: ButtonOptions;
+    protected  options: ButtonOptions;
 }

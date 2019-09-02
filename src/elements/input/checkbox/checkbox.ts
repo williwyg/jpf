@@ -23,26 +23,7 @@ export class CheckBox extends InputElement<boolean> {
         }
     }
 
-    build() {
-        super.build();
-
-        if (this.options.scale) {
-            const scale = "scale(" + this.options.scale + ")";
-            this.setStyle({
-                transform: scale,
-                WebKitTransform: scale,
-                msTransform: scale
-            });
-        }
-
-        this.addEventListener(
-            "change",
-            () => {
-                this.innerSetChecked(this.element.checked, false, true, true);
-            }
-        );
-    }
-
+    //Private members
     private innerChecked: boolean;
     private innerSetChecked(checked: boolean, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
 
@@ -64,6 +45,29 @@ export class CheckBox extends InputElement<boolean> {
         }
     }
 
+    //Protected members
+    protected build() {
+        super.build();
+
+        if (this.options.scale) {
+            const scale = "scale(" + this.options.scale + ")";
+            this.setStyle({
+                transform: scale,
+                webKitTransform: scale,
+                msTransform: scale
+            });
+        }
+
+        this.addEventListener(
+            "change",
+            () => {
+                this.innerSetChecked(this.element.checked, false, true, true);
+            }
+        );
+    }
+    protected options: CheckBoxOptions;
+
+    //Public members
     getChecked() {
         return this.innerChecked;
     }
@@ -71,6 +75,4 @@ export class CheckBox extends InputElement<boolean> {
     setChecked(checked: boolean, triggerChange: boolean = false) {
         this.innerSetChecked(checked, true, triggerChange, true);
     }
-
-    readonly options: CheckBoxOptions;
 }

@@ -12,7 +12,7 @@ export class Div<TChild extends UiElement> extends ChildrensElement<TChild> {
         super("div", "Div", options);
     }
 
-    build() {
+    protected build() {
         super.build();
 
         if (this.options.text) {
@@ -25,5 +25,5 @@ export class Div<TChild extends UiElement> extends ChildrensElement<TChild> {
         }
     }
 
-    readonly options: DivOptions<TChild>;
+    protected options: DivOptions<TChild>;
 }

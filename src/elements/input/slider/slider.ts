@@ -13,7 +13,9 @@ export class Slider extends InputElement<number> {
         super("Slider", "range", options);
     }
 
-    build() {
+    //#region Protected members
+    protected options: SliderOptions;
+    protected build() {
         super.build();
 
         ko.applyBindingsToNode(this.element,
@@ -34,6 +36,9 @@ export class Slider extends InputElement<number> {
             }
         }
     }
+    //#endregion
+
+    //#region Public members
     setMin(minValue: number) {
         const min = this.options.min;
         if (ko.isObservable(min)) {
@@ -76,6 +81,5 @@ export class Slider extends InputElement<number> {
             }
         }
     }
-
-    readonly options: SliderOptions;
+    //#endregion
 }

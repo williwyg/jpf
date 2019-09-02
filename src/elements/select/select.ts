@@ -1,7 +1,6 @@
 ﻿import ko = require("knockout");
 import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-
 export interface SelectOptions<TItem> extends UiElementOptions {
     items?: Array<TItem> | KnockoutObservableArray<TItem>;
     itemsCaption?: string;
@@ -16,7 +15,9 @@ export class Select<TItem> extends UiElement {
         super("select", "Select", options);
     }
 
-    build() {
+    //Protected members
+    protected options: SelectOptions<TItem>;
+    protected build() {
         super.build();
 
         ko.applyBindingsToNode(
@@ -48,6 +49,6 @@ export class Select<TItem> extends UiElement {
         });
     }
 
+    //Public members
     readonly element: HTMLSelectElement;
-    readonly options: SelectOptions<TItem>;
 }

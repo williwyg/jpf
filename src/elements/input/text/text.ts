@@ -21,29 +21,7 @@ export class Text extends InputElement<string> {
             });
         }
     }
-
-    build() {
-        super.build();
-
-        if (this.innerText) {
-            this.element.value = this.innerText;
-        }
-
-        if (this.options.valueUpdateMode === "OnInput") {
-            this.element.addEventListener(
-                "input",
-                () => {
-                    this.innerSetText(this.element.value, false, true, true);
-                });
-        } else {
-            this.element.addEventListener(
-                "change",
-                () => {
-                    this.innerSetText(this.element.value, false, true, true);
-                });
-        }
-    }
-
+    //#region Private members
     private innerText: string;
     private innerSetText(text: string, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
         if (this.options.checkValidity && !this.options.checkValidity(this.innerText, text)) {
@@ -68,7 +46,34 @@ export class Text extends InputElement<string> {
             }
         }
     }
+    //#endregion Private members
 
+    //#region Protected members
+    protected  options: TextOptions;
+    protected build() {
+        super.build();
+
+        if (this.innerText) {
+            this.element.value = this.innerText;
+        }
+
+        if (this.options.valueUpdateMode === "OnInput") {
+            this.element.addEventListener(
+                "input",
+                () => {
+                    this.innerSetText(this.element.value, false, true, true);
+                });
+        } else {
+            this.element.addEventListener(
+                "change",
+                () => {
+                    this.innerSetText(this.element.value, false, true, true);
+                });
+        }
+    }
+    //#endregion Protected members
+    
+    //#region Public members
     getText() {
         return this.innerText;
     }
@@ -76,6 +81,5 @@ export class Text extends InputElement<string> {
     setText(text: string, triggerChange: boolean = false) {
         this.innerSetText(text, true, triggerChange, true);
     }
-
-    readonly options: TextOptions;
+    //#endregion Public members
 }

@@ -11,7 +11,7 @@ export class Anchor extends UiElement {
         super("a", "Anchor", options);
     }
 
-    build() {
+    protected build() {
         super.build();
 
         ko.applyBindingsToNode(
@@ -25,5 +25,5 @@ export class Anchor extends UiElement {
         );
     }
 
-    readonly options: AnchorOptions;
+    protected options: AnchorOptions;
 }
