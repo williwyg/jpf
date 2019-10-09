@@ -1,5 +1,5 @@
 
-export type AttributeName = "alt" | "disabled" | "href" | "id" | "src" | "style" | "title" | "class" | string;
+export type AttributeName = "alt" | "disabled" | "href" | "id" | "src" | "style" | "title" | "class" | "tabindex"| string;
 
 export type CssProperty = "alignContent" | "alignItems" | "alignSelf" | "alignmentAdjust" | "alignmentBaseline" | "animation" | "animationDelay" | "animationDirection" | "animationDuration" |
     "animationFillMode" | "animationIterationCount" | "animationName" | "animationPlayState" | "animationTimingFunction" | "appearance" | "backfaceVisibility" | "background" |

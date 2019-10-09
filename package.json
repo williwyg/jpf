@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.91",
+  "version": "2.0.93",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -56,7 +56,7 @@
     "remove-files-webpack-plugin": "1.1.3",
     "ts-loader": "6.0.4",
     "ts-node": "8.3.0",
-    "typescript": "3.2.2",
+    "typescript": "3.5.0",
     "webpack": "4.27.1",
     "webpack-cli": "3.1.2"
   }

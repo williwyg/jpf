@@ -4,7 +4,7 @@ import { Attribute } from "./attribute";
 import { EventListener, IEventListener } from "./eventListener";
 import * as types from "../types/types";
 
-export interface UiElementOptions {
+export interface UiElementOptions<TChild extends UiElement = UiElement> {
     id?: string;
     elementType?: string;
     visible?: boolean | KnockoutObservable<boolean>;
@@ -14,15 +14,21 @@ export interface UiElementOptions {
     style?: StyleObservable;
     selectable?: boolean;
     addControlToDataDictionary?: boolean;
+    children?: Array<TChild> | KnockoutObservableArray<TChild>;
 }
 
-export class UiElement {
-    constructor(tagName: string, elementType: string, options?: UiElementOptions) {
+export class UiElement<TChild extends UiElement<TChild> = UiElement<any>> {
+    constructor(tagName: string, elementType: string, options?: UiElementOptions<TChild>) {
         this.tagName = tagName;
         this.options = options || {};
 
         if (!this.options.elementType) {
             this.options.elementType = elementType;
+        }
+        const children = this.options.children;
+        if (children && ko.isObservable(children)) {
+            this.knockoutSubscriptions.push(
+                children.subscribe(() => { this.buildChildren(); }));
         }
     }
 
@@ -44,7 +50,9 @@ export class UiElement {
 
 
     //Protected members
-    protected options: UiElementOptions;
+    protected options: UiElementOptions<TChild>;
+
+
     protected build(): void {
         if (this.options.id) {
             this.element.id = this.options.id;
@@ -93,6 +101,24 @@ export class UiElement {
             }
             this.element.data.frameworkElement = this;
         }
+
+        this.buildChildren();
+    }
+
+    protected buildChildren(): void {
+        if (this.element) {
+            while (this.element.firstChild) {
+                this.element.removeChild(this.element.firstChild);
+            }
+            if (this.options.children) {
+                const documentFragment = document.createDocumentFragment();
+                for (let child of ko.unwrap(this.options.children)) {
+                    documentFragment.appendChild((child.render()));
+                }
+                //Add the documentFragment to the dom
+                this.element.appendChild(documentFragment);
+            }
+        }
     }
 
 
@@ -133,10 +159,10 @@ export class UiElement {
             return this.element;
         }
 
-
-
         throw "The build method of this FrameworkElement has not been defined";
     }
+    refresh(): void { }
+    handleWebsocketMessage(websocketMessage: any): void {}
 
     remove(): void {
         if (this.element) {
@@ -150,15 +176,15 @@ export class UiElement {
         }
     }
 
-    getAttribute(attributeName: string): string {
+    getAttribute(attributeName: types.AttributeName): string | number {
         if (this.element) {
             return this.element.getAttribute(attributeName);
         } else {
-            return ko.unwrap<string>(this.attributes[attributeName]);
+            return ko.unwrap<string | number>(this.attributes[attributeName]);
         }
     }
 
-    setAttribute(name: types.AttributeName, value: string | KnockoutObservable<string>): void {
+    setAttribute(name: types.AttributeName, value: string | number | KnockoutObservable<string | number>): void {
         const currentAttribute = this.attributes[name];
         let applyBindings = false;
         if (currentAttribute) {
@@ -227,7 +253,7 @@ export class UiElement {
         if (style instanceof Array) {
             styles = style;
         } else if (style instanceof Object) {
-            styles = Object.keys(style);
+            styles = Object.keys(style as object);
         }
         else {
             styles = [style as string];
@@ -258,8 +284,56 @@ export class UiElement {
         this.knockoutSubscriptions.push(observable.subscribe(callback));
     }
 
-    element: HTMLElement;
+
+    getChildren(): Array<TChild> {
+        return ko.unwrap(this.options.children);
+    }
+    setChildren(children: Array<TChild>): void {
+        this.options.children = children;
+        this.buildChildren();
+    }
+    addChild(newChild: TChild, referenceChild?: TChild): void {
+        if (referenceChild) {
+            //Find the index of the referenceItem
+            const index = this.options.children.indexOf(referenceChild);
+            if (index > -1) {
+                this.options.children.splice(index, 0, newChild);
+                if (this.element && referenceChild.element) {
+                    this.element.insertBefore(newChild.render(), referenceChild.element);
+                }
+            }
+        } else {
+            this.options.children.push(newChild);
+            if (this.element) {
+                this.element.appendChild(newChild.render());
+            }
+        }
+    }
+    removeChild(element: TChild): void {
+        const index = this.options.children.indexOf(element);
+        if (index > -1) {
+            this.options.children.splice(index, 1);
+            if (this.element) {
+                this.element.removeChild(this.element.children[index]);
+            }
+        }
+    }
+    removeChildren(): void {
+        const children = this.options.children;
+        if (ko.isObservable(children)) {
+            children([]);
+        } else {
+            this.options.children = [];
+            if (this.element) {
+                while (this.element.firstChild) {
+                    this.element.removeChild(this.element.firstChild);
+                }
+            }
+        }
+    }
+
+    protected element: HTMLElement;
     readonly tagName: string;
     readonly visible = ko.observable<boolean>(true);
-    readonly attributes: { [index: string]: string | KnockoutObservable<string> } = {};
+    readonly attributes: { [index: string]: string | number | KnockoutObservable<string | number> } = {};
 }
