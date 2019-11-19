@@ -82,12 +82,14 @@ export abstract class UiElement{
         }
 
         //Set the initial visibility of the element
-        this.setVisibility(this.visible());
+        this.setVisibility(this.visible);
 
-        this.visible.subscribe((visible: boolean) => {
-            this.setVisibility(visible);
-        });
-
+        if (ko.isObservable(this.options.visible)) {
+            this.options.visible.subscribe((visible: boolean) => {
+                this.setVisibility(visible);
+            });
+        }
+        
         if (this.options.addControlToDataDictionary) {
             if (!this.element.data) {
                 this.element.data = {};
@@ -259,6 +261,6 @@ export abstract class UiElement{
     }
     
     readonly tagName: string;
-    readonly visible = ko.observable<boolean>(true);
+    readonly visible: boolean = true;
     readonly attributes: { [index: string]: string | number | KnockoutObservable<string | number> } = {};
 }
