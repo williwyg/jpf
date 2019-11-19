@@ -14,7 +14,7 @@ export class Slider extends InputElement<number> {
     }
 
     //#region Protected members
-    protected options: SliderOptions;
+    protected readonly  options: SliderOptions;
     protected build() {
         super.build();
 

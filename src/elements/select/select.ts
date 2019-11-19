@@ -1,22 +1,21 @@
 ﻿import ko = require("knockout");
 import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
-export interface SelectOptions<TItem> extends UiElementOptions {
+export interface SelectOptions<TItem, TValue> extends UiElementOptions {
     items?: Array<TItem> | KnockoutObservableArray<TItem>;
-    itemsCaption?: string;
-    itemsText?: keyof TItem;
-    itemsValue?: keyof TItem;
-    value?: any | KnockoutObservable<any>;
-    onchange?: (value: any) => void;
+    textFunction?: (item: TItem) => string;
+    valueFunction?: (item: TItem) => TValue;
+    selectedValue?: TValue | KnockoutObservable<TValue>;
+    onchange?: (value: TValue) => void;
 }
 
-export class Select<TItem> extends UiElement {
-    constructor(options?: SelectOptions<TItem>) {
+export class Select<TItem, TValue> extends UiElement {
+    constructor(options?: SelectOptions<TItem, TValue>) {
         super("select", "Select", options);
     }
 
     //Protected members
-    protected options: SelectOptions<TItem>;
+    protected readonly options: SelectOptions<TItem, TValue>;
     protected build() {
         super.build();
 
@@ -31,10 +30,10 @@ export class Select<TItem> extends UiElement {
             }
         );
 
-        var optionsValue = this.options.value;
+        var optionsValue = this.options.selectedValue;
         if (ko.isObservable(optionsValue)) {
             optionsValue.subscribe((newValue) => {
-                this.element.value = newValue;
+                this.element.value = newValue as any;
             });
         }
 
@@ -44,7 +43,7 @@ export class Select<TItem> extends UiElement {
             }
 
             if (this.options.onchange) {
-                this.options.onchange(this.element.value);
+                this.options.onchange(this.element.value as any as TValue);
             }
         });
     }

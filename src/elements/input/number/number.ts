@@ -41,7 +41,7 @@ export class Number extends InputElement<number> {
     }
 
     //Protected members
-    protected options: NumberOptions;
+    protected readonly options: NumberOptions;
     protected build() {
         super.build();
 

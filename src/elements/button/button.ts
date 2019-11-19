@@ -26,5 +26,5 @@ export class Button extends UiElement {
         }
     }
 
-    protected  options: ButtonOptions;
+    protected readonly  options: ButtonOptions;
 }

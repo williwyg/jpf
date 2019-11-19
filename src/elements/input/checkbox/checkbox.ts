@@ -65,7 +65,7 @@ export class CheckBox extends InputElement<boolean> {
             }
         );
     }
-    protected options: CheckBoxOptions;
+    protected readonly options: CheckBoxOptions;
 
     //Public members
     getChecked() {

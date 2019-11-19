@@ -25,5 +25,5 @@ export class Anchor extends UiElement {
         );
     }
 
-    protected options: AnchorOptions;
+    protected readonly options: AnchorOptions;
 }

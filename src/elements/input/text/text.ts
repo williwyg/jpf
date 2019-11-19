@@ -1,7 +1,7 @@
 ﻿import * as ko from "knockout";
-import { InputElement, InputElementOptions,InputElementValidityCheckOptions, InputElementType } from "../inputElement";
+import { InputElement, InputElementOptions, InputElementValidityCheckOptions, InputElementType } from "../inputElement";
 
-export interface TextOptions extends InputElementOptions<string>,InputElementValidityCheckOptions<string>  {
+export interface TextOptions extends InputElementOptions<string>, InputElementValidityCheckOptions<string> {
     text?: string | KnockoutObservable<string>;
     valueUpdateMode?: TextValueUpdateMode;
 }
@@ -49,7 +49,7 @@ export class Text extends InputElement<string> {
     //#endregion Private members
 
     //#region Protected members
-    protected  options: TextOptions;
+    protected readonly options: TextOptions;
     protected build() {
         super.build();
 
@@ -72,7 +72,7 @@ export class Text extends InputElement<string> {
         }
     }
     //#endregion Protected members
-    
+
     //#region Public members
     getText() {
         return this.innerText;

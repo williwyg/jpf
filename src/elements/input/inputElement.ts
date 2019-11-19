@@ -19,7 +19,7 @@ export class InputElement<TInput> extends UiElement {
     }
 
     //Protected members
-    protected options: InputElementOptions<TInput>;
+    protected readonly options: InputElementOptions<TInput>;
     protected build() {
         super.build();
 

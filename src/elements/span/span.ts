@@ -12,7 +12,7 @@ export class Span extends UiElement {
     }
 
     //Protected members
-    protected options: SpanOptions;
+    protected readonly options: SpanOptions;
     protected build() {
         super.build();
 

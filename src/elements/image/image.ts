@@ -25,5 +25,5 @@ export class Image extends UiElement {
         );
     }
 
-    protected options: ImageOptions;
+    protected readonly  options: ImageOptions;
 }

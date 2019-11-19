@@ -10,6 +10,6 @@ export class Password extends Text {
     }
 
     //#region Protected members
-    protected options: PasswordOptions;
+    protected readonly  options: PasswordOptions;
     //#endregion
 }

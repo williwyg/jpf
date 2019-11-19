@@ -1,7 +1,8 @@
-﻿import { UiElement, UiElementOptions } from "../../framework/uiElement";
+﻿import { UiElement } from "../../framework/uiElement";
+import { ChildrensElement, ChildrensElementOptions } from "../../framework/childrensElement";
 import * as types from "../../types/types";
 
-export interface FlexboxOptions<TItem extends UiElement> extends UiElementOptions<TItem> {
+export interface FlexboxOptions<TItem extends UiElement = UiElement> extends ChildrensElementOptions<TItem> {
     flexDirection?: types.FlexDirection;
     flexWrap?: types.FlexWrap;
     justifyContent?: types.JustifyContent;
@@ -9,7 +10,7 @@ export interface FlexboxOptions<TItem extends UiElement> extends UiElementOption
     alignContent?: types.AlignContent;
 }
 
-export class Flexbox<TItem extends UiElement<TItem>> extends UiElement<TItem> {
+export class Flexbox<TItem extends UiElement = UiElement> extends ChildrensElement<TItem> {
     constructor(options?: FlexboxOptions<TItem>) {
         super("div", "Flexbox", options);
 
@@ -41,9 +42,5 @@ export class Flexbox<TItem extends UiElement<TItem>> extends UiElement<TItem> {
         });
     }
 
-    protected build() {
-        super.build();
-    }
-
-    protected options: FlexboxOptions<TItem>;
+    protected readonly  options: FlexboxOptions<TItem>;
 }

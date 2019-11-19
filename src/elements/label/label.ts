@@ -11,7 +11,7 @@ export class Label extends UiElement {
         super("label", "Label", options);
     }
 
-    protected options: LabelOptions;
+    protected readonly  options: LabelOptions;
     protected build () {
         super.build();
 
