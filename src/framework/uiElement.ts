@@ -220,6 +220,16 @@ export abstract class UiElement {
         }
         return style;
     }
+
+    getStyleValue(cssProperty: types.CssProperty): string {
+        if (this.options.style[cssProperty]) {
+            return ko.unwrap(this.options.style[cssProperty]);
+        } else if (this.element) {
+            return this.element.style[cssProperty];
+        }
+        return null;
+    }
+
     setStyle(newStyle: Style, overwriteExisting?: boolean): void {
         //Check of the style property has already been defined.
         if (!this.options.style) {
