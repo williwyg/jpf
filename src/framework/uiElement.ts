@@ -1,7 +1,7 @@
 ﻿import * as ko from "knockout";
 import { Style, StyleObservable } from "../style/style";
 import { Attribute } from "./attribute";
-import { EventListener, IEventListener } from "./eventListener";
+import { EventListener, IEventListener, IAddEventListenerOptions } from "./eventListener";
 import * as types from "../types/types";
 
 export interface UiElementOptions {
@@ -16,7 +16,7 @@ export interface UiElementOptions {
     addControlToDataDictionary?: boolean;
 }
 
-export abstract class UiElement{
+export abstract class UiElement {
     protected constructor(tagName: string, elementType: string, options?: UiElementOptions) {
         this.tagName = tagName;
         this.options = options || {};
@@ -84,12 +84,13 @@ export abstract class UiElement{
         //Set the initial visibility of the element
         this.setVisibility(this.visible);
 
-        if (ko.isObservable(this.options.visible)) {
-            this.options.visible.subscribe((visible: boolean) => {
+        const visible = this.options.visible;
+        if (ko.isObservable(visible)) {
+            visible.subscribe((visible: boolean) => {
                 this.setVisibility(visible);
             });
         }
-        
+
         if (this.options.addControlToDataDictionary) {
             if (!this.element.data) {
                 this.element.data = {};
@@ -119,7 +120,23 @@ export abstract class UiElement{
             //Add the eventListeners to the element
             if (this.options.eventListeners) {
                 for (let eventListener of this.options.eventListeners) {
-                    this.element.addEventListener(eventListener.type, (event) => {
+                    this.element.addEventListener(eventListener.type, (event: Event) => {
+                        if (event instanceof KeyboardEvent) {
+                            const options = eventListener.options as IAddEventListenerOptions;
+                            if (options.altKey && !event.altKey) {
+                                return;
+                            }
+                            if (options.shiftKey && !event.shiftKey) {
+                                return;
+                            }
+                            if (options.ctrlKey && !event.ctrlKey) {
+                                return;
+                            }
+                            if (options.eventKey && options.eventKey !== event.key) {
+                                return;
+                            }
+
+                        }
                         eventListener.listener.call(null, event, this);
                     });
                 }
@@ -132,7 +149,7 @@ export abstract class UiElement{
                         knockoutSubscription.dispose();
                     }
                 }
-            ).observe(this.element, {childList: true});
+            ).observe(this.element, { childList: true });
 
             //Return the fully functional html element
             return this.element;
@@ -195,10 +212,10 @@ export abstract class UiElement{
         const style: Style = {};
         for (let cssProperty of cssProperties) {
             if (this.options.style[cssProperty]) {
-                style[cssProperty] = ko.unwrap(this.options.style[cssProperty])as never;
+                style[cssProperty] = ko.unwrap(this.options.style[cssProperty]) as never;
             }
             else if (this.element) {
-                style[cssProperty] = this.element.style[cssProperty]as never;
+                style[cssProperty] = this.element.style[cssProperty] as never;
             }
         }
         return style;
@@ -259,7 +276,7 @@ export abstract class UiElement{
         }
         this.options.eventListeners.push(new EventListener(type, listener, options));
     }
-    
+
     readonly tagName: string;
     readonly visible: boolean = true;
     readonly attributes: { [index: string]: string | number | KnockoutObservable<string | number> } = {};
