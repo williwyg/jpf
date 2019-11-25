@@ -28,20 +28,7 @@ export abstract class UiElement {
 
     //Private members
     private display: string;
-    private setVisibility(visible: boolean) {
-        if (this.element) {
-            if (visible) {
-                this.element.style.display = this.display;
-            } else {
-                if (this.element.style.display !== "none") {
-                    this.display = this.element.style.display;
-                }
-                this.element.style.display = "none";
-            }
-        }
-    }
     private knockoutSubscriptions = Array<KnockoutSubscription>();
-
 
     //Protected members
     protected element: HTMLElement;
@@ -169,6 +156,7 @@ export abstract class UiElement {
             this.element = null;
         }
     }
+    handleMessage(message: object): void { }
 
     getElement(): HTMLElement {
         return this.element;
@@ -220,7 +208,6 @@ export abstract class UiElement {
         }
         return style;
     }
-
     getStyleValue(cssProperty: types.CssProperty): string {
         if (this.options.style[cssProperty]) {
             return ko.unwrap(this.options.style[cssProperty]);
@@ -229,7 +216,6 @@ export abstract class UiElement {
         }
         return null;
     }
-
     setStyle(newStyle: Style, overwriteExisting?: boolean): void {
         //Check of the style property has already been defined.
         if (!this.options.style) {
@@ -271,6 +257,18 @@ export abstract class UiElement {
             }
             if (this.element) {
                 this.element.style[cssProperty] = undefined;
+            }
+        }
+    }
+    setVisibility(visible: boolean) {
+        if (this.element) {
+            if (visible) {
+                this.element.style.display = this.display;
+            } else {
+                if (this.element.style.display !== "none") {
+                    this.display = this.element.style.display;
+                }
+                this.element.style.display = "none";
             }
         }
     }
