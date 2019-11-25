@@ -208,7 +208,7 @@ export abstract class UiElement {
         }
         return style;
     }
-    getStyleValue(cssProperty: types.CssProperty): string {
+    getStyleValue(cssProperty: types.CssProperty): any {
         if (this.options.style[cssProperty]) {
             return ko.unwrap(this.options.style[cssProperty]);
         } else if (this.element) {
