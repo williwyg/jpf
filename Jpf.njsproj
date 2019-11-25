@@ -48,7 +48,7 @@
     <TypeScriptCompile Include="src\elements\label\label.ts" />
     <TypeScriptCompile Include="src\elements\flexbox\flexbox.ts" />
     <TypeScriptCompile Include="src\elements\span\span.ts" />
-    <TypeScriptCompile Include="src\framework\childrensElement.ts">
+    <TypeScriptCompile Include="src\framework\ChildrensUiElement.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\framework\eventListener.ts" />

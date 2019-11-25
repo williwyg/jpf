@@ -1,12 +1,12 @@
 ﻿import ko = require("knockout");
 import { UiElement, UiElementOptions } from "./uiElement";
 
-export interface ChildrensElementOptions<TChild extends UiElement> extends UiElementOptions {
+export interface ChildrensUiElementOptions<TChild extends UiElement> extends UiElementOptions {
     children?: Array<TChild> | KnockoutObservableArray<TChild>
 }
 
-export abstract class ChildrensElement<TChild extends UiElement> extends UiElement {
-    protected constructor(tagName: string, type: string, options?: ChildrensElementOptions<TChild>) {
+export abstract class ChildrensUiElement<TChild extends UiElement> extends UiElement {
+    protected constructor(tagName: string, type: string, options?: ChildrensUiElementOptions<TChild>) {
         super(tagName, type, options);
 
         const children = this.options.children;
@@ -44,7 +44,7 @@ export abstract class ChildrensElement<TChild extends UiElement> extends UiEleme
 
         this.renderChildren();
     }
-    protected options: ChildrensElementOptions<TChild>;
+    protected options: ChildrensUiElementOptions<TChild>;
 
     //Public members
     getChildren(): Array<TChild> {

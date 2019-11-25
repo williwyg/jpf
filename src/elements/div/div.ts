@@ -1,13 +1,13 @@
 ﻿import * as ko from "knockout";
 import { UiElement } from "../../framework/uiElement";
-import { ChildrensElement, ChildrensElementOptions } from "../../framework/childrensElement";
+import { ChildrensUiElement, ChildrensUiElementOptions} from "../../framework/ChildrensUiElement";
 
-export interface DivOptions<TChild extends UiElement = UiElement> extends ChildrensElementOptions<TChild> {
+export interface DivOptions<TChild extends UiElement = UiElement> extends ChildrensUiElementOptions<TChild> {
     text?: string | KnockoutObservable<string>;
     isHtml?: boolean;
 }
 
-export class Div<TChild extends UiElement = UiElement> extends ChildrensElement<TChild> {
+export class Div<TChild extends UiElement = UiElement> extends ChildrensUiElement<TChild> {
     constructor(options?: DivOptions<TChild>) {
         super("div", "Div", options);
     }

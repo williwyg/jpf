@@ -23,10 +23,10 @@ export class Select<TItem, TValue> extends UiElement {
             this.element,
             {
                 options: this.options.items,
-                optionsCaption: this.options.itemsCaption,
-                optionsText: this.options.itemsText,
-                optionsValue: this.options.itemsValue,
-                value: ko.unwrap(this.options.value)
+                //optionsCaption: this.options.itemsCaption,
+                //optionsText: this.options.itemsText,
+                //optionsValue: this.options.itemsValue,
+                //value: ko.unwrap(this.options.value)
             }
         );
 
@@ -39,7 +39,7 @@ export class Select<TItem, TValue> extends UiElement {
 
         this.addEventListener("change", () => {
             if (ko.isObservable(optionsValue)) {
-                optionsValue(this.element.value);
+                //optionsValue(this.element.value);
             }
 
             if (this.options.onchange) {
