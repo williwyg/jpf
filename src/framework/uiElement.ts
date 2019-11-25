@@ -269,7 +269,7 @@ export abstract class UiElement {
     addEventListener<TType extends keyof HTMLElementEventMap>(
         type: TType,
         listener: (this: HTMLElement, event: HTMLElementEventMap[TType], uiElement: UiElement) => any,
-        options?: boolean | AddEventListenerOptions
+        options?: boolean | IAddEventListenerOptions
     ) {
         if (!this.options.eventListeners) {
             this.options.eventListeners = new Array();
