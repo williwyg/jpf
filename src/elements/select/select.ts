@@ -39,7 +39,7 @@ export class Select<TItem, TValue> extends UiElement {
 
         this.addEventListener("change", () => {
             if (ko.isObservable(optionsValue)) {
-                //optionsValue(this.element.value);
+                optionsValue(this.element.value as any as TValue);
             }
 
             if (this.options.onchange) {
