@@ -1,5 +1,5 @@
 ﻿import { UiElement } from "../../framework/uiElement";
-import { ChildrensUiElement, ChildrensUiElementOptions} from "../../framework/ChildrensUiElement";
+import { ChildrensUiElement, ChildrensUiElementOptions} from "../../framework/childrensUiElement";
 import * as types from "../../types/types";
 
 export interface FlexboxOptions<TItem extends UiElement = UiElement> extends ChildrensUiElementOptions<TItem> {

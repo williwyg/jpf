@@ -1,6 +1,6 @@
 ﻿import * as ko from "knockout";
 import { UiElement } from "../../framework/uiElement";
-import { ChildrensUiElement, ChildrensUiElementOptions} from "../../framework/ChildrensUiElement";
+import { ChildrensUiElement, ChildrensUiElementOptions} from "../../framework/childrensUiElement";
 
 export interface DivOptions<TChild extends UiElement = UiElement> extends ChildrensUiElementOptions<TChild> {
     text?: string | KnockoutObservable<string>;
