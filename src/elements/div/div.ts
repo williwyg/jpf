@@ -1,14 +1,13 @@
 ﻿import * as ko from "knockout";
-import { UiElement } from "../../framework/uiElement";
-import { ChildrensUiElement, ChildrensUiElementOptions} from "../../framework/childrensUiElement";
+import { UiElement , UiElementOptions} from "../../framework/uiElement";
 
-export interface DivOptions<TChild extends UiElement = UiElement> extends ChildrensUiElementOptions<TChild> {
+export interface DivOptions extends UiElementOptions {
     text?: string | KnockoutObservable<string>;
     isHtml?: boolean;
 }
 
-export class Div<TChild extends UiElement = UiElement> extends ChildrensUiElement<TChild> {
-    constructor(options?: DivOptions<TChild>) {
+export class Div extends UiElement {
+    constructor(options?: DivOptions) {
         super("div", "Div", options);
     }
 
@@ -25,5 +24,5 @@ export class Div<TChild extends UiElement = UiElement> extends ChildrensUiElemen
         }
     }
 
-    protected readonly options: DivOptions<TChild>;
+    protected readonly options: DivOptions;
 }

@@ -1,5 +1,5 @@
 /// <reference path="../../node_modules/@types/knockout/index.d.ts" />
-import * as types from "../types/types";
+import * as types from "./types";
 
 
 // ReSharper disable once InconsistentNaming

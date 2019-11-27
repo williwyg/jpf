@@ -1,8 +1,8 @@
 ﻿import * as ko from "knockout";
-import { Style, StyleObservable } from "../style/style";
+import { Style, StyleObservable } from "./style";
 import { Attribute } from "./attribute";
 import { EventListener, IEventListener, IAddEventListenerOptions } from "./eventListener";
-import * as types from "../types/types";
+import * as types from "./types";
 
 export interface IUiElement {
     render(): HTMLElement;
@@ -19,6 +19,7 @@ export interface UiElementOptions {
     style?: StyleObservable;
     selectable?: boolean;
     addControlToDataDictionary?: boolean;
+    children?: Array<IUiElement> | KnockoutObservableArray<IUiElement>;
 }
 
 export abstract class UiElement implements IUiElement {
@@ -29,11 +30,38 @@ export abstract class UiElement implements IUiElement {
         if (!this.options.elementType) {
             this.options.elementType = elementType;
         }
+
+        const children = this.options.children;
+        if (ko.isObservable(children)) {
+            children.subscribe(() => {
+                this.renderChildren();
+            });
+        }
     }
 
     //Private members
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
+    private renderChildren(): void {
+        if (this.element) {
+            //Remove all existing children
+            while (this.element.firstChild) {
+                this.element.removeChild(this.element.firstChild);
+            }
+
+            const children = ko.unwrap(this.options.children);
+            if (children) {
+                //Create a documentFragment to reduce browser repaints
+                const documentFragment = document.createDocumentFragment();
+                for (let child of children) {
+                    documentFragment.appendChild(child.render());
+                }
+
+                //Add the documentFragment to the dom
+                this.element.appendChild(documentFragment);
+            }
+        }
+    }
 
     //Protected members
     protected element: HTMLElement;
@@ -167,7 +195,7 @@ export abstract class UiElement implements IUiElement {
         return this.element;
     }
 
-    //Attribute members
+    //Public Attribute members
     getAttribute(attributeName: types.AttributeName): string | number {
         if (this.element) {
             return this.element.getAttribute(attributeName);
@@ -200,7 +228,7 @@ export abstract class UiElement implements IUiElement {
         }
     }
 
-    //Style members
+    //Public Style members
     getStyle(...cssProperties: Array<types.CssProperty>): Style {
         const style: Style = {};
         for (let cssProperty of cssProperties) {
@@ -278,16 +306,70 @@ export abstract class UiElement implements IUiElement {
         }
     }
 
-    //EventListener members
+    //Public EventListener members
     addEventListener<TType extends keyof HTMLElementEventMap>(
         type: TType,
-        listener: (this: HTMLElement, event: HTMLElementEventMap[TType], uiElement: UiElement) => any,
+        listener: (this: HTMLElement, event: HTMLElementEventMap[TType], uiElement: IUiElement) => any,
         options?: boolean | IAddEventListenerOptions
     ) {
         if (!this.options.eventListeners) {
             this.options.eventListeners = new Array();
         }
         this.options.eventListeners.push(new EventListener(type, listener, options));
+    }
+
+    //Public Children members
+    getChildren(): Array<IUiElement> {
+        return ko.unwrap(this.options.children);
+    }
+
+    setChildren(children: Array<IUiElement>): void {
+        this.options.children = children;
+        this.renderChildren();
+    }
+
+    addChild(newChild: IUiElement, referenceChild?: IUiElement): void {
+        const children = ko.unwrap(this.options.children);
+        if (referenceChild) {
+            //Find the index of the referenceItem
+            const index = children.indexOf(referenceChild);
+            if (index > -1) {
+                children.splice(index, 0, newChild);
+                if (this.element && referenceChild.getElement()) {
+                    this.element.insertBefore(newChild.render(), referenceChild.getElement());
+                }
+            }
+        } else {
+            children.push(newChild);
+            if (this.element) {
+                this.element.appendChild(newChild.render());
+            }
+        }
+    }
+
+    removeChild(element: IUiElement): void {
+        const children = ko.unwrap(this.options.children);
+        const index = children.indexOf(element);
+        if (index > -1) {
+            this.options.children.splice(index, 1);
+            if (this.element) {
+                this.element.removeChild(this.element.children[index]);
+            }
+        }
+    }
+
+    clear(): void {
+        const children = this.options.children;
+        if (ko.isObservable(children)) {
+            children([]);
+        } else {
+            this.options.children = [];
+            if (this.element) {
+                while (this.element.firstChild) {
+                    this.element.removeChild(this.element.firstChild);
+                }
+            }
+        }
     }
 
     readonly tagName: string;

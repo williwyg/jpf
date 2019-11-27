@@ -48,17 +48,14 @@
     <TypeScriptCompile Include="src\elements\label\label.ts" />
     <TypeScriptCompile Include="src\elements\flexbox\flexbox.ts" />
     <TypeScriptCompile Include="src\elements\span\span.ts" />
-    <TypeScriptCompile Include="src\framework\childrensUiElement.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="src\framework\eventListener.ts" />
     <TypeScriptCompile Include="src\elements\input\inputElement.ts" />
     <TypeScriptCompile Include="src\framework\attribute.ts" />
     <TypeScriptCompile Include="src\framework\uiElement.ts" />
     <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
     <TypeScriptCompile Include="src\index.ts" />
-    <TypeScriptCompile Include="src\style\style.ts" />
-    <TypeScriptCompile Include="src\types\types.ts" />
+    <TypeScriptCompile Include="src\framework\style.ts" />
+    <TypeScriptCompile Include="src\framework\types.ts" />
     <TypeScriptCompile Include="webpack.examples.base.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -88,8 +85,6 @@
     <Folder Include="src\elements\flexbox\" />
     <Folder Include="src\elements\span\" />
     <Folder Include="src\framework\" />
-    <Folder Include="src\style\" />
-    <Folder Include="src\types\" />
     <Compile Include="lib\jpf.js" />
     <Compile Include="lib\jpf.min.js" />
     <Compile Include="LICENSE" />
