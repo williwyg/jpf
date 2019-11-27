@@ -1,11 +1,11 @@
 ﻿import ko = require("knockout");
-import { UiElement, UiElementOptions } from "./uiElement";
+import { UiElement, UiElementOptions, IUiElement } from "./uiElement";
 
-export interface ChildrensUiElementOptions<TChild extends UiElement> extends UiElementOptions {
+export interface ChildrensUiElementOptions<TChild extends IUiElement> extends UiElementOptions {
     children?: Array<TChild> | KnockoutObservableArray<TChild>
 }
 
-export abstract class ChildrensUiElement<TChild extends UiElement> extends UiElement {
+export abstract class ChildrensUiElement<TChild extends IUiElement> extends UiElement {
     protected constructor(tagName: string, type: string, options?: ChildrensUiElementOptions<TChild>) {
         super(tagName, type, options);
 

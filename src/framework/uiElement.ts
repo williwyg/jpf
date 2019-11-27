@@ -4,6 +4,11 @@ import { Attribute } from "./attribute";
 import { EventListener, IEventListener, IAddEventListenerOptions } from "./eventListener";
 import * as types from "../types/types";
 
+export interface IUiElement {
+    render(): HTMLElement;
+    getElement(): HTMLElement;
+}
+
 export interface UiElementOptions {
     id?: string;
     elementType?: string;
@@ -16,7 +21,7 @@ export interface UiElementOptions {
     addControlToDataDictionary?: boolean;
 }
 
-export abstract class UiElement {
+export abstract class UiElement implements IUiElement {
     protected constructor(tagName: string, elementType: string, options?: UiElementOptions) {
         this.tagName = tagName;
         this.options = options || {};
