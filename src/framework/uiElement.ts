@@ -20,6 +20,7 @@ export interface UiElementOptions {
     selectable?: boolean;
     addControlToDataDictionary?: boolean;
     children?: Array<IUiElement> | KnockoutObservableArray<IUiElement>;
+    mutationObserverCallback?: MutationCallback;
 }
 
 export abstract class UiElement implements IUiElement {
@@ -37,9 +38,24 @@ export abstract class UiElement implements IUiElement {
                 this.renderChildren();
             });
         }
+
+        if (this.options.style) {
+            for (let styleProperty in Object.keys(this.options.style)) {
+                const styleValue = this.options.style[styleProperty];
+                this.style[styleProperty] = ko.unwrap(styleValue);
+                if (ko.isObservable(styleValue)) {
+                    this.addSubscription(styleValue, (newValue) => {
+                        this.setStyle({ [styleProperty]: newValue });
+                    }); 
+                }
+            }
+        }
     }
 
+    private mutationObserver: MutationObserver;
+
     //Private members
+    private style: Style = {};
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
     private renderChildren(): void {
@@ -62,8 +78,43 @@ export abstract class UiElement implements IUiElement {
             }
         }
     }
+    private initializeMutationObserver() {
+        if (this.knockoutSubscriptions.length > 0 || this.options.mutationObserverCallback)
+            //create an mutation observer to dispose all knockoutSubscriptions created by this UiElement when the element is removed from the dom
+            if (!this.mutationObserver) {
+                this.mutationObserver = new MutationObserver(
+                    (mutations: MutationRecord[], observer: MutationObserver) => {
+                        mutations.forEach((mutation) => {
+                            if (mutation.removedNodes) {
+                                mutation.removedNodes.forEach((removedNode) => {
+                                    if (removedNode === this.element) {
+                                        for (let knockoutSubscription of this.knockoutSubscriptions) {
+                                            knockoutSubscription.dispose();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        if (this.options.mutationObserverCallback) {
+                            this.options.mutationObserverCallback(mutations, observer);
+                        }
+                    }
+                );
+
+                this.mutationObserver.observe(
+                    this.element,
+                    {
+                        attributes: true,
+                        attributeOldValue: true
+                    }
+                );
+            }
+
+    }
 
     //Protected members
+    protected visible: boolean = true;
     protected element: HTMLElement;
     protected readonly options: UiElementOptions;
     protected build(): void {
@@ -76,7 +127,7 @@ export abstract class UiElement implements IUiElement {
         }
 
         const bindings = {
-            style: this.options.style,
+            style: this.style,
             attr: this.attributes
         }
 
@@ -162,14 +213,8 @@ export abstract class UiElement implements IUiElement {
                 }
             }
 
-            //create an mutation observer to dispose all knockoutSubscriptions created by this UiElement when the element is removed from the dom
-            new MutationObserver(
-                () => {
-                    for (let knockoutSubscription of this.knockoutSubscriptions) {
-                        knockoutSubscription.dispose();
-                    }
-                }
-            ).observe(this.element, { childList: true });
+            //Initialize the MutationObserver
+            this.initializeMutationObserver();
 
             //Return the fully functional html element
             return this.element;
@@ -232,8 +277,8 @@ export abstract class UiElement implements IUiElement {
     getStyle(...cssProperties: Array<types.CssProperty>): Style {
         const style: Style = {};
         for (let cssProperty of cssProperties) {
-            if (this.options.style[cssProperty]) {
-                style[cssProperty] = ko.unwrap(this.options.style[cssProperty]) as never;
+            if (this.style[cssProperty]) {
+                style[cssProperty] = this.style[cssProperty] as never;
             }
             else if (this.element) {
                 style[cssProperty] = this.element.style[cssProperty] as never;
@@ -242,31 +287,26 @@ export abstract class UiElement implements IUiElement {
         return style;
     }
     getStyleValue(cssProperty: types.CssProperty): any {
-        if (this.options.style[cssProperty]) {
-            return ko.unwrap(this.options.style[cssProperty]);
+        if (this.style[cssProperty]) {
+            return this.style[cssProperty];
         } else if (this.element) {
             return this.element.style[cssProperty];
         }
         return null;
     }
     setStyle(newStyle: Style, overwriteExisting?: boolean): void {
-        //Check of the style property has already been defined.
-        if (!this.options.style) {
-            this.options.style = {};
-        }
-
         for (let styleName in newStyle) {
-            if (this.options.style.hasOwnProperty(styleName)) {
+            if (this.style.hasOwnProperty(styleName)) {
                 if (!overwriteExisting) {
                     continue;
                 }
             }
             const newValue = newStyle[styleName];
-            const currentValue = this.options.style[styleName];
+            const currentValue = this.style[styleName];
             if (currentValue && ko.isObservable(currentValue)) {
                 currentValue(ko.unwrap(newValue));
             } else {
-                this.options.style[styleName] = newValue;
+                this.style[styleName] = newValue;
                 if (this.element) {
                     this.element.style[styleName] = newValue;
                 }
@@ -285,8 +325,8 @@ export abstract class UiElement implements IUiElement {
         }
 
         for (let cssProperty of styles) {
-            if (this.options.style && this.options.style.hasOwnProperty(cssProperty)) {
-                delete this.options.style[cssProperty];
+            if (this.style && this.style.hasOwnProperty(cssProperty)) {
+                delete this.style[cssProperty];
             }
             if (this.element) {
                 this.element.style[cssProperty] = undefined;
@@ -373,6 +413,6 @@ export abstract class UiElement implements IUiElement {
     }
 
     readonly tagName: string;
-    readonly visible: boolean = true;
+
     readonly attributes: { [index: string]: string | number | KnockoutObservable<string | number> } = {};
 }
