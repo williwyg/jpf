@@ -208,7 +208,7 @@ export abstract class UiElement implements IUiElement {
                             }
 
                         }
-                        eventListener.listener.call(null, event, this);
+                        eventListener.listener.call(this, event);
                     });
                 });
             }
@@ -349,7 +349,7 @@ export abstract class UiElement implements IUiElement {
     //Public EventListener members
     addEventListener<TType extends keyof HTMLElementEventMap>(
         type: TType,
-        listener: (this: HTMLElement, event: HTMLElementEventMap[TType], uiElement: IUiElement) => any,
+        listener: (this: UiElement, event: HTMLElementEventMap[TType]) => any,
         options?: boolean | IAddEventListenerOptions
     ) {
         if (!this.options.eventListeners) {
