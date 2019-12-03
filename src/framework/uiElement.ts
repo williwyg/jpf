@@ -190,7 +190,7 @@ export abstract class UiElement implements IUiElement {
 
             //Add the eventListeners to the element
             if (this.options.eventListeners) {
-                for (let eventListener of this.options.eventListeners) {
+                this.options.eventListeners.forEach((eventListener) => {
                     this.element.addEventListener(eventListener.type, (event: Event) => {
                         if (event instanceof KeyboardEvent) {
                             const options = eventListener.options as IAddEventListenerOptions;
@@ -210,7 +210,7 @@ export abstract class UiElement implements IUiElement {
                         }
                         eventListener.listener.call(null, event, this);
                     });
-                }
+                });
             }
 
             //Initialize the MutationObserver
