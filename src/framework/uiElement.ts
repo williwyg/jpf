@@ -295,22 +295,24 @@ export abstract class UiElement implements IUiElement {
         return null;
     }
     setStyle(newStyle: Style, overwriteExisting?: boolean): void {
-        for (let styleName in newStyle) {
-            if (this.style.hasOwnProperty(styleName)) {
-                if (!overwriteExisting) {
-                    continue;
+        if (newStyle) {
+            Object.keys(newStyle).forEach((key: string) => {
+                if (this.style.hasOwnProperty(key)) {
+                    if (!overwriteExisting) {
+                        return;
+                    }
                 }
-            }
-            const newValue = newStyle[styleName];
-            const currentValue = this.style[styleName];
-            if (currentValue && ko.isObservable(currentValue)) {
-                currentValue(ko.unwrap(newValue));
-            } else {
-                this.style[styleName] = newValue;
-                if (this.element) {
-                    this.element.style[styleName] = newValue;
+                const newValue = newStyle[key];
+                const currentValue = this.style[key];
+                if (currentValue && ko.isObservable(currentValue)) {
+                    currentValue(ko.unwrap(newValue));
+                } else {
+                    this.style[key] = newValue;
+                    if (this.element) {
+                        this.element.style[key] = newValue;
+                    }
                 }
-            }
+            });
         }
     }
     deleteStyle(style: types.CssProperty | Array<types.CssProperty> | Style): void {
