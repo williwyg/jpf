@@ -43,11 +43,14 @@ export abstract class UiElement implements IUiElement {
             });
         }
 
-        const children = this.options.children;
-        if (ko.isObservable(children)) {
-            children.subscribe(() => {
-                this.renderChildren();
-            });
+        if (this.options.children) {
+            const children = this.options.children;
+            this.children = ko.unwrap(children);
+            if (ko.isObservable(children)) {
+                children.subscribe((newChildren) => {
+                    this.setChildren(newChildren);
+                });
+            }
         }
 
         if (this.options.style) {
@@ -57,7 +60,7 @@ export abstract class UiElement implements IUiElement {
                 if (ko.isObservable(styleValue)) {
                     this.addSubscription(styleValue, (newValue) => {
                         this.setStyle({ [styleProperty]: newValue });
-                    }); 
+                    });
                 }
             }
         }
@@ -67,28 +70,10 @@ export abstract class UiElement implements IUiElement {
 
     //Private members
     private style: Style = {};
+    private children = new Array<IUiElement>();
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
-    private renderChildren(): void {
-        if (this.element) {
-            //Remove all existing children
-            while (this.element.firstChild) {
-                this.element.removeChild(this.element.firstChild);
-            }
 
-            const children = ko.unwrap(this.options.children);
-            if (children) {
-                //Create a documentFragment to reduce browser repaints
-                const documentFragment = document.createDocumentFragment();
-                for (let child of children) {
-                    documentFragment.appendChild(child.render());
-                }
-
-                //Add the documentFragment to the dom
-                this.element.appendChild(documentFragment);
-            }
-        }
-    }
     private initializeMutationObserver() {
         if (this.knockoutSubscriptions.length > 0 || this.options.mutationObserverCallback)
             //create an mutation observer to dispose all knockoutSubscriptions created by this UiElement when the element is removed from the dom
@@ -373,27 +358,53 @@ export abstract class UiElement implements IUiElement {
 
     //Public Children members
     getChildren(): Array<IUiElement> {
-        return ko.unwrap(this.options.children);
+        return this.children;
     }
 
-    setChildren(children: Array<IUiElement>): void {
-        this.options.children = children;
-        this.renderChildren();
+    setChildren(children: Array<IUiElement>, replace: boolean = true): void {
+        if (!children) {
+            children = [];
+        }
+
+        if (replace) {
+            this.children = children;
+            if (this.element) {
+                //Remove all existing children
+                while (this.element.firstChild) {
+                    this.element.removeChild(this.element.firstChild);
+                }
+            }
+        } else {
+            this.children.push(...children);
+        }
+
+        if (this.element) {
+            if (children.length > 0) {
+                //Create a documentFragment to reduce browser repaints
+                const documentFragment = document.createDocumentFragment();
+                for (let child of children) {
+                    documentFragment.appendChild(child.render());
+                }
+
+                //Add the documentFragment to the dom
+                this.element.appendChild(documentFragment);
+            }
+        }
     }
 
     addChild(newChild: IUiElement, referenceChild?: IUiElement): void {
-        const children = ko.unwrap(this.options.children);
+        ;
         if (referenceChild) {
             //Find the index of the referenceItem
-            const index = children.indexOf(referenceChild);
+            const index = this.children.indexOf(referenceChild);
             if (index > -1) {
-                children.splice(index, 0, newChild);
+                this.children.splice(index, 0, newChild);
                 if (this.element && referenceChild.getElement()) {
                     this.element.insertBefore(newChild.render(), referenceChild.getElement());
                 }
             }
         } else {
-            children.push(newChild);
+            this.children.push(newChild);
             if (this.element) {
                 this.element.appendChild(newChild.render());
             }
@@ -401,10 +412,9 @@ export abstract class UiElement implements IUiElement {
     }
 
     removeChild(element: IUiElement): void {
-        const children = ko.unwrap(this.options.children);
-        const index = children.indexOf(element);
+        const index = this.children.indexOf(element);
         if (index > -1) {
-            this.options.children.splice(index, 1);
+            this.children.splice(index, 1);
             if (this.element) {
                 this.element.removeChild(this.element.children[index]);
             }
@@ -412,18 +422,15 @@ export abstract class UiElement implements IUiElement {
     }
 
     clear(): void {
-        const children = this.options.children;
-        if (ko.isObservable(children)) {
-            children([]);
-        } else {
-            this.options.children = [];
-            if (this.element) {
-                while (this.element.firstChild) {
-                    this.element.removeChild(this.element.firstChild);
-                }
+        this.children = [];
+
+        if (this.element) {
+            while (this.element.firstChild) {
+                this.element.removeChild(this.element.firstChild);
             }
         }
     }
+
     focus(options?: FocusOptions): void {
         if (this.element) {
             this.element.focus(options);
