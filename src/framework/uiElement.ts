@@ -70,7 +70,7 @@ export abstract class UiElement implements IUiElement {
 
     //Private members
     private style: Style = {};
-    private children: Array<IUiElement>;
+    private children = new Array<IUiElement>();
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
 
@@ -400,7 +400,6 @@ export abstract class UiElement implements IUiElement {
     }
 
     addChild(newChild: IUiElement, referenceChild?: IUiElement): void {
-        ;
         if (referenceChild) {
             //Find the index of the referenceItem
             const index = this.children.indexOf(referenceChild);
