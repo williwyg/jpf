@@ -70,7 +70,7 @@ export abstract class UiElement implements IUiElement {
 
     //Private members
     private style: Style = {};
-    private children = new Array<IUiElement>();
+    private children: Array<IUiElement>;
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
 
@@ -146,6 +146,13 @@ export abstract class UiElement implements IUiElement {
             this.element.style["-webkit-user-select"] = "none";
             this.element.style["-moz-user-select"] = "none";
             this.element.style["-ms-user-select"] = "none";
+        }
+
+        //Render the children
+        if (this.children) {
+            for (let child of this.children) {
+                this.element.appendChild(child.render());
+            }
         }
 
         //Set the initial visibility of the element
