@@ -32,6 +32,17 @@ export abstract class UiElement implements IUiElement {
             this.options.elementType = elementType;
         }
 
+        if (this.options.attributes) {
+            this.options.attributes.forEach((attribute) => {
+                this.attributes[attribute.name] = ko.unwrap(attribute.value);
+                if (ko.isObservable(attribute.value)) {
+                    attribute.value.subscribe((newValue) => {
+                        this.setAttribute(attribute.name, newValue);
+                    });
+                }
+            });
+        }
+
         const children = this.options.children;
         if (ko.isObservable(children)) {
             children.subscribe(() => {
@@ -248,7 +259,7 @@ export abstract class UiElement implements IUiElement {
             return ko.unwrap<string | number>(this.attributes[attributeName]);
         }
     }
-    setAttribute(name: types.AttributeName, value: string | number | KnockoutObservable<string | number>): void {
+    setAttribute(name: types.AttributeName, value: string | number): void {
         const currentAttribute = this.attributes[name];
         let applyBindings = false;
         if (currentAttribute) {
@@ -413,8 +424,13 @@ export abstract class UiElement implements IUiElement {
             }
         }
     }
+    focus(options?: FocusOptions): void {
+        if (this.element) {
+            this.element.focus(options);
+        }
+    }
 
     readonly tagName: string;
 
-    readonly attributes: { [index: string]: string | number | KnockoutObservable<string | number> } = {};
+    readonly attributes: { [index: string]: string | number } = {};
 }
