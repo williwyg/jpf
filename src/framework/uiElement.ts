@@ -436,6 +436,16 @@ export abstract class UiElement implements IUiElement {
             this.element.focus(options);
         }
     }
+    focusPreviousSibling(options?: FocusOptions) {
+        if (this.element && this.element.previousElementSibling && this.element.nextSibling instanceof HTMLElement) {
+            (this.element.nextSibling as HTMLElement).focus(options);
+        }
+    }
+    focusNextSibling(options?: FocusOptions) {
+        if (this.element && this.element.previousElementSibling && this.element.nextSibling instanceof HTMLElement) {
+            (this.element.nextSibling as HTMLElement).focus(options);
+        }
+    }
 
     readonly tagName: string;
 
