@@ -169,7 +169,7 @@ export abstract class UiElement implements IUiElement {
             if (!this.element.data) {
                 this.element.data = {};
             }
-            this.element.data.frameworkElement = this;
+            this.element.data.uiElement = this;
         }
     }
     protected addSubscription(observable: KnockoutObservable<any>, callback: (newValue) => void) {
