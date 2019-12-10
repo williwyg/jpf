@@ -318,6 +318,9 @@ export abstract class UiElement implements IUiElement {
             });
         }
     }
+    setStyleNonStandard(name: string, value: any, overwriteExisting?: boolean) {
+        this.setStyle({[name]: value}, overwriteExisting);
+    }
     deleteStyle(style: types.CssProperty | Array<types.CssProperty> | Style): void {
         let styles: Array<string>;
         if (style instanceof Array) {

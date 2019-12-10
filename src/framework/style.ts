@@ -1482,9 +1482,6 @@ export interface StyleObservable {
      * The voice-volume property sets the volume for spoken content in speech media. It replaces the deprecated volume property.
      */
     voiceVolume?: any | KnockoutObservable<any>;
-
-    ["-webkit-overflow-scrolling"]?: types.WebKitOverflowScrolling | KnockoutObservable<types.WebKitOverflowScrolling>;
-
     /**
      * The white-space property controls whether and how white space inside the element is collapsed, and whether lines may wrap at unforced "soft wrap" opportunities.
      * @see https://developer.mozilla.org/en/docs/Web/CSS/white-space
@@ -3035,9 +3032,6 @@ export interface Style {
      * The voice-volume property sets the volume for spoken content in speech media. It replaces the deprecated volume property.
      */
     voiceVolume?: any;
-
-    ["-webkit-overflow-scrolling"]?: types.WebKitOverflowScrolling;
-
     /**
      * The white-space property controls whether and how white space inside the element is collapsed, and whether lines may wrap at unforced "soft wrap" opportunities.
      * @see https://developer.mozilla.org/en/docs/Web/CSS/white-space
