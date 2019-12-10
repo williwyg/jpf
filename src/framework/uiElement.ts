@@ -427,7 +427,7 @@ export abstract class UiElement implements IUiElement {
         }
     }
 
-    clear(): void {
+    empty(): void {
         this.children = [];
 
         if (this.element) {
