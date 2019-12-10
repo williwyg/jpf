@@ -452,7 +452,16 @@ export abstract class UiElement implements IUiElement {
             (this.element.nextSibling as HTMLElement).focus(options);
         }
     }
-
+    setInnerText(innerText: string) {
+        if (this.element) {
+            this.element.innerText = innerText;
+        }
+    }
+    setInnerHtml(innerHtml: string) {
+        if (this.element) {
+            this.element.innerHTML = innerHtml;
+        }
+    }
     readonly tagName: string;
 
     readonly attributes: { [index: string]: string | number } = {};
