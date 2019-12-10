@@ -31,7 +31,7 @@ export type CssProperty = "alignContent" | "alignItems" | "alignSelf" | "alignme
     "textTransform" | "textUnderlinePosition" | "textUnderlineStyle" | "top" | "touchAction" | "transform" | "transformOrigin" | "transformOriginZ" | "transformStyle" |
     "transition" | "transitionDelay" | "transitionDuration" | "transitionProperty" | "transitionTimingFunction" | "unicodeBidi" | "unicodeRange" | "userFocus" | "userInput" |
     "userSelect" | "verticalAlign" | "visibility" | "voiceBalance" | "voiceDuration" | "voiceFamily" | "voicePitch" | "voiceRange" | "voiceRate" | "voiceStress" | "voiceVolume" |
-    "whiteSpace" | "whiteSpaceTreatment" | "widows" | "width" | "willChange" | "wordBreak" | "wordSpacing" | "wordWrap" | "wrapFlow" | "wrapMargin" | "wrapOption" | "writingMode" | "zIndex" | "zoom";
+    "whiteSpace" | "whiteSpaceTreatment" | "widows" | "width" | "willChange" | "wordBreak" | "wordSpacing" | "wordWrap" | "wrapFlow" | "wrapMargin" | "wrapOption" | "writingMode" | "zIndex" | "zoom" |string;
 
 /*
 * Value of a CSS Property.  Could be a single value or a list of fallbacks
@@ -131,6 +131,9 @@ export type CssBoxAlignmentLeftRightWithOverflow = "left" | "right" | "unsafe le
   * @see https://www.w3.org/TR/css-align-3/#propdef-justify-content
   */
 export type JustifyContent = "normal" | CssBoxAlignmentContentDistribution | CssBoxAlignmentContentPositionWithOverflow | "left" | "right";
+
+export type WebKitOverflowScrolling = "auto" | "touch";
+
 /**
   * Type for align-content in flex or grid
   * @see https://www.w3.org/TR/css-align-3/#propdef-align-content
