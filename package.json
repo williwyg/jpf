@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.120",
+  "version": "2.0.121",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -36,7 +36,7 @@
     "webpackLibProduction": "webpack --config webpack.lib.production.ts",
     "webpackExamples": "webpack --config webpack.examples.ts",
     "npmInstall": "npm install",
-    "npmPublish": "npm publish",
+    "npmPublish": "npm run webpackLibDevelopment & npm run webpackLibProduction & npm publish",
     "npmAudit": "npm audit",
     "npmAuditFix": "npm audit fix",
     "npmAuditFixForce": "npm audit fix --force"

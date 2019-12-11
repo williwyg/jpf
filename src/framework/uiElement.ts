@@ -18,6 +18,8 @@ export interface UiElementOptions {
     eventListeners?: Array<IEventListener>;
     style?: StyleObservable;
     selectable?: boolean;
+    innerText?: string | KnockoutObservable<string>;
+    innerHtml?: string| KnockoutObservable<string>;
     addControlToDataDictionary?: boolean;
     children?: Array<IUiElement> | KnockoutObservableArray<IUiElement>;
     mutationObserverCallback?: MutationCallback;
@@ -32,6 +34,26 @@ export abstract class UiElement implements IUiElement {
             this.options.elementType = elementType;
         }
 
+        if (this.options.innerText) {
+            const innerText = this.options.innerText;
+            this.innerText = ko.unwrap(innerText);
+            if (ko.isObservable(innerText)) {
+                innerText.subscribe((newValue: string) => {
+                    this.setInnerText(newValue);
+                });
+            }
+        }
+
+        if (this.options.innerHtml) {
+            const innerHtml = this.options.innerHtml;
+            this.innerHtml = ko.unwrap(innerHtml);
+            if (ko.isObservable(innerHtml)) {
+                innerHtml.subscribe((newValue: string) => {
+                    this.setInnerHtml(newValue);
+                });
+            }
+        }
+        
         if (this.options.attributes) {
             this.options.attributes.forEach((attribute) => {
                 this.attributes[attribute.name] = ko.unwrap(attribute.value);
@@ -70,6 +92,8 @@ export abstract class UiElement implements IUiElement {
 
     //Private members
     private style: Style = {};
+    private innerText: string;
+    private innerHtml: string;
     private children = new Array<IUiElement>();
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
@@ -124,7 +148,9 @@ export abstract class UiElement implements IUiElement {
 
         const bindings = {
             style: this.style,
-            attr: this.attributes
+            attr: this.attributes,
+            text: this.innerText,
+            html: this.innerHtml
         }
 
         if (this.options.className) {
@@ -456,11 +482,13 @@ export abstract class UiElement implements IUiElement {
         }
     }
     setInnerText(innerText: string) {
+        this.innerText = innerText;
         if (this.element) {
             this.element.innerText = innerText;
         }
     }
     setInnerHtml(innerHtml: string) {
+        this.innerText = innerHtml;
         if (this.element) {
             this.element.innerHTML = innerHtml;
         }

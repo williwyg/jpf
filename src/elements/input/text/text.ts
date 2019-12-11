@@ -14,7 +14,7 @@ export class Text extends InputElement<string> {
 
         const optionsText = this.options.text;
 
-        this.innerText = ko.unwrap(optionsText);
+        this.internalText = ko.unwrap(optionsText);
         if (ko.isObservable(optionsText)) {
             optionsText.subscribe((newValue: string) => {
                 this.innerSetText(newValue, true, false, false);
@@ -22,14 +22,14 @@ export class Text extends InputElement<string> {
         }
     }
     //#region Private members
-    private innerText: string;
+    private internalText: string;
     private innerSetText(text: string, setElement: boolean, triggerOnchange: boolean, setObservable: boolean) {
-        if (this.options.checkValidity && !this.options.checkValidity(this.innerText, text)) {
-            text = this.innerText;
+        if (this.options.checkValidity && !this.options.checkValidity(this.internalText, text)) {
+            text = this.internalText;
             setElement = true;
             triggerOnchange = false;
         }
-        this.innerText = text;
+        this.internalText = text;
 
         if (setElement && this.element) {
             (this.element as HTMLInputElement).value = text;
@@ -53,8 +53,8 @@ export class Text extends InputElement<string> {
     protected build() {
         super.build();
 
-        if (this.innerText) {
-            this.element.value = this.innerText;
+        if (this.internalText) {
+            this.element.value = this.internalText;
         }
 
         if (this.options.valueUpdateMode === "OnInput") {
@@ -75,7 +75,7 @@ export class Text extends InputElement<string> {
 
     //#region Public members
     getText() {
-        return this.innerText;
+        return this.internalText;
     }
 
     setText(text: string, triggerChange: boolean = false) {
