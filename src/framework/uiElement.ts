@@ -25,10 +25,10 @@ export interface UiElementOptions {
     mutationObserverCallback?: MutationCallback;
 }
 
-export abstract class UiElement implements IUiElement {
-    protected constructor(tagName: string, elementType: string, options?: UiElementOptions) {
+export abstract class UiElement<TOptions extends UiElementOptions= UiElementOptions> implements IUiElement {
+    protected constructor(tagName: string, elementType: string, options?: TOptions) {
         this.tagName = tagName;
-        this.options = options || {};
+        this.options = options || {} as TOptions;
 
         if (!this.options.elementType) {
             this.options.elementType = elementType;
@@ -130,7 +130,7 @@ export abstract class UiElement implements IUiElement {
     //Protected members
     protected visible: boolean = true;
     protected element: HTMLElement;
-    protected readonly options: UiElementOptions;
+    protected readonly options: TOptions;
     protected build(): void {
         if (this.options.id) {
             this.element.id = this.options.id;

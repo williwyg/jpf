@@ -6,7 +6,7 @@ export interface ButtonOptions extends UiElementOptions {
     disabled?: boolean | KnockoutObservable<boolean>;
 }
 
-export class Button extends UiElement {
+export class Button extends UiElement<ButtonOptions> {
     constructor(options?: ButtonOptions) {
         super("button", "Button", options);
     }
@@ -25,6 +25,4 @@ export class Button extends UiElement {
             ko.applyBindingsToNode(this.element, { attr: { disabled: this.options.disabled } });
         }
     }
-
-    protected readonly  options: ButtonOptions;
 }

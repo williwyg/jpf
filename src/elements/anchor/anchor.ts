@@ -2,11 +2,10 @@
 import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 export interface AnchorOptions extends UiElementOptions {
-    text?: string | KnockoutObservable<string>;
     href?: string | KnockoutObservable<string>;
 }
 
-export class Anchor extends UiElement {
+export class Anchor extends UiElement<AnchorOptions> {
     constructor(options?: AnchorOptions) {
         super("a", "Anchor", options);
     }
@@ -17,13 +16,10 @@ export class Anchor extends UiElement {
         ko.applyBindingsToNode(
             this.element,
             {
-                text: this.options.text,
                 attr: {
                     href: this.options.href
                 }
             }
         );
     }
-
-    protected readonly options: AnchorOptions;
 }
