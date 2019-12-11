@@ -19,7 +19,7 @@ export interface UiElementOptions {
     style?: StyleObservable;
     selectable?: boolean;
     innerText?: string | KnockoutObservable<string>;
-    innerHtml?: string| KnockoutObservable<string>;
+    innerTextIsHtml?: boolean;
     addControlToDataDictionary?: boolean;
     children?: Array<IUiElement> | KnockoutObservableArray<IUiElement>;
     mutationObserverCallback?: MutationCallback;
@@ -39,21 +39,15 @@ export abstract class UiElement implements IUiElement {
             this.innerText = ko.unwrap(innerText);
             if (ko.isObservable(innerText)) {
                 innerText.subscribe((newValue: string) => {
-                    this.setInnerText(newValue);
+                    if (this.innerTextIsHtml) {
+                        setInterval(newValue);
+                    } else {
+                        this.setInnerText(newValue);
+                    }
                 });
             }
         }
 
-        if (this.options.innerHtml) {
-            const innerHtml = this.options.innerHtml;
-            this.innerHtml = ko.unwrap(innerHtml);
-            if (ko.isObservable(innerHtml)) {
-                innerHtml.subscribe((newValue: string) => {
-                    this.setInnerHtml(newValue);
-                });
-            }
-        }
-        
         if (this.options.attributes) {
             this.options.attributes.forEach((attribute) => {
                 this.attributes[attribute.name] = ko.unwrap(attribute.value);
@@ -93,7 +87,7 @@ export abstract class UiElement implements IUiElement {
     //Private members
     private style: Style = {};
     private innerText: string;
-    private innerHtml: string;
+    private innerTextIsHtml: boolean = false;
     private children = new Array<IUiElement>();
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
@@ -149,8 +143,14 @@ export abstract class UiElement implements IUiElement {
         const bindings = {
             style: this.style,
             attr: this.attributes,
-            text: this.innerText,
-            html: this.innerHtml
+        }
+
+        if (this.innerText) {
+            if (this.innerTextIsHtml) {
+                bindings["html"] = this.innerText;
+            } else {
+                bindings["text"] = this.innerText;
+            }
         }
 
         if (this.options.className) {
@@ -345,7 +345,7 @@ export abstract class UiElement implements IUiElement {
         }
     }
     setStyleNonStandard(name: string, value: any, overwriteExisting?: boolean) {
-        this.setStyle({[name]: value}, overwriteExisting);
+        this.setStyle({ [name]: value }, overwriteExisting);
     }
     deleteStyle(style: types.CssProperty | Array<types.CssProperty> | Style): void {
         let styles: Array<string>;
