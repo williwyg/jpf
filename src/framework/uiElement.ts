@@ -34,6 +34,8 @@ export abstract class UiElement<TOptions extends UiElementOptions= UiElementOpti
             this.options.elementType = elementType;
         }
 
+        this.innerTextIsHtml = this.options.innerTextIsHtml;
+
         if (this.options.innerText) {
             const innerText = this.options.innerText;
             this.innerText = ko.unwrap(innerText);
