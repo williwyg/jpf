@@ -54,7 +54,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             this.options.attributes.forEach((attribute) => {
                 this.attributes[attribute.name] = ko.unwrap(attribute.value);
                 if (ko.isObservable(attribute.value)) {
-                    attribute.value.subscribe((newValue) => {
+                    this.addSubscription(attribute.value, (newValue) => {
                         this.setAttribute(attribute.name, newValue);
                     });
                 }
@@ -77,7 +77,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                 this.style[styleProperty] = ko.unwrap(styleValue);
                 if (ko.isObservable(styleValue)) {
                     this.addSubscription(styleValue, (newValue) => {
-                        this.setStyle({ [styleProperty]: newValue });
+                        this.setStyle({ [styleProperty]: newValue } as any as Style);
                     });
                 }
             }
@@ -87,6 +87,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     private mutationObserver: MutationObserver;
 
     //Private members
+    private attributes: { [index: string]: string | number } = {};
     private style: Style = {};
     private innerText: string;
     private innerTextIsHtml: boolean = false;
@@ -370,7 +371,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
     }
     setStyleNonStandard(name: string, value: any, overwriteExisting?: boolean) {
-        this.setStyle({ [name]: value }, overwriteExisting);
+        this.setStyle({ [name]: value } as any as Style, overwriteExisting);
     }
     deleteStyle(style: types.CssProperty | Array<types.CssProperty> | Style): void {
         let styles: Array<string>;
@@ -493,5 +494,5 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
 
     readonly tagName: string;
 
-    readonly attributes: { [index: string]: string | number } = {};
+    
 }
