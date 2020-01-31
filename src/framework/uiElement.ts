@@ -25,7 +25,7 @@ export interface UiElementOptions {
     mutationObserverCallback?: MutationCallback;
 }
 
-export abstract class UiElement<TOptions extends UiElementOptions= UiElementOptions> implements IUiElement {
+export abstract class UiElement<TOptions extends UiElementOptions = UiElementOptions> implements IUiElement {
     protected constructor(tagName: string, elementType: string, options?: TOptions) {
         this.tagName = tagName;
         this.options = options || {} as TOptions;
@@ -171,9 +171,6 @@ export abstract class UiElement<TOptions extends UiElementOptions= UiElementOpti
         if (this.options.selectable === false) {
             this.element.addEventListener("selectstart", () => { return false; });
             this.element.style.userSelect = "none";
-            this.element.style["-webkit-user-select"] = "none";
-            this.element.style["-moz-user-select"] = "none";
-            this.element.style["-ms-user-select"] = "none";
         }
 
         //Render the children
@@ -266,9 +263,35 @@ export abstract class UiElement<TOptions extends UiElementOptions= UiElementOpti
         }
     }
     handleMessage(message: object): void { }
-
     getElement(): HTMLElement {
         return this.element;
+    }
+    focus(options?: FocusOptions): void {
+        if (this.element) {
+            this.element.focus(options);
+        }
+    }
+    focusPreviousSibling(options?: FocusOptions) {
+        if (this.element && this.element.previousElementSibling && this.element.nextSibling instanceof HTMLElement) {
+            (this.element.nextSibling as HTMLElement).focus(options);
+        }
+    }
+    focusNextSibling(options?: FocusOptions) {
+        if (this.element && this.element.previousElementSibling && this.element.nextSibling instanceof HTMLElement) {
+            (this.element.nextSibling as HTMLElement).focus(options);
+        }
+    }
+    setInnerText(innerText: string) {
+        this.innerText = innerText;
+        if (this.element) {
+            this.element.innerText = innerText;
+        }
+    }
+    setInnerHtml(innerHtml: string) {
+        this.innerText = innerHtml;
+        if (this.element) {
+            this.element.innerHTML = innerHtml;
+        }
     }
 
     //Public Attribute members
@@ -468,33 +491,6 @@ export abstract class UiElement<TOptions extends UiElementOptions= UiElementOpti
         }
     }
 
-    focus(options?: FocusOptions): void {
-        if (this.element) {
-            this.element.focus(options);
-        }
-    }
-    focusPreviousSibling(options?: FocusOptions) {
-        if (this.element && this.element.previousElementSibling && this.element.nextSibling instanceof HTMLElement) {
-            (this.element.nextSibling as HTMLElement).focus(options);
-        }
-    }
-    focusNextSibling(options?: FocusOptions) {
-        if (this.element && this.element.previousElementSibling && this.element.nextSibling instanceof HTMLElement) {
-            (this.element.nextSibling as HTMLElement).focus(options);
-        }
-    }
-    setInnerText(innerText: string) {
-        this.innerText = innerText;
-        if (this.element) {
-            this.element.innerText = innerText;
-        }
-    }
-    setInnerHtml(innerHtml: string) {
-        this.innerText = innerHtml;
-        if (this.element) {
-            this.element.innerHTML = innerHtml;
-        }
-    }
     readonly tagName: string;
 
     readonly attributes: { [index: string]: string | number } = {};

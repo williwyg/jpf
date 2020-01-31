@@ -22,11 +22,7 @@ export class Select<TItem, TValue> extends UiElement {
         ko.applyBindingsToNode(
             this.element,
             {
-                options: this.options.items,
-                //optionsCaption: this.options.itemsCaption,
-                //optionsText: this.options.itemsText,
-                //optionsValue: this.options.itemsValue,
-                //value: ko.unwrap(this.options.value)
+                options: this.options.items
             }
         );
 

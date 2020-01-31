@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ac0515fc-6a73-4c4e-a08c-52950ce56a58}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile>
     </StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
@@ -30,9 +30,6 @@
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
-    <TypeScriptCompile Include="examples\example1\example.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="src\elements\button\button.ts" />
     <TypeScriptCompile Include="src\elements\div\div.ts" />
     <TypeScriptCompile Include="src\elements\anchor\anchor.ts" />
@@ -65,9 +62,7 @@
     <TypeScriptCompile Include="webpack.lib.development.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="examples\example1\" />
     <Folder Include="lib\" />
-    <Folder Include="examples\" />
     <Folder Include="src\" />
     <Folder Include="src\elements\" />
     <Folder Include="src\elements\button\" />

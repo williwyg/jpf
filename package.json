@@ -22,7 +22,7 @@
     "url": "https://github.com/williwyg/jpf"
   },
   "main": "lib/jpf.js",
-  "types": "declarations/src/index.d.ts",
+  "types": "declarations/index.d.ts",
   "files": [
     "declarations",
     "lib",
