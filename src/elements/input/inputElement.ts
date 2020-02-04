@@ -12,14 +12,12 @@ export interface InputElementValidityCheckOptions<TInput> {
     checkValidity?: (oldValue: TInput, newValue: TInput) => boolean;
 }
 
-export class InputElement<TInput> extends UiElement {
-    constructor(elementType: string, inputType: InputElementType, options?: InputElementOptions<TInput>) {
+export class InputElement<TInput, TOptions extends InputElementOptions<TInput> = InputElementOptions<TInput>> extends UiElement<TOptions> {
+    constructor(elementType: string, inputType: InputElementType, options?: TOptions) {
         super("input", elementType, options);
         this.inputType = inputType;
     }
 
-    //Protected members
-    protected readonly options: InputElementOptions<TInput>;
     protected build() {
         super.build();
 

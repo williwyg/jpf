@@ -6,7 +6,7 @@ export interface DivOptions extends UiElementOptions {
     isHtml?: boolean;
 }
 
-export class Div extends UiElement {
+export class Div extends UiElement<DivOptions> {
     constructor(options?: DivOptions) {
         super("div", "Div", options);
     }
@@ -23,6 +23,4 @@ export class Div extends UiElement {
             }
         }
     }
-
-    protected readonly options: DivOptions;
 }

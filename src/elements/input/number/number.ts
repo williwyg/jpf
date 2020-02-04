@@ -8,7 +8,7 @@ export interface NumberOptions extends InputElementOptions<number>, InputElement
 
 export type NumberValueUpdateMode = "OnInput" | "OnChange";
 
-export class Number extends InputElement<number> {
+export class Number extends InputElement<number, NumberOptions> {
     constructor(options?: NumberOptions, elementType: string = "InputNumber", inputElementType: InputElementType = "number") {
         super(elementType, inputElementType, options);
     }
@@ -41,7 +41,6 @@ export class Number extends InputElement<number> {
     }
 
     //Protected members
-    protected readonly options: NumberOptions;
     protected build() {
         super.build();
 

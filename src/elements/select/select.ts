@@ -9,22 +9,25 @@ export interface SelectOptions<TItem, TValue> extends UiElementOptions {
     onchange?: (value: TValue) => void;
 }
 
-export class Select<TItem, TValue> extends UiElement {
+export class Select<TItem, TValue> extends UiElement<SelectOptions<TItem, TValue>> {
     constructor(options?: SelectOptions<TItem, TValue>) {
         super("select", "Select", options);
     }
 
     //Protected members
-    protected readonly options: SelectOptions<TItem, TValue>;
     protected build() {
         super.build();
 
-        ko.applyBindingsToNode(
-            this.element,
-            {
-                options: this.options.items
+        const items = ko.unwrap(this.options.items);
+        for (let  item of items) {
+            const option = document.createElement("option");
+            const value = this.options.valueFunction(item);
+            if (value) {
+                option.value = value.toString();
             }
-        );
+            option.text = this.options.textFunction(item);
+            this.element.appendChild(option);
+        }
 
         var optionsValue = this.options.selectedValue;
         if (ko.isObservable(optionsValue)) {
@@ -34,12 +37,14 @@ export class Select<TItem, TValue> extends UiElement {
         }
 
         this.addEventListener("change", () => {
+            var selectedItem = this.options.items[this.element.selectedIndex];
+            var selectedValue = this.options.valueFunction(selectedItem);
             if (ko.isObservable(optionsValue)) {
-                optionsValue(this.element.value as any as TValue);
+                optionsValue(selectedValue);
             }
 
             if (this.options.onchange) {
-                this.options.onchange(this.element.value as any as TValue);
+                this.options.onchange(selectedValue);
             }
         });
     }

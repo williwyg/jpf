@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.125",
+  "version": "2.0.131",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -34,7 +34,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpackLibDevelopment": "webpack --config webpack.lib.development.ts",
     "webpackLibProduction": "webpack --config webpack.lib.production.ts",
-    "webpackExamples": "webpack --config webpack.examples.ts",
     "npmInstall": "npm install",
     "npmPublish": "npm run webpackLibDevelopment & npm run webpackLibProduction & npm publish",
     "npmAudit": "npm audit",

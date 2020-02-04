@@ -6,7 +6,7 @@ export interface CheckBoxOptions extends InputElementOptions<boolean> {
     scale?: number;
 }
 
-export class CheckBox extends InputElement<boolean> {
+export class CheckBox extends InputElement<boolean, CheckBoxOptions> {
     constructor(options?: CheckBoxOptions) {
         super("CheckBox", "checkbox", options);
 
@@ -58,6 +58,9 @@ export class CheckBox extends InputElement<boolean> {
             });
         }
 
+        //Set the initial value of the checkbox
+        this.setChecked(this.innerChecked,false);
+
         this.addEventListener(
             "change",
             () => {
@@ -65,7 +68,6 @@ export class CheckBox extends InputElement<boolean> {
             }
         );
     }
-    protected readonly options: CheckBoxOptions;
 
     //Public members
     getChecked() {

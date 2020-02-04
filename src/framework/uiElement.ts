@@ -72,7 +72,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
 
         if (this.options.style) {
-            for (let styleProperty in Object.keys(this.options.style)) {
+            for (let styleProperty of Object.keys(this.options.style)) {
                 const styleValue = this.options.style[styleProperty];
                 this.style[styleProperty] = ko.unwrap(styleValue);
                 if (ko.isObservable(styleValue)) {

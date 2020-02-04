@@ -8,13 +8,12 @@ export interface SliderOptions extends InputElementOptions<number> {
     value?: number | KnockoutObservable<number>;
 }
 
-export class Slider extends InputElement<number> {
+export class Slider extends InputElement<number, SliderOptions> {
     constructor(options?: SliderOptions) {
         super("Slider", "range", options);
     }
 
     //#region Protected members
-    protected readonly  options: SliderOptions;
     protected build() {
         super.build();
 

@@ -2,23 +2,20 @@
 import { UiElement, UiElementOptions } from "../../framework/uiElement";
 
 export interface LabelOptions extends UiElementOptions {
-    text?: string | KnockoutObservable<string>;
     for?: string;
 }
 
-export class Label extends UiElement {
+export class Label extends UiElement<LabelOptions> {
     constructor(options?: LabelOptions) {
         super("label", "Label", options);
     }
 
-    protected readonly  options: LabelOptions;
     protected build () {
         super.build();
 
         ko.applyBindingsToNode(
             this.element,
             {
-                text: this.options.text,
                 attr: {
                     for: this.options.for
                 }

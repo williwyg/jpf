@@ -9,7 +9,7 @@ export interface FlexboxOptions extends UiElementOptions {
     alignContent?: types.AlignContent;
 }
 
-export class Flexbox extends UiElement {
+export class Flexbox extends UiElement<FlexboxOptions> {
     constructor(options?: FlexboxOptions) {
         super("div", "Flexbox", options);
 
@@ -40,6 +40,4 @@ export class Flexbox extends UiElement {
             alignContent: this.options.alignContent
         });
     }
-
-    protected readonly  options: FlexboxOptions;
 }

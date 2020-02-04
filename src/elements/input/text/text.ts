@@ -8,7 +8,7 @@ export interface TextOptions extends InputElementOptions<string>, InputElementVa
 
 export type TextValueUpdateMode = "OnInput" | "OnChange";
 
-export class Text extends InputElement<string> {
+export class Text extends InputElement<string, TextOptions> {
     constructor(options?: TextOptions, elementType: string = "InputText", inputElementType: InputElementType = "text") {
         super(elementType, inputElementType, options);
 
@@ -49,7 +49,6 @@ export class Text extends InputElement<string> {
     //#endregion Private members
 
     //#region Protected members
-    protected readonly options: TextOptions;
     protected build() {
         super.build();
 

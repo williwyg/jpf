@@ -6,7 +6,7 @@ export interface ImageOptions extends UiElementOptions {
     alt?: string;
 }
 
-export class Image extends UiElement {
+export class Image extends UiElement<ImageOptions> {
     constructor(options?: ImageOptions) {
         super("img", "Image", options);
     }
@@ -24,6 +24,4 @@ export class Image extends UiElement {
             }
         );
     }
-
-    protected readonly  options: ImageOptions;
 }
