@@ -21,7 +21,7 @@ var mutationObserver = new MutationObserver(
         mutationRecords.forEach((mutationRecord) => {
             if (mutationRecord.removedNodes) {
                 mutationRecord.removedNodes.forEach((removedNode) => {
-                    var uiElement = removedNode[uiElementPropertyName] as IUiElement;
+                    var uiElement = removedNode[uiElementPropertyName] as IDisposable;
                     if (uiElement && uiElement.dispose) {
                         uiElement.dispose();
                     }
@@ -40,10 +40,13 @@ export function setObserverOptions(options: MutationObserverInit) {
     observerOptions = options;
 }
 
+interface IDisposable {
+    dispose(): void;
+}
+
 export interface IUiElement {
     render(): HTMLElement;
     getElement(): HTMLElement;
-    dispose?(): void;
 }
 
 export interface UiElementOptions {
@@ -129,6 +132,15 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     private children = new Array<IUiElement>();
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
+
+    private dispose() {
+        this.knockoutSubscriptions.forEach((subscription) => {
+            subscription.dispose();
+        });
+        if (this.options.dispose) {
+            this.options.dispose();
+        }
+    };
 
     //Protected members
     protected visible = true;
@@ -343,15 +355,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             this.element = null;
         }
     }
-    dispose() {
-        this.knockoutSubscriptions.forEach((subscription) => {
-            subscription.dispose();
-        });
-        if (this.options.dispose) {
-            this.options.dispose();
-        }
-    };
-
+    
     handleMessage(message: object): void { }
     getElement(): HTMLElement {
         return this.element;
