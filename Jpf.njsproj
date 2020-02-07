@@ -48,6 +48,9 @@
     <TypeScriptCompile Include="src\framework\eventListener.ts" />
     <TypeScriptCompile Include="src\elements\input\inputElement.ts" />
     <TypeScriptCompile Include="src\framework\attribute.ts" />
+    <TypeScriptCompile Include="src\framework\device.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\framework\uiElement.ts" />
     <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
     <TypeScriptCompile Include="src\index.ts" />

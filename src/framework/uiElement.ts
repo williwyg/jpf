@@ -3,10 +3,47 @@ import { Style, StyleObservable } from "./style";
 import { Attribute } from "./attribute";
 import { EventListener, IEventListener, IAddEventListenerOptions } from "./eventListener";
 import * as types from "./types";
+import {device} from "./device"
+
+var uiElementPropertyName = "uiElement";
+
+export var settings = {
+    tapDelay: 300
+}
+
+var observerOptions: MutationObserverInit = {
+    childList: true,
+    subtree: true
+}
+
+var mutationObserver = new MutationObserver(
+    (mutationRecords: MutationRecord[]) => {
+        mutationRecords.forEach((mutationRecord) => {
+            if (mutationRecord.removedNodes) {
+                mutationRecord.removedNodes.forEach((removedNode) => {
+                    var uiElement = removedNode[uiElementPropertyName] as IUiElement;
+                    if (uiElement && uiElement.dispose) {
+                        uiElement.dispose();
+                    }
+                });
+            }
+        });
+    }
+);
+
+mutationObserver.observe(
+    document.body,
+    observerOptions
+);
+
+export function setObserverOptions(options: MutationObserverInit) {
+    observerOptions = options;
+}
 
 export interface IUiElement {
     render(): HTMLElement;
     getElement(): HTMLElement;
+    dispose?(): void;
 }
 
 export interface UiElementOptions {
@@ -22,7 +59,7 @@ export interface UiElementOptions {
     innerTextIsHtml?: boolean;
     addControlToDataDictionary?: boolean;
     children?: Array<IUiElement> | KnockoutObservableArray<IUiElement>;
-    mutationObserverCallback?: MutationCallback;
+    dispose?: () => void;
 }
 
 export abstract class UiElement<TOptions extends UiElementOptions = UiElementOptions> implements IUiElement {
@@ -84,8 +121,6 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
     }
 
-    private mutationObserver: MutationObserver;
-
     //Private members
     private attributes: { [index: string]: string | number } = {};
     private style: Style = {};
@@ -95,43 +130,8 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
 
-    private initializeMutationObserver() {
-        if (this.knockoutSubscriptions.length > 0 || this.options.mutationObserverCallback)
-            //create an mutation observer to dispose all knockoutSubscriptions created by this UiElement when the element is removed from the dom
-            if (!this.mutationObserver) {
-                this.mutationObserver = new MutationObserver(
-                    (mutations: MutationRecord[], observer: MutationObserver) => {
-                        mutations.forEach((mutation) => {
-                            if (mutation.removedNodes) {
-                                mutation.removedNodes.forEach((removedNode) => {
-                                    if (removedNode === this.element) {
-                                        for (let knockoutSubscription of this.knockoutSubscriptions) {
-                                            knockoutSubscription.dispose();
-                                        }
-                                    }
-                                });
-                            }
-                        });
-
-                        if (this.options.mutationObserverCallback) {
-                            this.options.mutationObserverCallback(mutations, observer);
-                        }
-                    }
-                );
-
-                this.mutationObserver.observe(
-                    this.element,
-                    {
-                        attributes: true,
-                        attributeOldValue: true
-                    }
-                );
-            }
-
-    }
-
     //Protected members
-    protected visible: boolean = true;
+    protected visible = true;
     protected element: HTMLElement;
     protected readonly options: TOptions;
     protected build(): void {
@@ -214,36 +214,116 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             //Create the html element.
             this.element = document.createElement(this.tagName);
 
+            //Attach this UiElement to the HtmlElement
+            this.element[uiElementPropertyName] = this;
+
             //Build the FrameworkElement
             this.build();
 
             //Add the eventListeners to the element
+            let clickEventListener: IEventListener;
+            let doubleClickEventListener: IEventListener;
+
             if (this.options.eventListeners) {
-                this.options.eventListeners.forEach((eventListener) => {
-                    this.element.addEventListener(eventListener.type, (event: Event) => {
-                        if (event instanceof KeyboardEvent) {
-                            const options = eventListener.options as IAddEventListenerOptions;
-                            if (options.altKey && !event.altKey) {
-                                return;
-                            }
-                            if (options.shiftKey && !event.shiftKey) {
-                                return;
-                            }
-                            if (options.ctrlKey && !event.ctrlKey) {
-                                return;
-                            }
-                            if (options.eventKey && options.eventKey !== event.key) {
-                                return;
+                const eventListeners = this.options.eventListeners;
+                eventListeners.forEach((eventListener) => {
+                    if (eventListener.type === "click") {
+                        clickEventListener = eventListener;
+                        return;
+                    }
+                    if (eventListener.type === "dblclick") {
+                        doubleClickEventListener = eventListener;
+                        return;
+                    }
+
+                    if (eventListener.isSupportedOnAllPlatforms) {
+                        this.element.addEventListener(eventListener.type, (event: Event) => {
+                            if (event instanceof KeyboardEvent) {
+                                const options = eventListener.options as IAddEventListenerOptions;
+                                if (options.altKey && !event.altKey) {
+                                    return;
+                                }
+                                if (options.shiftKey && !event.shiftKey) {
+                                    return;
+                                }
+                                if (options.ctrlKey && !event.ctrlKey) {
+                                    return;
+                                }
+                                if (options.eventKey && options.eventKey !== event.key) {
+                                    return;
+                                }
                             }
 
+                            eventListener.listener.call(this, event);
+                        });
+                    }
+
+                    if(device.supportsMouseEvents) {
+                        if (eventListener.type.indexOf("mouse") > -1) {
+                            this.element.addEventListener(eventListener.type, (event: Event) => {
+                                eventListener.listener.call(this, event);
+                            });
                         }
-                        eventListener.listener.call(this, event);
-                    });
-                });
-            }
+                    }
 
-            //Initialize the MutationObserver
-            this.initializeMutationObserver();
+                    if (device.supportsTouchEvents) {
+                        if (eventListener.type.indexOf("touch") > -1) {
+                            this.element.addEventListener(eventListener.type, (event: Event) => {
+                                eventListener.listener.call(this, event);
+                            });
+                        }
+                    }
+                });
+
+                if (device.supportsMouseEvents) {
+                    if (clickEventListener) {
+                        this.element.addEventListener("click", (event: Event) => {
+                            clickEventListener.listener.call(this, event);
+                        });
+                    }
+
+                    if (doubleClickEventListener) {
+                        this.element.addEventListener("dblclick", (event: Event) => {
+                            doubleClickEventListener.listener.call(this, event);
+                        });
+                    }
+                }
+
+                if (device.supportsTouchEvents) {
+                    if (doubleClickEventListener) {
+                        let tapTimeout: any;
+                        let lastTap = 0;
+
+                        this.element.addEventListener("touchend", (touchEvent: TouchEvent) => {
+                            clearTimeout(tapTimeout);
+
+                            var currentTime = new Date().getTime();
+                            var tapLength = currentTime - lastTap;
+                            if (tapLength < settings.tapDelay && tapLength > 0) {
+                                touchEvent.preventDefault();
+                                doubleClickEventListener.listener.call(this, touchEvent);
+                            } else {
+                                tapTimeout = setTimeout(
+                                    () => {
+                                        if (clickEventListener) {
+                                            touchEvent.preventDefault();
+                                            clickEventListener.listener.call(this, touchEvent);
+                                        }
+                                        clearTimeout(tapTimeout);
+                                    },
+                                    settings.tapDelay
+                                );
+                            }
+
+                            lastTap = currentTime;
+                        });
+                    } else if (clickEventListener) {
+                        this.element.addEventListener("touchstart", () => {
+                            clickEventListener.listener.call(this, event);
+                        });
+                    }
+                }
+            }
 
             //Return the fully functional html element
             return this.element;
@@ -263,6 +343,15 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             this.element = null;
         }
     }
+    dispose() {
+        this.knockoutSubscriptions.forEach((subscription) => {
+            subscription.dispose();
+        });
+        if (this.options.dispose) {
+            this.options.dispose();
+        }
+    };
+
     handleMessage(message: object): void { }
     getElement(): HTMLElement {
         return this.element;
@@ -494,5 +583,5 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
 
     readonly tagName: string;
 
-    
+
 }
