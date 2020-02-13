@@ -1,11 +1,25 @@
-﻿import * as ko from "knockout";
+﻿import "tocca";
+import * as ko from "knockout";
 import { Style, StyleObservable } from "./style";
 import { Attribute } from "./attribute";
-import { EventListener, IEventListener, IAddEventListenerOptions } from "./eventListener";
+import { EventListener, IEventListener, IAddEventListenerOptions, UiElementEventMap } from "./eventListener";
 import * as types from "./types";
-import {device} from "./device"
+import { device } from "./device"
 
 var uiElementPropertyName = "uiElement";
+
+const mouseEvents = ["mousedown", "mouseenter", "mouseleave", "mousemove", "mouseout", "mouseover", "mouseup"];
+const touchEvents = ["touchcancel", "touchend", "touchmove", "touchstart", "longtap", "swipeleft", "swiperight", "swipeup", "swipedown"];
+
+function isTouchEvent(event: keyof UiElementEventMap): boolean {
+    return touchEvents.indexOf(event) > -1;
+}
+function isMouseEvent(event: keyof UiElementEventMap): boolean {
+    return mouseEvents.indexOf(event) > -1;
+}
+function isGlobalEvent(event: keyof UiElementEventMap): boolean {
+    return !(isMouseEvent(event) || isTouchEvent(event));
+}
 
 export var settings = {
     tapDelay: 300
@@ -229,7 +243,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             //Attach this UiElement to the HtmlElement
             this.element[uiElementPropertyName] = this;
 
-            //Build the FrameworkElement
+            //Build the UiElement
             this.build();
 
             //Add the eventListeners to the element
@@ -248,7 +262,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                         return;
                     }
 
-                    if (eventListener.isSupportedOnAllPlatforms) {
+                    if (isGlobalEvent(eventListener.type)) {
                         this.element.addEventListener(eventListener.type, (event: Event) => {
                             if (event instanceof KeyboardEvent) {
                                 const options = eventListener.options as IAddEventListenerOptions;
@@ -270,68 +284,41 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                         });
                     }
 
-                    if(device.supportsMouseEvents) {
-                        if (eventListener.type.indexOf("mouse") > -1) {
-                            this.element.addEventListener(eventListener.type, (event: Event) => {
-                                eventListener.listener.call(this, event);
-                            });
-                        }
+                    if (device.supportsMouseEvents && isMouseEvent(eventListener.type)) {
+                        this.element.addEventListener(eventListener.type, (event: Event) => {
+                            eventListener.listener.call(this, event);
+                        });
                     }
 
-                    if (device.supportsTouchEvents) {
-                        if (eventListener.type.indexOf("touch") > -1) {
-                            this.element.addEventListener(eventListener.type, (event: Event) => {
-                                eventListener.listener.call(this, event);
-                            });
-                        }
+                    if (device.supportsTouchEvents && isTouchEvent(eventListener.type)) {
+                        this.element.addEventListener(eventListener.type, (event: Event) => {
+                            eventListener.listener.call(this, event);
+                        });
                     }
                 });
 
-                if (device.supportsMouseEvents) {
-                    if (clickEventListener) {
+                if (clickEventListener) {
+                    if (device.supportsMouseEvents) {
                         this.element.addEventListener("click", (event: Event) => {
                             clickEventListener.listener.call(this, event);
                         });
                     }
-
-                    if (doubleClickEventListener) {
-                        this.element.addEventListener("dblclick", (event: Event) => {
-                            doubleClickEventListener.listener.call(this, event);
+                    if (device.supportsTouchEvents) {
+                        this.element.addEventListener("tap", (event: Event) => {
+                            clickEventListener.listener.call(this, event);
                         });
                     }
                 }
 
-                if (device.supportsTouchEvents) {
-                    if (doubleClickEventListener) {
-                        let tapTimeout: any;
-                        let lastTap = 0;
-
-                        this.element.addEventListener("touchend", (touchEvent: TouchEvent) => {
-                            clearTimeout(tapTimeout);
-
-                            var currentTime = new Date().getTime();
-                            var tapLength = currentTime - lastTap;
-                            if (tapLength < settings.tapDelay && tapLength > 0) {
-                                touchEvent.preventDefault();
-                                doubleClickEventListener.listener.call(this, touchEvent);
-                            } else {
-                                tapTimeout = setTimeout(
-                                    () => {
-                                        if (clickEventListener) {
-                                            touchEvent.preventDefault();
-                                            clickEventListener.listener.call(this, touchEvent);
-                                        }
-                                        clearTimeout(tapTimeout);
-                                    },
-                                    settings.tapDelay
-                                );
-                            }
-
-                            lastTap = currentTime;
+                if (doubleClickEventListener) {
+                    if (device.supportsMouseEvents) {
+                        this.element.addEventListener("dblclick", (event: Event) => {
+                            doubleClickEventListener.listener.call(this, event);
                         });
-                    } else if (clickEventListener) {
-                        this.element.addEventListener("touchstart", () => {
-                            clickEventListener.listener.call(this, event);
+                    }
+                    if (device.supportsTouchEvents) {
+                        this.element.addEventListener("dbltap", (event: Event) => {
+                            doubleClickEventListener.listener.call(this, event);
                         });
                     }
                 }
@@ -341,7 +328,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             return this.element;
         }
 
-        throw "The build method of this FrameworkElement has not been defined";
+        throw "The build method of this UiElement has not been defined";
     }
     refresh(): void { }
     remove(): void {
@@ -355,7 +342,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             this.element = null;
         }
     }
-    
+
     handleMessage(message: object): void { }
     getElement(): HTMLElement {
         return this.element;
@@ -500,9 +487,9 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     }
 
     //Public EventListener members
-    addEventListener<TType extends keyof HTMLElementEventMap>(
+    addEventListener<TType extends keyof UiElementEventMap>(
         type: TType,
-        listener: (this: UiElement, event: HTMLElementEventMap[TType]) => any,
+        listener: (this: UiElement, event: UiElementEventMap[TType]) => any,
         options?: boolean | IAddEventListenerOptions
     ) {
         if (!this.options.eventListeners) {
@@ -586,6 +573,4 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     }
 
     readonly tagName: string;
-
-
 }
