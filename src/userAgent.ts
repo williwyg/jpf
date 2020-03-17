@@ -7,6 +7,9 @@ function supportsTouchEvents(): boolean {
     if (("ontouchstart" in window)) {
         return true;
     }
+    if (navigator.msMaxTouchPoints > 0) {
+        return true;
+    }
 
     const prefixes = " -webkit- -moz- -o- -ms- ".split(" ");
     const mq = (query) => window.matchMedia(query).matches;
@@ -15,7 +18,7 @@ function supportsTouchEvents(): boolean {
 }
 
 function supportsMouseEvents(): boolean {
-    return matchMedia('(pointer:fine)').matches;
+    return matchMedia('(pointer:fine)').matches || !!window.MouseEvent;
 }
 
 export const userAgent = {
