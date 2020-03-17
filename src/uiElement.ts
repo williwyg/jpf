@@ -473,12 +473,16 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                 } else {
                     this.style[key] = newValue;
                     if (this.element) {
-                        if (newValue) {
-                            this.element.style[key] = newValue;
-                        } else {
+                        if (newValue === null || newValue === undefined) {
                             if (userAgent.browser.isInternetExplorer) {
+                                //Setting a css style property to null does not work for internet explorer 
+                                //so we reset to the default value for the given property.
                                 this.element.style[key] = defaultStyle[key];
+                            } else {
+                                this.element.style[key] = null;
                             }
+                        } else {
+                            this.element.style[key] = newValue;
                         }
                     }
                 }
