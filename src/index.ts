@@ -4,6 +4,6 @@ export * from "./attribute";
 export * from "./eventListener";
 export * from "./uiElement";
 export * from "./style";
-export { UserAgent } from "./userAgent";
+export { userAgent } from "./userAgent";
 export { Types };
 

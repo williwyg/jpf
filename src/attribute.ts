@@ -1,6 +1,6 @@
-import * as types from "./types";
+import { AttributeName } from "./types";
 
 export interface Attribute {
-    name: types.AttributeName;
+    name: AttributeName;
     value: string | number | KnockoutObservable<string | number>;
 }

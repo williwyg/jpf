@@ -1,10 +1,10 @@
 ﻿import "tocca";
 import * as ko from "knockout";
-import { Style, StyleObservable } from "./style";
+import { Style, StyleObservable, defaultStyle } from "./style";
 import { Attribute } from "./attribute";
 import { EventListener, IEventListener, IAddEventListenerOptions, UiElementEventMap } from "./eventListener";
 import * as types from "./types";
-import { device } from "./device"
+import { userAgent } from "./userAgent";
 
 var uiElementPropertyName = "uiElement";
 
@@ -324,31 +324,31 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                             eventListener.options
                         );
                     }
-                    else if (mouseEvents[eventListener.type] && device.supportsMouseEvents) {
+                    else if (mouseEvents[eventListener.type] && userAgent.device.supportsMouseEvents) {
                         this.addEventListenerToElement(eventListener.type, eventListener.listener, eventListener.options);
                     }
-                    else if (touchEvents[eventListener.type] && device.supportsTouchEvents) {
+                    else if (touchEvents[eventListener.type] && userAgent.device.supportsTouchEvents) {
                         this.addEventListenerToElement(eventListener.type, eventListener.listener, eventListener.options);
                     }
                 });
 
                 clickEventListeners.forEach((clickEventListener) => {
-                    if (device.supportsTouchEvents) {
+                    if (userAgent.device.supportsTouchEvents) {
                         // ReSharper disable once Html.EventNotResolved
 
-                        this.addEventListenerToElement( "tap",  clickEventListener.listener, clickEventListener.options );
+                        this.addEventListenerToElement("tap", clickEventListener.listener, clickEventListener.options);
                     }
-                    if (device.supportsMouseEvents) {
+                    if (userAgent.device.supportsMouseEvents) {
                         this.addEventListenerToElement(clickEventListener.type, clickEventListener.listener, clickEventListener.options);
                     }
                 });
 
                 doubleClickEventListeners.forEach((doubleClickEventListener) => {
-                    if (device.supportsTouchEvents) {
+                    if (userAgent.device.supportsTouchEvents) {
                         // ReSharper disable once Html.EventNotResolved
                         this.addEventListenerToElement("dbltap", doubleClickEventListener.listener, doubleClickEventListener.options);
                     }
-                    if (device.supportsMouseEvents) {
+                    if (userAgent.device.supportsMouseEvents) {
                         this.addEventListenerToElement(doubleClickEventListener.type, doubleClickEventListener.listener, doubleClickEventListener.options);
                     }
                 });
@@ -476,8 +476,9 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                         if (newValue) {
                             this.element.style[key] = newValue;
                         } else {
-                            if(device.i)
-                            this.element.style[key] = "unset"
+                            if (userAgent.browser.isInternetExplorer) {
+                                this.element.style[key] = defaultStyle[key];
+                            }
                         }
                     }
                 }

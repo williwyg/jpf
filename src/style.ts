@@ -416,7 +416,7 @@ export interface StyleObservable {
      * Describes the number of columns of the element.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-count
      */
-    columnCount?: number | KnockoutObservable<number>;
+    columnCount?: number | "auto" | "initial" | "inherit" | KnockoutObservable<number | "auto" | "initial" | "inherit">;
     /**
      * Specifies how to fill columns (balanced or sequential).
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-fill
@@ -437,6 +437,11 @@ export interface StyleObservable {
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-color
      */
     columnRuleColor?: types.CssValue<types.CssColor> | KnockoutObservable<types.CssValue<types.CssColor>>;
+    /**
+     * Specifies the line of the rule between columns.
+     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style
+     */
+    columnRuleStyle?: types.CssValue<types.CssLineStyle> | KnockoutObservable<types.CssValue<types.CssLineStyle>>;
     /**
      * Specifies the width of the rule between columns.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-width
@@ -1554,10 +1559,10 @@ export interface StyleObservable {
 }
 
 export interface Style {
- /**
-     * Aligns a flex container's lines within the flex container when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis.
-     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/align-content
-     */
+    /**
+        * Aligns a flex container's lines within the flex container when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis.
+        * @see https://developer.mozilla.org/en-US/docs/Web/CSS/align-content
+        */
     alignContent?: types.AlignContent;
     /**
      * Sets the default alignment in the cross axis for all of the flex container's items, including anonymous flex items, similarly to how justify-content aligns items along the main axis.
@@ -1966,7 +1971,7 @@ export interface Style {
      * Describes the number of columns of the element.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-count
      */
-    columnCount?: number;
+    columnCount?: number | "auto" | "initial" | "inherit";
     /**
      * Specifies how to fill columns (balanced or sequential).
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-fill
@@ -1987,6 +1992,11 @@ export interface Style {
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-color
      */
     columnRuleColor?: types.CssValue<types.CssColor>;
+    /**
+     * Specifies the line of the rule between columns.
+     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style
+     */
+    columnRuleStyle?: types.CssValue<types.CssLineStyle>;
     /**
      * Specifies the width of the rule between columns.
      * @see https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-width
@@ -3101,4 +3111,151 @@ export interface Style {
      * @see https://developer.mozilla.org/en/docs/Web/CSS/zoom
      */
     zoom?: "auto" | number;
+}
+
+export const defaultStyle: Style = {
+    animation: "none",
+    animationDelay: 0,
+    animationDirection: "normal",
+    animationDuration: "0",
+    animationFillMode: "none",
+    animationIterationCount: 1,
+    animationName: "none",
+    animationPlayState: "running",
+    animationTimingFunction: "ease",
+    backfaceVisibility: "visible",
+    background: 0,
+    backgroundAttachment: "scroll",
+    backgroundClip: "border-box",
+    backgroundColor: "transparent",
+    backgroundImage: "none",
+    backgroundOrigin: "padding-box",
+    backgroundPosition: "0 0",
+    backgroundRepeat: "repeat",
+    backgroundSize: "auto auto",
+    border: 0,
+    borderStyle: "none",
+    borderWidth: "medium",
+    borderColor: "inherit",
+    borderBottom: 0,
+    borderBottomColor: "inherit",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    borderBottomStyle: "none",
+    borderBottomWidth: "medium",
+    borderCollapse: "separate",
+    borderImageSource: "none",
+    borderLeft: 0,
+    borderLeftColor: "inherit",
+    borderLeftStyle: "none",
+    borderLeftWidth: "medium",
+    borderRadius: 0,
+    borderRight: 0,
+    borderRightColor: "inherit",
+    borderRightStyle: "none",
+    borderRightWidth: "medium",
+    borderSpacing: 0,
+    borderTop: 0,
+    borderTopColor: "inherit",
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderTopStyle: "none",
+    borderTopWidth: "medium",
+    bottom: "auto",
+    boxShadow: "none",
+    boxSizing: "content-box",
+    captionSide: "top",
+    clear: "none",
+    clip: "auto",
+    color: "inherit",
+    columns: "auto",
+    columnCount: "auto",
+    columnFill: "balance",
+    columnGap: "normal",
+    columnRule: "medium none currentColor",
+    columnRuleColor: "currentColor",
+    columnRuleStyle: "none",
+    columnRuleWidth: "none",
+    columnSpan : 1,
+    columnWidth : "auto",
+    content: "normal",
+    counterIncrement : "none",
+    counterReset : "none",
+    cursor: "auto",
+    direction: "ltr",
+    display: "inline",
+    emptyCells : "show",
+    float: "none",
+    font: "normal",
+    fontFamily : "inherit",
+    fontSize : "medium",
+    fontStyle : "normal",
+    fontVariant : "normal",
+    fontWeight : "normal",
+    height: "auto",
+    hyphens: "none",
+    left: "auto",
+    letterSpacing : "normal",
+    lineHeight : "normal",
+    listStyle : "none",
+    listStyleImage : "none",
+    listStylePosition : "outside",
+    listStyleType : "disc",
+    margin: 0,
+    marginBottom : 0,
+    marginLeft : 0,
+    marginRight : 0,
+    marginTop : 0,
+    maxHeight : "none",
+    maxWidth : "none",
+    minHeight : 0,
+    minWidth : 0,
+    opacity: 1,
+    orphans: 0,
+    outline: 0,
+    outlineColor : "invert",
+    outlineStyle : "none",
+    outlineWidth :"medium",
+    overflow: "visible",
+    overflowX : "visible",
+    overflowY : "visible",
+    padding: 0,
+    paddingBottom : 0,
+    paddingLeft : 0,
+    paddingRight : 0,
+    paddingTop : 0,
+    pageBreakAfter : "auto",
+    pageBreakBefore : "auto",
+    pageBreakInside : "auto",
+    perspective: "none",
+    perspectiveOrigin : "50% 50%",
+    position: "static",
+    right: "auto",
+    tabSize : 8,
+    tableLayout : "auto",
+    textAlign : "inherit",
+    textAlignLast : "auto",
+    textDecoration : "none",
+    textDecorationColor : "inherit",
+    textDecorationLine : "none",
+    textDecorationStyle : "solid",
+    textIndent : 0,
+    textShadow : "none",
+    textTransform : "none",
+    top: "auto",
+    transform: "none",
+    transformStyle : "flat",
+    transition: "none",
+    transitionDelay : "0s",
+    transitionDuration :"0s",
+    transitionProperty : "none",
+    transitionTimingFunction : "ease",
+    unicodeBidi: "normal",
+    verticalAlign : "baseline",
+    visibility: "visible",
+    whiteSpace : "normal",
+    widows: 0,
+    width: "auto",
+    wordSpacing : "normal",
+    zIndex : "auto"
 }

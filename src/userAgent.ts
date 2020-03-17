@@ -18,7 +18,7 @@ function supportsMouseEvents(): boolean {
     return matchMedia('(pointer:fine)').matches;
 }
 
-const userAgent = {
+export const userAgent = {
     browser: {
         isEdge: result.browser.name === "Edge",
         isInternetExplorer: result.browser.name === "IE",
@@ -48,5 +48,3 @@ const userAgent = {
         isTrident: result.engine.name === "Trident" //Internet Explorer
     }
 }
-
-export {userAgent as UserAgent}

@@ -14,8 +14,6 @@ export interface IEventListener {
     options?: IAddEventListenerOptions;
 }
 
-
-
 export interface IAddEventListenerOptions extends AddEventListenerOptions {
     eventKey?: EventKey;
     altKey?: boolean;
