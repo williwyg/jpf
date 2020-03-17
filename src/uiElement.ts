@@ -4,7 +4,7 @@ import { Style, StyleObservable } from "./style";
 import { Attribute } from "./attribute";
 import { EventListener, IEventListener, IAddEventListenerOptions, UiElementEventMap } from "./eventListener";
 import * as types from "./types";
-import { device } from "./device"
+import { UserAgent } from "./userAgent"
 
 var uiElementPropertyName = "uiElement";
 
@@ -284,13 +284,13 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                         });
                     }
 
-                    if (device.supportsMouseEvents && isMouseEvent(eventListener.type)) {
+                    if (UserAgent.device.supportsMouseEvents && isMouseEvent(eventListener.type)) {
                         this.element.addEventListener(eventListener.type, (event: Event) => {
                             eventListener.listener.call(this, event);
                         });
                     }
 
-                    if (device.supportsTouchEvents && isTouchEvent(eventListener.type)) {
+                    if (UserAgent.device.supportsTouchEvents && isTouchEvent(eventListener.type)) {
                         this.element.addEventListener(eventListener.type, (event: Event) => {
                             eventListener.listener.call(this, event);
                         });
@@ -298,12 +298,12 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                 });
 
                 if (clickEventListener) {
-                    if (device.supportsMouseEvents) {
+                    if (UserAgent.device.supportsMouseEvents) {
                         this.element.addEventListener("click", (event: Event) => {
                             clickEventListener.listener.call(this, event);
                         });
                     }
-                    if (device.supportsTouchEvents) {
+                    if (UserAgent.device.supportsTouchEvents) {
                         this.element.addEventListener("tap", (event: Event) => {
                             clickEventListener.listener.call(this, event);
                         });
@@ -311,12 +311,12 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                 }
 
                 if (doubleClickEventListener) {
-                    if (device.supportsMouseEvents) {
+                    if (UserAgent.device.supportsMouseEvents) {
                         this.element.addEventListener("dblclick", (event: Event) => {
                             doubleClickEventListener.listener.call(this, event);
                         });
                     }
-                    if (device.supportsTouchEvents) {
+                    if (UserAgent.device.supportsTouchEvents) {
                         this.element.addEventListener("dbltap", (event: Event) => {
                             doubleClickEventListener.listener.call(this, event);
                         });

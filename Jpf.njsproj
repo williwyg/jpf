@@ -30,59 +30,23 @@
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
-    <TypeScriptCompile Include="src\elements\button\button.ts" />
-    <TypeScriptCompile Include="src\elements\div\div.ts" />
-    <TypeScriptCompile Include="src\elements\anchor\anchor.ts" />
-    <TypeScriptCompile Include="src\elements\image\image.ts" />
-    <TypeScriptCompile Include="src\elements\index.ts" />
-    <TypeScriptCompile Include="src\elements\input\checkbox\checkbox.ts" />
-    <TypeScriptCompile Include="src\elements\input\index.ts" />
-    <TypeScriptCompile Include="src\elements\input\number\number.ts" />
-    <TypeScriptCompile Include="src\elements\input\password\password.ts" />
-    <TypeScriptCompile Include="src\elements\select\select.ts" />
-    <TypeScriptCompile Include="src\elements\input\slider\slider.ts" />
-    <TypeScriptCompile Include="src\elements\input\text\text.ts" />
-    <TypeScriptCompile Include="src\elements\label\label.ts" />
-    <TypeScriptCompile Include="src\elements\flexbox\flexbox.ts" />
-    <TypeScriptCompile Include="src\elements\span\span.ts" />
-    <TypeScriptCompile Include="src\framework\eventListener.ts" />
-    <TypeScriptCompile Include="src\elements\input\inputElement.ts" />
-    <TypeScriptCompile Include="src\framework\attribute.ts" />
-    <TypeScriptCompile Include="src\framework\device.ts">
+    <TypeScriptCompile Include="src\eventListener.ts" />
+    <TypeScriptCompile Include="src\attribute.ts" />
+    <TypeScriptCompile Include="src\userAgent.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\framework\uiElement.ts" />
+    <TypeScriptCompile Include="src\uiElement.ts" />
     <TypeScriptCompile Include="src\typeDefinitions.d.ts" />
     <TypeScriptCompile Include="src\index.ts" />
-    <TypeScriptCompile Include="src\framework\style.ts" />
-    <TypeScriptCompile Include="src\framework\types.ts" />
-    <TypeScriptCompile Include="webpack.examples.base.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\style.ts" />
+    <TypeScriptCompile Include="src\types.ts" />
     <TypeScriptCompile Include="webpack.lib.base.ts" />
-    <TypeScriptCompile Include="webpack.examples.ts" />
     <TypeScriptCompile Include="webpack.lib.production.ts" />
     <TypeScriptCompile Include="webpack.lib.development.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
     <Folder Include="src\" />
-    <Folder Include="src\elements\" />
-    <Folder Include="src\elements\button\" />
-    <Folder Include="src\elements\div\" />
-    <Folder Include="src\elements\anchor\" />
-    <Folder Include="src\elements\image\" />
-    <Folder Include="src\elements\input\" />
-    <Folder Include="src\elements\input\checkbox\" />
-    <Folder Include="src\elements\input\number\" />
-    <Folder Include="src\elements\input\password\" />
-    <Folder Include="src\elements\select\" />
-    <Folder Include="src\elements\input\slider\" />
-    <Folder Include="src\elements\input\text\" />
-    <Folder Include="src\elements\label\" />
-    <Folder Include="src\elements\flexbox\" />
-    <Folder Include="src\elements\span\" />
-    <Folder Include="src\framework\" />
     <Compile Include="lib\jpf.js" />
     <Compile Include="lib\jpf.min.js" />
     <Compile Include="LICENSE" />

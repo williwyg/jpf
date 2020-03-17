@@ -1,4 +1,4 @@
-/// <reference path="../../node_modules/@types/knockout/index.d.ts" />
+/// <reference path="../node_modules/@types/knockout/index.d.ts" />
 import * as types from "./types";
 
 
