@@ -27,13 +27,13 @@ export class Slider extends InputElement<number, SliderOptions> {
                 }
             });
 
-        this.element.onchange = () => {
+        this.element.addEventListener("change", () => {
             if (this.options.onchange) {
                 const input = this.element as HTMLInputElement;
                 const value = Number(input.value);
                 this.options.onchange(value);
             }
-        }
+        });
     }
     //#endregion
 

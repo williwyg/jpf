@@ -8,17 +8,30 @@ import { device } from "./device"
 
 var uiElementPropertyName = "uiElement";
 
-const mouseEvents = ["mousedown", "mouseenter", "mouseleave", "mousemove", "mouseout", "mouseover", "mouseup"];
-const touchEvents = ["touchcancel", "touchend", "touchmove", "touchstart", "longtap", "swipeleft", "swiperight", "swipeup", "swipedown"];
+const mouseEvents = {
+    contextmenu: true,
+    mousedown: true,
+    mouseenter: true,
+    mouseleave: true,
+    mousemove: true,
+    mouseout: true,
+    mouseover: true,
+    mouseup: true
+};
+const touchEvents = {
+    touchcancel: true,
+    touchend: true,
+    touchmove: true,
+    touchstart: true,
+    longtap: true,
+    swipeleft: true,
+    swiperight: true,
+    swipeup: true,
+    swipedown: true
+};
 
-function isTouchEvent(event: keyof UiElementEventMap): boolean {
-    return touchEvents.indexOf(event) > -1;
-}
-function isMouseEvent(event: keyof UiElementEventMap): boolean {
-    return mouseEvents.indexOf(event) > -1;
-}
 function isGlobalEvent(event: keyof UiElementEventMap): boolean {
-    return !(isMouseEvent(event) || isTouchEvent(event));
+    return !(mouseEvents[event] || touchEvents[event]);
 }
 
 export var settings = {
@@ -36,7 +49,7 @@ var mutationObserver = new MutationObserver(
             if (mutationRecord.removedNodes) {
                 mutationRecord.removedNodes.forEach((removedNode) => {
                     var uiElement = removedNode[uiElementPropertyName] as IDisposable;
-                    if (uiElement && uiElement.dispose) {
+                    if (uiElement && uiElement.disposeOnDomRemoval && uiElement.dispose) {
                         uiElement.dispose();
                     }
                 });
@@ -55,6 +68,7 @@ export function setObserverOptions(options: MutationObserverInit) {
 }
 
 interface IDisposable {
+    disposeOnDomRemoval: boolean;
     dispose(): void;
 }
 
@@ -66,7 +80,6 @@ export interface IUiElement {
 export interface UiElementOptions {
     id?: string;
     elementType?: string;
-    visible?: boolean | KnockoutObservable<boolean>;
     className?: string | KnockoutObservable<string>;
     attributes?: Array<Attribute>;
     eventListeners?: Array<IEventListener>;
@@ -77,6 +90,7 @@ export interface UiElementOptions {
     addControlToDataDictionary?: boolean;
     children?: Array<IUiElement> | KnockoutObservableArray<IUiElement>;
     dispose?: () => void;
+    disposeOnDomRemoval?: boolean;
 }
 
 export abstract class UiElement<TOptions extends UiElementOptions = UiElementOptions> implements IUiElement {
@@ -144,20 +158,47 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     private innerText: string;
     private innerTextIsHtml: boolean = false;
     private children = new Array<IUiElement>();
-    private display: string;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
-
-    private dispose() {
-        this.knockoutSubscriptions.forEach((subscription) => {
-            subscription.dispose();
-        });
-        if (this.options.dispose) {
-            this.options.dispose();
+    private addEventListenerToElement(type: keyof UiElementEventMap, listener: (event: any) => any, options: IAddEventListenerOptions) {
+        if (!type) {
+            throw new Error("type is mandatory");
         }
-    };
+        if (!listener) {
+            throw new Error("listener is mandatory");
+        }
+        if (!options) {
+            options = {};
+        }
+        if (!options.passive) {
+            options.passive = false;
+        }
+        if (!options.once) {
+            options.once = false;
+        }
+
+        if (this.element.addEventListener) {
+            this.element.addEventListener(
+                type,
+                (event) => {
+                    listener(event);
+                },
+                {
+                    passive: options.passive,
+                    once: options.once
+                });
+        } else if (this.element.attachEvent) {
+            this.element.attachEvent(
+                type,
+                (event) => {
+                    listener(event);
+                }
+            );
+        } else {
+            throw "Your browser does not support 'addEventListener'";
+        }
+    }
 
     //Protected members
-    protected visible = true;
     protected element: HTMLElement;
     protected readonly options: TOptions;
     protected build(): void {
@@ -196,7 +237,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
 
         //Find out if the element is none selectable
         if (this.options.selectable === false) {
-            this.element.addEventListener("selectstart", () => { return false; });
+            this.addEventListenerToElement("selectstart", () => { return false; }, { passive: true });
             this.element.style.userSelect = "none";
         }
 
@@ -205,16 +246,6 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             for (let child of this.children) {
                 this.element.appendChild(child.render());
             }
-        }
-
-        //Set the initial visibility of the element
-        this.setVisibility(this.visible);
-
-        const visible = this.options.visible;
-        if (ko.isObservable(visible)) {
-            visible.subscribe((visible: boolean) => {
-                this.setVisibility(visible);
-            });
         }
 
         if (this.options.addControlToDataDictionary) {
@@ -231,8 +262,8 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     //Public members
     render(): HTMLElement {
         if (this.element) {
-            //If the element has already been rendered before then we remove the previously rendered element.
-            this.remove();
+            //If the element has already been rendered we return the rendered element
+            return this.element;
         }
 
         //Check if the build property is pointing to a function.
@@ -241,87 +272,86 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             this.element = document.createElement(this.tagName);
 
             //Attach this UiElement to the HtmlElement
-            this.element[uiElementPropertyName] = this;
+            //this.element[uiElementPropertyName] = this;
 
             //Build the UiElement
             this.build();
 
             //Add the eventListeners to the element
-            let clickEventListener: IEventListener;
-            let doubleClickEventListener: IEventListener;
+            const clickEventListeners = new Array<IEventListener>();
+            const doubleClickEventListeners = new Array<IEventListener>();
 
             if (this.options.eventListeners) {
                 const eventListeners = this.options.eventListeners;
                 eventListeners.forEach((eventListener) => {
                     if (eventListener.type === "click") {
-                        clickEventListener = eventListener;
+                        clickEventListeners.push(eventListener);
                         return;
                     }
                     if (eventListener.type === "dblclick") {
-                        doubleClickEventListener = eventListener;
+                        doubleClickEventListeners.push(eventListener);
                         return;
                     }
 
+                    if (eventListener.type === "dragstart") {
+                        this.setAttribute("draggable", "true");
+                    }
+
                     if (isGlobalEvent(eventListener.type)) {
-                        this.element.addEventListener(eventListener.type, (event: Event) => {
-                            if (event instanceof KeyboardEvent) {
-                                const options = eventListener.options as IAddEventListenerOptions;
-                                if (options.altKey && !event.altKey) {
-                                    return;
-                                }
-                                if (options.shiftKey && !event.shiftKey) {
-                                    return;
-                                }
-                                if (options.ctrlKey && !event.ctrlKey) {
-                                    return;
-                                }
-                                if (options.eventKey && options.eventKey !== event.key) {
-                                    return;
-                                }
-                            }
 
-                            eventListener.listener.call(this, event);
-                        });
+                        this.addEventListenerToElement(
+                            eventListener.type,
+                            (event: Event) => {
+                                if (event instanceof KeyboardEvent) {
+                                    if (eventListener.options) {
+                                        const options = eventListener.options as IAddEventListenerOptions;
+                                        if (options.altKey && !event.altKey) {
+                                            return;
+                                        }
+                                        if (options.shiftKey && !event.shiftKey) {
+                                            return;
+                                        }
+                                        if (options.ctrlKey && !event.ctrlKey) {
+                                            return;
+                                        }
+                                        if (options.eventKey && options.eventKey !== event.key) {
+                                            return;
+                                        }
+                                    }
+                                }
+                                eventListener.listener.call(this, event);
+                            },
+                            eventListener.options
+                        );
                     }
-
-                    if (device.supportsMouseEvents && isMouseEvent(eventListener.type)) {
-                        this.element.addEventListener(eventListener.type, (event: Event) => {
-                            eventListener.listener.call(this, event);
-                        });
+                    else if (mouseEvents[eventListener.type] && device.supportsMouseEvents) {
+                        this.addEventListenerToElement(eventListener.type, eventListener.listener, eventListener.options);
                     }
-
-                    if (device.supportsTouchEvents && isTouchEvent(eventListener.type)) {
-                        this.element.addEventListener(eventListener.type, (event: Event) => {
-                            eventListener.listener.call(this, event);
-                        });
+                    else if (touchEvents[eventListener.type] && device.supportsTouchEvents) {
+                        this.addEventListenerToElement(eventListener.type, eventListener.listener, eventListener.options);
                     }
                 });
 
-                if (clickEventListener) {
-                    if (device.supportsMouseEvents) {
-                        this.element.addEventListener("click", (event: Event) => {
-                            clickEventListener.listener.call(this, event);
-                        });
-                    }
+                clickEventListeners.forEach((clickEventListener) => {
                     if (device.supportsTouchEvents) {
-                        this.element.addEventListener("tap", (event: Event) => {
-                            clickEventListener.listener.call(this, event);
-                        });
-                    }
-                }
+                        // ReSharper disable once Html.EventNotResolved
 
-                if (doubleClickEventListener) {
+                        this.addEventListenerToElement( "tap",  clickEventListener.listener, clickEventListener.options );
+                    }
                     if (device.supportsMouseEvents) {
-                        this.element.addEventListener("dblclick", (event: Event) => {
-                            doubleClickEventListener.listener.call(this, event);
-                        });
+                        this.addEventListenerToElement(clickEventListener.type, clickEventListener.listener, clickEventListener.options);
                     }
+                });
+
+                doubleClickEventListeners.forEach((doubleClickEventListener) => {
                     if (device.supportsTouchEvents) {
-                        this.element.addEventListener("dbltap", (event: Event) => {
-                            doubleClickEventListener.listener.call(this, event);
-                        });
+                        // ReSharper disable once Html.EventNotResolved
+                        this.addEventListenerToElement("dbltap", doubleClickEventListener.listener, doubleClickEventListener.options);
                     }
-                }
+                    if (device.supportsMouseEvents) {
+                        this.addEventListenerToElement(doubleClickEventListener.type, doubleClickEventListener.listener, doubleClickEventListener.options);
+                    }
+                });
             }
 
             //Return the fully functional html element
@@ -385,31 +415,30 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     }
     setAttribute(name: types.AttributeName, value: string | number): void {
         const currentAttribute = this.attributes[name];
-        let applyBindings = false;
-        if (currentAttribute) {
-            if (ko.isObservable(currentAttribute)) {
-                currentAttribute(ko.unwrap(value));
-            } else {
-                this.attributes[name] = value;
-                applyBindings = true;
-            }
+        if (currentAttribute && ko.isObservable(currentAttribute)) {
+            //Set the observable and the binding takes care for updating the element
+            currentAttribute(ko.unwrap(value));
         } else {
             this.attributes[name] = value;
-            applyBindings = true;
-        }
-
-        if (applyBindings && this.element) {
-            ko.applyBindingsToNode(this.element, { attr: { [name as string]: value } });
+            if (this.element) {
+                this.element.setAttribute(name, value as string);
+            }
         }
     }
     deleteAttribute(attributeName: string): void {
         if (this.attributes[attributeName]) {
             delete this.attributes[attributeName];
         }
+        if (this.element) {
+            this.element.removeAttribute(attributeName);
+        }
     }
 
     //Public Style members
     getStyle(...cssProperties: Array<types.CssProperty>): Style {
+        if (!cssProperties || cssProperties.length === 0) {
+            return this.style;
+        }
         const style: Style = {};
         for (let cssProperty of cssProperties) {
             if (this.style[cssProperty]) {
@@ -444,7 +473,12 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                 } else {
                     this.style[key] = newValue;
                     if (this.element) {
-                        this.element.style[key] = newValue;
+                        if (newValue) {
+                            this.element.style[key] = newValue;
+                        } else {
+                            if(device.i)
+                            this.element.style[key] = "unset"
+                        }
                     }
                 }
             });
@@ -473,36 +507,29 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             }
         }
     }
-    setVisibility(visible: boolean) {
-        if (this.element) {
-            if (visible) {
-                this.element.style.display = this.display;
-            } else {
-                if (this.element.style.display !== "none") {
-                    this.display = this.element.style.display;
-                }
-                this.element.style.display = "none";
-            }
-        }
-    }
 
-    //Public EventListener members
+    //Public Event members
     addEventListener<TType extends keyof UiElementEventMap>(
         type: TType,
         listener: (this: UiElement, event: UiElementEventMap[TType]) => any,
-        options?: boolean | IAddEventListenerOptions
+        options?: IAddEventListenerOptions
     ) {
         if (!this.options.eventListeners) {
             this.options.eventListeners = new Array();
         }
         this.options.eventListeners.push(new EventListener(type, listener, options));
     }
+    dispatchEvent<TType extends keyof UiElementEventMap>(type: TType): boolean {
+        if (this.element) {
+            return this.element.dispatchEvent(new Event(type));
+        }
+        return false;
+    }
 
     //Public Children members
     getChildren(): Array<IUiElement> {
         return this.children;
     }
-
     setChildren(children: Array<IUiElement>, replace: boolean = true): void {
         if (!children) {
             children = [];
@@ -533,7 +560,6 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             }
         }
     }
-
     addChild(newChild: IUiElement, referenceChild?: IUiElement): void {
         if (referenceChild) {
             //Find the index of the referenceItem
@@ -551,7 +577,6 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             }
         }
     }
-
     removeChild(element: IUiElement): void {
         const index = this.children.indexOf(element);
         if (index > -1) {
@@ -561,7 +586,6 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             }
         }
     }
-
     empty(): void {
         this.children = [];
 
@@ -572,5 +596,27 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
     }
 
+    //Readonly properties
     readonly tagName: string;
+
+    readonly diposeOnDomRemoval: boolean = false;
+    readonly dispose = () => {
+        //Remove the element from the dom
+        this.remove();
+
+        //Dispose all children
+        for (let child of this.children) {
+            (child as any as IDisposable).dispose();
+        }
+
+        //Dispose all knockout subscriptions
+        this.knockoutSubscriptions.forEach((subscription) => {
+            subscription.dispose();
+        });
+
+        //Check if additional dispose logic has been provided.
+        if (this.options.dispose) {
+            this.options.dispose();
+        }
+    };
 }
