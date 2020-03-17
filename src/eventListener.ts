@@ -1,6 +1,6 @@
-import { UiElement } from "./uiElement";
-
 export interface UiElementEventMap extends HTMLElementEventMap {
+    "tap": Event;
+    "dbltap": Event;
     "longtap": Event;
     "swipeleft": Event;
     "swiperight": Event;
@@ -10,8 +10,8 @@ export interface UiElementEventMap extends HTMLElementEventMap {
 
 export interface IEventListener {
     type: keyof UiElementEventMap;
-    listener: (this: UiElement, event: any) => any;
-    options?: boolean | IAddEventListenerOptions;
+    listener: (event: any) => any;
+    options?: IAddEventListenerOptions;
 }
 
 
@@ -21,6 +21,9 @@ export interface IAddEventListenerOptions extends AddEventListenerOptions {
     altKey?: boolean;
     shiftKey?: boolean;
     ctrlKey?: boolean;
+    mouseLeft?: boolean;
+    mouseMiddle?: boolean;
+    mouseRight?: boolean;
 }
 
 export type EventKey = "Enter" | "ArrowDown" | "ArrowUp" | "ArrowLeft" | "ArrowRight";
@@ -28,14 +31,14 @@ export type EventKey = "Enter" | "ArrowDown" | "ArrowUp" | "ArrowLeft" | "ArrowR
 export class EventListener<TType extends keyof UiElementEventMap> implements IEventListener {
     constructor(
         type: TType,
-        listener: (this: UiElement, event: UiElementEventMap[TType]) => any,
-        options?: boolean | AddEventListenerOptions
+        listener: (event: UiElementEventMap[TType]) => any,
+        options?: AddEventListenerOptions
     ) {
         this.type = type;
         this.listener = listener;
         this.options = options;
     }
     type: TType;
-    listener: (this: UiElement, event: UiElementEventMap[TType]) => any;
-    options: boolean | IAddEventListenerOptions;
+    listener: (event: UiElementEventMap[TType]) => any;
+    options: IAddEventListenerOptions;
 }

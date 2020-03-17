@@ -1,7 +1,9 @@
 
-export type AttributeName = "alt" | "disabled" | "href" | "id" | "src" | "style" | "title" | "class" | "tabindex"| string;
+export type DropEffect = "none" | "copy" | "link" | "move";
+export type EffectAllowed = "none" | "copy" | "copyLink" | "copyMove" | "link" | "linkMove" | "move" | "all" | "uninitialized";
+export type AttributeName = "alt" | "disabled" | "href" | "id" | "src" | "style" | "title" | "class" | "tabindex" | "draggable" | string;
 
-export type CssProperty = "alignContent" | "alignItems" | "alignSelf" | "alignmentAdjust" | "alignmentBaseline" | "animation" | "animationDelay" | "animationDirection" | "animationDuration" |
+type CssPropertyA = "alignContent" | "alignItems" | "alignSelf" | "alignmentAdjust" | "alignmentBaseline" | "animation" | "animationDelay" | "animationDirection" | "animationDuration" |
     "animationFillMode" | "animationIterationCount" | "animationName" | "animationPlayState" | "animationTimingFunction" | "appearance" | "backfaceVisibility" | "background" |
     "backgroundAttachment" | "backgroundBlendMode" | "backgroundClip" | "backgroundColor" | "backgroundComposite" | "backgroundImage" | "backgroundOrigin" | "backgroundPosition" |
     "backgroundRepeat" | "backgroundSize" | "baselineShift" | "behavior" | "border" | "borderBottom" | "borderBottomColor" | "borderBottomLeftRadius" | "borderBottomRightRadius" |
@@ -15,24 +17,26 @@ export type CssProperty = "alignContent" | "alignItems" | "alignSelf" | "alignme
     "float" | "flowFrom" | "font" | "fontFamily" | "fontKerning" | "fontSize" | "fontSizeAdjust" | "fontStretch" | "fontStyle" | "fontSynthesis" | "fontVariant" | "fontVariantAlternates" |
     "fontWeight" | "gridArea" | "gridAutoColumns" | "gridAutoFlow" | "gridAutoRows" | "gridColumn" | "gridColumnGap" | "gridColumnEnd" | "gridColumnStart" | "gridGap" | "gridRow" |
     "gridRowEnd" | "gridRowGap" | "gridRowStart" | "gridRowPosition" | "gridRowSpan" | "gridTemplate" | "gridTemplateAreas" | "gridTemplateColumns" | "gridTemplateRows" | "height" |
-    "hyphenateLimitChars" | "hyphenateLimitLines" | "hyphenateLimitZone" | "hyphens" | "imeMode" | "justifyContent" | "justifyItems" | "justifySelf" | "layoutGrid" | "layoutGridChar" |
-    "layoutGridLine" | "layoutGridMode" | "layoutGridType" | "left" | "letterSpacing" | "lineBreak" | "lineClamp" | "lineHeight" | "listStyle" | "listStyleImage" | "listStylePosition" |
-    "listStyleType" | "margin" | "marginBottom" | "marginLeft" | "marginRight" | "marginTop" | "marqueeDirection" | "marqueeStyle" | "mask" | "maskBorder" | "maskBorderRepeat" |
-    "maskBorderSlice" | "maskBorderSource" | "maskBorderWidth" | "maskClip" | "maskOrigin" | "maxFontSize" | "maxHeight" | "maxWidth" | "minHeight" | "minWidth" | "mixBlendMode" |
-    "objectFit" | "objectPosition" | "opacity" | "order" | "orphans" | "outline" | "outlineColor" | "outlineStyle" | "outlineOffset" | "outlineWidth" | "overflow" | "overflowStyle" |
-    "overflowWrap" | "overflowX" | "overflowY" | "padding" | "paddingBottom" | "paddingLeft" | "paddingRight" | "paddingTop" | "pageBreakAfter" | "pageBreakBefore" | "pageBreakInside" |
-    "pause" | "pauseAfter" | "pauseBefore" | "perspective" | "perspectiveOrigin" | "pointerEvents" | "position" | "punctuationTrim" | "quotes" | "regionFragment" | "resize" |
-    "restAfter" | "restBefore" | "right" | "rubyAlign" | "rubyPosition" | "rx" | "ry" | "shapeImageThreshold" | "shapeInside" | "shapeMargin" | "shapeOutside" | "speak" |
-    "speakAs" | "src" | "stroke" | "strokeDasharray" | "strokeDashoffset" | "strokeLinecap" | "strokeOpacity" | "strokeWidth" | "tabSize" | "tableLayout" | "textAnchor" |
-    "textAlign" | "textAlignLast" | "textDecoration" | "textDecorationColor" | "textDecorationLine" | "textDecorationLineThrough" | "textDecorationNone" | "textDecorationOverline" |
-    "textDecorationSkip" | "textDecorationStyle" | "textDecorationUnderline" | "textEmphasis" | "textEmphasisColor" | "textEmphasisStyle" | "textHeight" | "textIndent" |
-    "textJustifyTrim" | "textKashidaSpace" | "textLineThrough" | "textLineThroughColor" | "textLineThroughMode" | "textLineThroughStyle" | "textLineThroughWidth" |
+    "hyphenateLimitChars" | "hyphenateLimitLines" | "hyphenateLimitZone" | "hyphens" | "imeMode" | "justifyContent" | "justifyItems" | "justifySelf";
+
+type CssPropertyL = "layoutGrid" | "layoutGridChar" | "layoutGridLine" | "layoutGridMode" | "layoutGridType" | "left" | "letterSpacing" | "lineBreak" | "lineClamp" | "lineHeight" |
+    "listStyle" | "listStyleImage" | "listStylePosition" | "listStyleType" | "margin" | "marginBottom" | "marginLeft" | "marginRight" | "marginTop" | "marqueeDirection" | "marqueeStyle" |
+    "mask" | "maskBorder" | "maskBorderRepeat" | "maskBorderSlice" | "maskBorderSource" | "maskBorderWidth" | "maskClip" | "maskOrigin" | "maxFontSize" | "maxHeight" | "maxWidth" |
+    "minHeight" | "minWidth" | "mixBlendMode" | "objectFit" | "objectPosition" | "opacity" | "order" | "orphans" | "outline" | "outlineColor" | "outlineStyle" | "outlineOffset" |
+    "outlineWidth" | "overflow" | "overflowStyle" | "overflowWrap" | "overflowX" | "overflowY" | "padding" | "paddingBottom" | "paddingLeft" | "paddingRight" | "paddingTop" |
+    "pageBreakAfter" | "pageBreakBefore" | "pageBreakInside" | "pause" | "pauseAfter" | "pauseBefore" | "perspective" | "perspectiveOrigin" | "pointerEvents" | "position" |
+    "punctuationTrim" | "quotes" | "regionFragment" | "resize" | "restAfter" | "restBefore" | "right" | "rubyAlign" | "rubyPosition" | "rx" | "ry" | "shapeImageThreshold" |
+    "shapeInside" | "shapeMargin" | "shapeOutside" | "speak" | "speakAs" | "src" | "stroke" | "strokeDasharray" | "strokeDashoffset" | "strokeLinecap" | "strokeOpacity" |
+    "strokeWidth" | "tabSize" | "tableLayout" | "textAnchor" | "textAlign" | "textAlignLast" | "textDecoration" | "textDecorationColor" | "textDecorationLine" | "textDecorationLineThrough" |
+    "textDecorationNone" | "textDecorationOverline" | "textDecorationSkip" | "textDecorationStyle" | "textDecorationUnderline" | "textEmphasis" | "textEmphasisColor" | "textEmphasisStyle" |
+    "textHeight" | "textIndent" | "textJustifyTrim" | "textKashidaSpace" | "textLineThrough" | "textLineThroughColor" | "textLineThroughMode" | "textLineThroughStyle" | "textLineThroughWidth" |
     "textOverflow" | "textOverline" | "textOverlineColor" | "textOverlineMode" | "textOverlineStyle" | "textOverlineWidth" | "textRendering" | "textScript" | "textShadow" |
     "textTransform" | "textUnderlinePosition" | "textUnderlineStyle" | "top" | "touchAction" | "transform" | "transformOrigin" | "transformOriginZ" | "transformStyle" |
     "transition" | "transitionDelay" | "transitionDuration" | "transitionProperty" | "transitionTimingFunction" | "unicodeBidi" | "unicodeRange" | "userFocus" | "userInput" |
     "userSelect" | "verticalAlign" | "visibility" | "voiceBalance" | "voiceDuration" | "voiceFamily" | "voicePitch" | "voiceRange" | "voiceRate" | "voiceStress" | "voiceVolume" |
     "whiteSpace" | "whiteSpaceTreatment" | "widows" | "width" | "willChange" | "wordBreak" | "wordSpacing" | "wordWrap" | "wrapFlow" | "wrapMargin" | "wrapOption" | "writingMode" | "zIndex" | "zoom";
 
+export type CssProperty = CssPropertyA | CssPropertyL;
 /*
 * Value of a CSS Property.  Could be a single value or a list of fallbacks
 * NOTE: array is for fallbacks
@@ -112,7 +116,7 @@ export type CssColorSet = string | CssColor;
   * This property specifies the type of rendering box used for an element. It is a shorthand property for many other display properties.
   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/display
   */
-export type CssDisplay = "block" | "inline" | "run-in" | "flow" | "flow-root" | "table" | "flex" | "grid" | "ruby" | "subgrid" | "block flow" | "inline table" | "flex run-in" | "list-item" | "list-item block" | "list-item inline" | "list-item flow" | "list-item flow-root" | "list-item block flow" | "list-item block flow-root" | "flow list-item block" | "table-row-group" | "table-header-group" | "table-footer-group" | "table-row" | "table-cell" | "table-column-group" | "table-column" | "table-caption" | "ruby-base" | "ruby-text" | "ruby-base-container" | "ruby-text-container" | "contents" | "none" | "inline-block" | "inline-list-item" | "inline-table" | "inline-flex" | "inline-grid";
+export type CssDisplay = "inherit" | "initial" | "block" | "inline" | "run-in" | "flow" | "flow-root" | "table" | "flex" | "grid" | "ruby" | "subgrid" | "block flow" | "inline table" | "flex run-in" | "list-item" | "list-item block" | "list-item inline" | "list-item flow" | "list-item flow-root" | "list-item block flow" | "list-item block flow-root" | "flow list-item block" | "table-row-group" | "table-header-group" | "table-footer-group" | "table-row" | "table-cell" | "table-column-group" | "table-column" | "table-caption" | "ruby-base" | "ruby-text" | "ruby-base-container" | "ruby-text-container" | "contents" | "none" | "inline-block" | "inline-list-item" | "inline-table" | "inline-flex" | "inline-grid";
 /**
   * CSS Type <baseline-position> of Box Alignment
   * @see https://www.w3.org/TR/css-align-3/#typedef-baseline-position
