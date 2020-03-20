@@ -1,0 +1,66 @@
+{
+  "name": "jpf",
+  "version": "2.0.186",
+  "description": "Javascript Presentation Foundation",
+  "keywords": [
+    "mvvm",
+    "framework",
+    "binding",
+    "observable",
+    "single page application",
+    "spa"
+  ],
+  "homepage": "https://github.com/williwyg/jpf#readme",
+  "bugs": "",
+  "license": "MIT",
+  "author": {
+    "name": "Willy van Vroenhoven",
+    "email": "vroenhoven@opinio.nl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williwyg/jpf"
+  },
+  "main": "lib/jpf.js",
+  "types": "declarations/index.d.ts",
+  "files": [
+    "declarations",
+    "lib",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpackLibDevelopment": "webpack --config webpack.lib.development.ts",
+    "webpackLibProduction": "webpack --config webpack.lib.production.ts",
+    "npmInstall": "npm install",
+    "npmPublish": "npm run webpackLibDevelopment & npm run webpackLibProduction & npm publish",
+    "npmAudit": "npm audit",
+    "npmAuditFix": "npm audit fix",
+    "npmAuditFixForce": "npm audit fix --force"
+  },
+  "dependencies": {
+    "tocca": "2.0.9",
+    "ua-parser-js": "0.7.21"
+  },
+  "peerDependencies": {
+    "knockout": "3.x"
+  },
+  "devDependencies": {
+    "@types/knockout": "^3.4.66",
+    "@types/ua-parser-js": "^0.7.33",
+    "@types/webpack": "^4.4.35",
+    "babel-polyfill": "6.26.0",
+    "file-callback-webpack-plugin": "1.0.6",
+    "html-webpack-plugin": "^3.2.0",
+    "listdirs": "^3.1.1",
+    "path": "0.12.7",
+    "remove-files-webpack-plugin": "1.1.3",
+    "ts-loader": "6.0.4",
+    "ts-node": "8.3.0",
+    "typescript": "3.7.2",
+    "webpack": "4.27.1",
+    "webpack-cli": "3.1.2"
+  }
+}
