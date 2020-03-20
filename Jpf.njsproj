@@ -31,7 +31,6 @@
     <Content Include="tsconfig.json" />
     <Content Include="README.md" />
     <TypeScriptCompile Include="src\eventListener.ts" />
-    <TypeScriptCompile Include="src\attribute.ts" />
     <TypeScriptCompile Include="src\userAgent.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

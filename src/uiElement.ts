@@ -1,12 +1,12 @@
 ﻿import "tocca";
 import * as ko from "knockout";
 import { Style, StyleObservable, defaultStyle } from "./style";
-import { Attribute } from "./attribute";
+import { AttributeName } from "./types";
 import { EventListener, IEventListener, IAddEventListenerOptions, UiElementEventMap } from "./eventListener";
 import * as types from "./types";
 import { userAgent } from "./userAgent";
 
-var uiElementPropertyName = "uiElement";
+const uiElementPropertyName = "uiElement";
 
 const mouseEvents = {
     contextmenu: true,
@@ -34,21 +34,21 @@ function isGlobalEvent(event: keyof UiElementEventMap): boolean {
     return !(mouseEvents[event] || touchEvents[event]);
 }
 
-export var settings = {
+export const settings = {
     tapDelay: 300
 }
 
-var observerOptions: MutationObserverInit = {
+let observerOptions: MutationObserverInit = {
     childList: true,
     subtree: true
 }
 
-var mutationObserver = new MutationObserver(
+const mutationObserver = new MutationObserver(
     (mutationRecords: MutationRecord[]) => {
         mutationRecords.forEach((mutationRecord) => {
             if (mutationRecord.removedNodes) {
                 mutationRecord.removedNodes.forEach((removedNode) => {
-                    var uiElement = removedNode[uiElementPropertyName] as IDisposable;
+                    const uiElement = removedNode[uiElementPropertyName] as Disposable;
                     if (uiElement && uiElement.disposeOnDomRemoval && uiElement.dispose) {
                         uiElement.dispose();
                     }
@@ -67,11 +67,17 @@ export function setObserverOptions(options: MutationObserverInit) {
     observerOptions = options;
 }
 
-interface IDisposable {
+interface Disposable {
     disposeOnDomRemoval: boolean;
     dispose(): void;
 }
 
+export interface Attribute {
+    name: AttributeName;
+    value: string | number | KnockoutObservable<string | number>;
+}
+
+// eslint-disable-next-line
 export interface IUiElement {
     render(): HTMLElement;
     getElement(): HTMLElement;
@@ -140,7 +146,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
 
         if (this.options.style) {
-            for (let styleProperty of Object.keys(this.options.style)) {
+            for (const styleProperty of Object.keys(this.options.style)) {
                 const styleValue = this.options.style[styleProperty];
                 this.style[styleProperty] = ko.unwrap(styleValue);
                 if (ko.isObservable(styleValue)) {
@@ -156,7 +162,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     private attributes: { [index: string]: string | number } = {};
     private style: Style = {};
     private innerText: string;
-    private innerTextIsHtml: boolean = false;
+    private innerTextIsHtml = false;
     private children = new Array<IUiElement>();
     private knockoutSubscriptions = Array<KnockoutSubscription>();
     private addEventListenerToElement(type: keyof UiElementEventMap, listener: (event: any) => any, options: IAddEventListenerOptions) {
@@ -243,7 +249,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
 
         //Render the children
         if (this.children) {
-            for (let child of this.children) {
+            for (const child of this.children) {
                 this.element.appendChild(child.render());
             }
         }
@@ -611,7 +617,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
 
         //Dispose all children
         for (let child of this.children) {
-            (child as any as IDisposable).dispose();
+            (child as any as Disposable).dispose();
         }
 
         //Dispose all knockout subscriptions

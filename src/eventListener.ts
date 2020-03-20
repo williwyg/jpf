@@ -10,7 +10,7 @@ export interface UiElementEventMap extends HTMLElementEventMap {
 
 export interface IEventListener {
     type: keyof UiElementEventMap;
-    listener: (event: any) => any;
+    listener: (event: Event) => void;
     options?: IAddEventListenerOptions;
 }
 
@@ -29,14 +29,14 @@ export type EventKey = "Enter" | "ArrowDown" | "ArrowUp" | "ArrowLeft" | "ArrowR
 export class EventListener<TType extends keyof UiElementEventMap> implements IEventListener {
     constructor(
         type: TType,
-        listener: (event: UiElementEventMap[TType]) => any,
+        listener: (event: UiElementEventMap[TType]) => void,
         options?: AddEventListenerOptions
     ) {
         this.type = type;
-        this.listener = listener;
+        this.listener = listener as (event: Event) => void;
         this.options = options;
     }
     type: TType;
-    listener: (event: UiElementEventMap[TType]) => any;
+    listener: (event: Event) => void;
     options: IAddEventListenerOptions;
 }
