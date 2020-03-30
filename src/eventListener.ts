@@ -30,7 +30,7 @@ export class EventListener<TType extends keyof UiElementEventMap> implements IEv
     constructor(
         type: TType,
         listener: (event: UiElementEventMap[TType]) => void,
-        options?: AddEventListenerOptions
+        options?: IAddEventListenerOptions
     ) {
         this.type = type;
         this.listener = listener as (event: Event) => void;
