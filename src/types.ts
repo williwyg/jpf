@@ -1,7 +1,7 @@
 
 export type DropEffect = "none" | "copy" | "link" | "move";
 export type EffectAllowed = "none" | "copy" | "copyLink" | "copyMove" | "link" | "linkMove" | "move" | "all" | "uninitialized";
-export type AttributeName = "alt" | "disabled" | "href" | "id" | "src" | "style" | "title" | "class" | "tabindex" | "draggable" | string;
+export type AttributeName = "alt" | "disabled" | "href" | "id" | "src" | "style" | "title" | "class" | "tabindex" | "draggable" | "placeholder" | string;
 
 type CssPropertyA = "alignContent" | "alignItems" | "alignSelf" | "alignmentAdjust" | "alignmentBaseline" | "animation" | "animationDelay" | "animationDirection" | "animationDuration" |
     "animationFillMode" | "animationIterationCount" | "animationName" | "animationPlayState" | "animationTimingFunction" | "appearance" | "backfaceVisibility" | "background" |
