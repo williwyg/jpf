@@ -260,5 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /.gitattributes
-declarations
-/examples
+dist
+jpf.sln
