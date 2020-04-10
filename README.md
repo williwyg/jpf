@@ -1,4 +1,4 @@
-# JPF   (Javascript Presentation Foundation)
+# JPF  (Javascript Presentation Foundation)
 Knockout plugin for building Graphical User Interfaces for the web following the MVVM pattern similar to WPF for Windows. 
 The base class "UiElement" implements the fundamental binding mechanism that is needed to support the MVVM pattern.
 
