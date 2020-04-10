@@ -260,5 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /.gitattributes
-/dist
-/jpf.sln
+/dist/**/*
+/Jpf.sln
