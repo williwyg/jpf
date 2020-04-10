@@ -1,0 +1,1 @@
+{"version":3,"file":"eventListener.js","sourceRoot":"","sources":["../src/eventListener.ts"],"names":[],"mappings":";;AA4BA,MAAa,aAAa;IACtB,YACI,IAAW,EACX,QAAmD,EACnD,OAAkC;QAElC,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;QACjB,IAAI,CAAC,QAAQ,GAAG,QAAkC,CAAC;QACnD,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;IAC3B,CAAC;CAIJ;AAbD,sCAaC"}

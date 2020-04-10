@@ -39,15 +39,9 @@
     <TypeScriptCompile Include="src\index.ts" />
     <TypeScriptCompile Include="src\style.ts" />
     <TypeScriptCompile Include="src\types.ts" />
-    <TypeScriptCompile Include="webpack.lib.base.ts" />
-    <TypeScriptCompile Include="webpack.lib.production.ts" />
-    <TypeScriptCompile Include="webpack.lib.development.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="lib\" />
     <Folder Include="src\" />
-    <Compile Include="lib\jpf.js" />
-    <Compile Include="lib\jpf.min.js" />
     <Compile Include="LICENSE" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

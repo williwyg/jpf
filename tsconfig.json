@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
     "forceConsistentCasingInFileNames": true,
     "listEmittedFiles": true,
     "noEmitOnError": true,
@@ -17,13 +17,7 @@
     "strictPropertyInitialization": false,
     "esModuleInterop": false,
     "declaration": true,
-    "declarationDir": "declarations"
+    "outDir": "./dist"
   },
-  "exclude": [
-    "webpack.examples.base.ts",
-    "webpack.examples.ts",
-    "webpack.lib.base.ts",
-    "webpack.lib.development.ts",
-    "webpack.lib.production.ts"
-  ]
+  "include": ["src/**/*"]
 }

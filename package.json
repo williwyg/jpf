@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.190",
+  "version": "2.0.193",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -21,25 +21,23 @@
     "type": "git",
     "url": "https://github.com/williwyg/jpf"
   },
-  "main": "lib/jpf.js",
-  "types": "declarations/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "declarations",
-    "lib",
+    "dist",
     "LICENSE",
     "package.json",
     "README.md"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpackLibDevelopment": "webpack --config webpack.lib.development.ts",
-    "webpackLibProduction": "webpack --config webpack.lib.production.ts",
     "npmInstall": "npm install",
-    "npmPublish": "npm run webpackLibDevelopment & npm run webpackLibProduction & npm publish",
+    "npmPublish": "tsc & npm publish",
     "npmAudit": "npm audit",
     "npmAuditFix": "npm audit fix",
     "npmAuditFixForce": "npm audit fix --force",
-    "npmCacheClean": "npm cache clean --force"
+    "npmCacheClean": "npm cache clean --force",
+    "tsc": "tsc"
   },
   "dependencies": {
     "tocca": "2.0.9",
@@ -51,17 +49,6 @@
   "devDependencies": {
     "@types/knockout": "^3.4.67",
     "@types/ua-parser-js": "^0.7.33",
-    "@types/webpack": "^4.41.10",
-    "core-js": "3.6.4",
-    "file-callback-webpack-plugin": "1.0.6",
-    "html-webpack-plugin": "4.0.4",
-    "listdirs": "^3.1.1",
-    "path": "0.12.7",
-    "remove-files-webpack-plugin": "1.4.0",
-    "ts-loader": "6.0.4",
-    "ts-node": "8.3.0",
-    "typescript": "3.7.2",
-    "webpack": "4.27.1",
-    "webpack-cli": "3.1.2"
+    "typescript": "^3.8.3"
   }
 }
