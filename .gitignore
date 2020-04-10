@@ -261,4 +261,4 @@ __pycache__/
 *.pyc
 /.gitattributes
 /dist/**/*
-/Jpf.sln
+/tsconfig.json

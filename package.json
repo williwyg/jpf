@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.193",
+  "version": "2.0.194",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -31,12 +31,11 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "npmInstall": "npm install",
-    "npmPublish": "tsc & npm publish",
     "npmAudit": "npm audit",
     "npmAuditFix": "npm audit fix",
     "npmAuditFixForce": "npm audit fix --force",
     "npmCacheClean": "npm cache clean --force",
+    "npmPublish": "tsc & npm publish",
     "tsc": "tsc"
   },
   "dependencies": {
