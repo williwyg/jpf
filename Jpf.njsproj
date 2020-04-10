@@ -28,8 +28,8 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <Content Include="package.json" />
-    <Content Include="tsconfig.json" />
     <Content Include="README.md" />
+    <Content Include="tsconfig.json" />
     <TypeScriptCompile Include="src\eventListener.ts" />
     <TypeScriptCompile Include="src\userAgent.ts">
       <SubType>Code</SubType>
