@@ -308,23 +308,23 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                         this.addEventListenerToElement(
                             eventListener.type,
                             (event: Event) => {
-                                if (event instanceof KeyboardEvent) {
-                                    if (eventListener.options) {
-                                        const options = eventListener.options as IAddEventListenerOptions;
-                                        if (options.altKey && !event.altKey) {
-                                            return;
-                                        }
-                                        if (options.shiftKey && !event.shiftKey) {
-                                            return;
-                                        }
-                                        if (options.ctrlKey && !event.ctrlKey) {
-                                            return;
-                                        }
-                                        if (options.eventKey && options.eventKey !== event.key) {
-                                            return;
-                                        }
+                                if (eventListener.options) {
+                                    const options = eventListener.options as IAddEventListenerOptions;
+                                    const keyEvent = event as KeyboardEvent;
+                                    if (options.altKey && !keyEvent.altKey) {
+                                        return;
+                                    }
+                                    if (options.shiftKey && !keyEvent.shiftKey) {
+                                        return;
+                                    }
+                                    if (options.ctrlKey && !keyEvent.ctrlKey) {
+                                        return;
+                                    }
+                                    if (options.eventKey && options.eventKey !== keyEvent.key) {
+                                        return;
                                     }
                                 }
+
                                 eventListener.listener.call(this, event);
                             },
                             eventListener.options
