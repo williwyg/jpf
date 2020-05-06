@@ -268,8 +268,8 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     //Public members
     render(): HTMLElement {
         if (this.element) {
-            //If the element has already been rendered we return the rendered element
-            return this.element;
+            //If the element has already been rendered we remove the element from the dom
+            this.remove();
         }
 
         //Check if the build property is pointing to a function.
