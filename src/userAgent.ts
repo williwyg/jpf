@@ -23,7 +23,8 @@ function supportsMouseEvents(): boolean {
 
 export const userAgent = {
     browser: {
-        isEdge: result.browser.name === "Edge",
+        isEdgeHtml: result.browser.name === "Edge",
+        isEdgeChromium: result.browser.name ==="Edg",
         isInternetExplorer: result.browser.name === "IE",
         isChrome: result.browser.name === "Chrome",
         isFirefox: result.browser.name === "Firefox",

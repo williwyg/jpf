@@ -1,6 +1,6 @@
 {
   "name": "jpf",
-  "version": "2.0.197",
+  "version": "3.0.11",
   "description": "Javascript Presentation Foundation",
   "keywords": [
     "mvvm",
@@ -40,14 +40,14 @@
   },
   "dependencies": {
     "tocca": "2.0.9",
-    "ua-parser-js": "0.7.21"
+    "ua-parser-js": "0.7.22"
   },
   "peerDependencies": {
     "knockout": "3.x"
   },
   "devDependencies": {
-    "@types/knockout": "^3.4.67",
+    "@types/knockout": "3.4.67",
     "@types/ua-parser-js": "^0.7.33",
-    "typescript": "^3.8.3"
+    "typescript": "3.8.3"
   }
 }

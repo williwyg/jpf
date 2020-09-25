@@ -67,6 +67,10 @@ export function setObserverOptions(options: MutationObserverInit) {
     observerOptions = options;
 }
 
+function isNotNullOrUndefined(value) {
+    return !(value === null || typeof value === "undefined");
+}
+
 interface Disposable {
     disposeOnDomRemoval: boolean;
     dispose(): void;
@@ -84,86 +88,160 @@ export interface IUiElement {
 }
 
 export interface UiElementOptions {
-    id?: string;
-    elementType?: string;
-    className?: string | KnockoutObservable<string>;
-    attributes?: Array<Attribute>;
+    id?: string | number;
+    elementType?: string | KnockoutObservable<string>;
+    classNames?: string[] | KnockoutObservableArray<string>;
+    attributes?: Array<Attribute> | KnockoutObservableArray<Attribute>;
     eventListeners?: Array<IEventListener>;
-    style?: StyleObservable;
-    selectable?: boolean;
+    style?: Style | StyleObservable;
+    innerHtml?: string | KnockoutObservable<string>;
     innerText?: string | KnockoutObservable<string>;
-    innerTextIsHtml?: boolean;
-    addControlToDataDictionary?: boolean;
     children?: Array<IUiElement> | KnockoutObservableArray<IUiElement>;
+    addControlToDataDictionary?: boolean;
+    userSelectable?: boolean;
     dispose?: () => void;
     disposeOnDomRemoval?: boolean;
+    refresh?: () => void;
+    visible?: boolean | KnockoutObservable<boolean>;
 }
 
 export abstract class UiElement<TOptions extends UiElementOptions = UiElementOptions> implements IUiElement {
     protected constructor(tagName: string, elementType: string, options?: TOptions) {
         this.tagName = tagName;
+        this.elementType = elementType || "UiElement";
         this.options = options || {} as TOptions;
 
-        if (!this.options.elementType) {
-            this.options.elementType = elementType;
-        }
-
-        this.innerTextIsHtml = this.options.innerTextIsHtml;
-
-        if (this.options.innerText) {
-            const innerText = this.options.innerText;
-            this.innerText = ko.unwrap(innerText);
-            if (ko.isObservable(innerText)) {
-                innerText.subscribe((newValue: string) => {
-                    if (this.innerTextIsHtml) {
-                        setInterval(newValue);
-                    } else {
-                        this.setInnerText(newValue);
-                    }
-                });
+        if (options) {
+            if (isNotNullOrUndefined(options.id)) {
+                this.setAttribute("id", options.id);
             }
-        }
 
-        if (this.options.attributes) {
-            this.options.attributes.forEach((attribute) => {
-                this.attributes[attribute.name] = ko.unwrap(attribute.value);
-                if (ko.isObservable(attribute.value)) {
-                    this.addSubscription(attribute.value, (newValue) => {
-                        this.setAttribute(attribute.name, newValue);
+            if (options.elementType) {
+                this.elementType = ko.unwrap(options.elementType);
+                if (ko.isObservable(options.elementType)) {
+                    this.addSubscription(
+                        options.elementType,
+                        () => {
+                            this.setElementType(elementType);
+                        }
+                    );
+                }
+            }
+
+            if (options.classNames) {
+                this.setClasses(ko.unwrap(options.classNames), true);
+                if (ko.isObservable(options.classNames)) {
+                    this.addSubscription(
+                        options.classNames,
+                        (classNames) => {
+                            this.setClasses(classNames, true);
+                        }
+                    );
+                }
+            }
+
+            if (options.attributes) {
+                this.setAttributes(ko.unwrap(options.attributes));
+                if (ko.isObservable(options.attributes)) {
+                    this.addSubscription(
+                        options.attributes,
+                        (attributes) => {
+                            this.setAttributes(attributes);
+                        }
+                    );
+                }
+            }
+
+            if (options.eventListeners) {
+                this.eventListeners = options.eventListeners;
+            }
+
+            if (options.style) {
+                for (const styleProperty of Object.keys(options.style)) {
+                    const styleValue = options.style[styleProperty];
+                    this.style[styleProperty] = ko.unwrap(styleValue);
+                    if (ko.isObservable(styleValue)) {
+                        this.addSubscription(styleValue, (newValue) => {
+                            this.setStyle({ [styleProperty]: newValue } as any as Style);
+                        });
+                    }
+                }
+            }
+
+            if (options.userSelectable === false) {
+                this.userSelectable = false;
+            }
+
+            if (isNotNullOrUndefined(options.innerHtml)) {
+                this.setInnerHtml(ko.unwrap(options.innerHtml));
+                if (ko.isObservable(options.innerHtml)) {
+                    this.addSubscription(options.innerHtml, (innerHtml) => {
+                        this.setInnerHtml(innerHtml);
                     });
                 }
-            });
-        }
-
-        if (this.options.children) {
-            const children = this.options.children;
-            this.children = ko.unwrap(children);
-            if (ko.isObservable(children)) {
-                children.subscribe((newChildren) => {
-                    this.setChildren(newChildren);
-                });
             }
-        }
 
-        if (this.options.style) {
-            for (const styleProperty of Object.keys(this.options.style)) {
-                const styleValue = this.options.style[styleProperty];
-                this.style[styleProperty] = ko.unwrap(styleValue);
-                if (ko.isObservable(styleValue)) {
-                    this.addSubscription(styleValue, (newValue) => {
-                        this.setStyle({ [styleProperty]: newValue } as any as Style);
+            if (isNotNullOrUndefined(options.innerText)) {
+                this.setInnerText(ko.unwrap(options.innerText));
+                if (ko.isObservable(options.innerText)) {
+                    this.addSubscription(options.innerText, (newValue) => {
+                        this.setInnerText(newValue);
+                    });
+                }
+            }
+
+            if (options.addControlToDataDictionary) {
+                this.addControlToDataDictionary = true;
+            }
+
+            if (options.children) {
+                this.children = ko.unwrap(options.children);
+                if (ko.isObservable(options.children)) {
+                    this.addSubscription(options.children, (newChildren) => {
+                        this.setChildren(newChildren);
+                    });
+                }
+            }
+
+            if (options.dispose) {
+                var dispose = this.dispose;
+                this.dispose = () => {
+                    dispose();
+                    options.dispose();
+                }
+            }
+
+            if (options.refresh) {
+                this.refresh = options.refresh;
+            }
+
+            if (options.visible) {
+                var visible = ko.unwrap(options.visible);
+                if (visible === false) {
+                    this.visible = false;
+                }
+                if (ko.isObservable(options.visible)) {
+                    this.addSubscription(options.visible, (newValue) => {
+                        this.setVisibility(newValue);
                     });
                 }
             }
         }
     }
 
-    //Private members
+    // #region Private members
+    readonly tagName: string;
+    private elementType: string;
     private attributes: { [index: string]: string | number } = {};
+    private classes = {}
+    private eventListeners: Array<IEventListener>;
     private style: Style = {};
+    private readonly userSelectable: boolean = true;
+    private innerHtml: string;
     private innerText: string;
-    private innerTextIsHtml = false;
+    private readonly addControlToDataDictionary: boolean = false;
     private children = new Array<IUiElement>();
+    readonly diposeOnDomRemoval: boolean = false;
     private knockoutSubscriptions = Array<KnockoutSubscription>();
     private addEventListenerToElement(type: keyof UiElementEventMap, listener: (event: any) => any, options: IAddEventListenerOptions) {
         if (!type) {
@@ -203,69 +281,110 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             throw "Your browser does not support 'addEventListener'";
         }
     }
+    private setAttributes(attributes: Array<Attribute>) {
+        const existingAttributeNames = Object.keys(this.attributes);
 
-    //Protected members
+        //Clear the attributes dictionary
+        this.attributes = {};
+
+
+        //Add the new attributes
+        attributes.forEach((attribute) => {
+            this.attributes[attribute.name] = ko.unwrap(attribute.value);
+            if (ko.isObservable(attribute.value)) {
+                this.addSubscription(attribute.value,
+                    (newValue) => {
+                        this.setAttribute(attribute.name, newValue);
+                    }
+                );
+            }
+        });
+
+        //Check if there are attributes to be deleted
+        if (existingAttributeNames) {
+            existingAttributeNames.forEach((existingAttributeName) => {
+                if (!this.attributes[existingAttributeName]) {
+                    this.removeAttribute(existingAttributeName);
+                }
+            });
+        }
+    }
+    private styleDisplayVisible = "";
+    private visible = true;
+
+    //Public Event members
+    addEventListener<TType extends keyof UiElementEventMap>(
+        type: TType,
+        listener: (this: UiElement, event: UiElementEventMap[TType]) => any,
+        options?: IAddEventListenerOptions
+    ) {
+        if (!this.eventListeners) {
+            this.eventListeners = new Array();
+        }
+        this.eventListeners.push(new EventListener(type, listener, options));
+    }
+    // #endregion
+
+    // #region Protected members
     protected element: HTMLElement;
-    protected readonly options: TOptions;
     protected build(): void {
-        if (this.options.id) {
-            this.element.id = this.options.id;
+
+        if (this.elementType) {
+            this.setAttribute("elementtype", this.elementType);
         }
 
-        if (this.options.elementType) {
-            this.setAttribute("elementtype", this.options.elementType);
+        //Determine the diplay value for when the element is visible.
+        const display = this.getStyleValue("display");
+        if (display && display !== "none") {
+            this.styleDisplayVisible = display;
         }
 
-        const bindings = {
-            style: this.style,
-            attr: this.attributes,
-        }
+        //Update the visibility to reflect the initial visible state
+        this.setVisibility(this.visible);
 
-        if (this.innerText) {
-            if (this.innerTextIsHtml) {
-                bindings["html"] = this.innerText;
-            } else {
-                bindings["text"] = this.innerText;
+        ko.applyBindingsToNode(
+            this.element,
+            {
+                style: this.style,
+                attr: this.attributes
             }
+        );
+
+        if (isNotNullOrUndefined(this.innerHtml)) {
+            this.element.innerHTML = this.innerHtml;
         }
 
-        if (this.options.className) {
-            if (ko.isObservable(this.options.className)) {
-                bindings["css"] = this.options.className;
-            } else {
-                bindings["css"] = {
-                    [this.options.className as string]: true
-                };
-            }
+        if (isNotNullOrUndefined(this.innerText)) {
+            this.element.innerText = this.innerText;
         }
 
-        ko.applyBindingsToNode(this.element, bindings);
+        this.element.className = Object.keys(this.classes).join(" ");
 
         //Find out if the element is none selectable
-        if (this.options.selectable === false) {
+        if (this.userSelectable === false) {
             this.addEventListenerToElement("selectstart", () => { return false; }, { passive: true });
             this.element.style.userSelect = "none";
         }
 
         //Render the children
         if (this.children) {
-            for (const child of this.children) {
+            this.children.forEach((child) => {
                 this.element.appendChild(child.render());
-            }
+            });
         }
 
-        if (this.options.addControlToDataDictionary) {
+        if (this.addControlToDataDictionary) {
             if (!this.element.data) {
                 this.element.data = {};
             }
             this.element.data.uiElement = this;
         }
     }
-    protected addSubscription(observable: KnockoutObservable<any>, callback: (newValue) => void) {
-        this.knockoutSubscriptions.push(observable.subscribe(callback));
-    }
+    protected readonly options: TOptions;
+    // #endregion
 
-    //Public members
+    // #region Public members
+    //Render the virtual UiElement to a html element
     render(): HTMLElement {
         if (this.element) {
             //If the element has already been rendered we remove the element from the dom
@@ -277,9 +396,6 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             //Create the html element.
             this.element = document.createElement(this.tagName);
 
-            //Attach this UiElement to the HtmlElement
-            //this.element[uiElementPropertyName] = this;
-
             //Build the UiElement
             this.build();
 
@@ -287,8 +403,8 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             const clickEventListeners = new Array<IEventListener>();
             const doubleClickEventListeners = new Array<IEventListener>();
 
-            if (this.options.eventListeners) {
-                const eventListeners = this.options.eventListeners;
+            if (this.eventListeners) {
+                const eventListeners = this.eventListeners;
                 eventListeners.forEach((eventListener) => {
                     if (eventListener.type === "click") {
                         clickEventListeners.push(eventListener);
@@ -367,22 +483,32 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         throw "The build method of this UiElement has not been defined";
     }
     refresh(): void { }
+
+    //Remove the rendered element from the dom
     remove(): void {
         if (this.element) {
             if (this.element.remove) {
                 this.element.remove();
             } else {
-                this.element.parentElement.removeChild(this.element);
+                if (this.element.parentElement) {
+                    this.element.parentElement.removeChild(this.element);
+                }
             }
 
             this.element = null;
         }
     }
 
-    handleMessage(message: object): void { }
+    handleMessage(message: object): void {
+        console.log(JSON.stringify(message));
+    }
+
+    //Get the rendered html element
     getElement(): HTMLElement {
         return this.element;
     }
+
+    //Focus the rendered html element
     focus(options?: FocusOptions): void {
         if (this.element) {
             this.element.focus(options);
@@ -398,45 +524,82 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             (this.element.nextSibling as HTMLElement).focus(options);
         }
     }
+    setElementType(elementType) {
+        this.elementType = elementType;
+        this.setAttribute("elementType", elementType);
+    }
+    setClasses(classNames: string[], replace: boolean) {
+        //If all existing classes need to be replace we reset the classes object to an empty object
+        if (replace) {
+            this.classes = {};
+        }
+
+        //Add all the classNames to the classes object
+        if (classNames) {
+            classNames.forEach((className) => {
+                this.classes[className] = true;
+            });
+        }
+
+        //If the UiElement is rendered update the className property of the html element
+        if (this.element) {
+            this.element.className = Object.keys(this.classes).join(" ");
+        }
+    }
+    removeClasses(classNames: string[]) {
+        if (classNames) {
+            classNames.forEach((className) => {
+                if (this.classes[className]) {
+                    delete this.classes[className];
+                }
+
+                //If the UiElement is rendered remove the className from the html element
+                if (this.element) {
+                    this.element.classList.remove(className);
+                }
+            });
+        }
+    }
+    setInnerHtml(innerHtml: string) {
+        this.innerHtml = innerHtml;
+        if (this.element) {
+            this.element.innerHTML = innerHtml;
+        }
+    }
     setInnerText(innerText: string) {
         this.innerText = innerText;
         if (this.element) {
             this.element.innerText = innerText;
         }
     }
-    setInnerHtml(innerHtml: string) {
-        this.innerText = innerHtml;
-        if (this.element) {
-            this.element.innerHTML = innerHtml;
-        }
-    }
-
-    //Public Attribute members
-    getAttribute(attributeName: types.AttributeName): string | number {
-        if (this.element) {
-            return this.element.getAttribute(attributeName);
-        } else {
-            return ko.unwrap<string | number>(this.attributes[attributeName]);
-        }
-    }
     setAttribute(name: types.AttributeName, value: string | number): void {
-        const currentAttribute = this.attributes[name];
-        if (currentAttribute && ko.isObservable(currentAttribute)) {
-            //Set the observable and the binding takes care for updating the element
-            currentAttribute(ko.unwrap(value));
-        } else {
-            this.attributes[name] = value;
-            if (this.element) {
-                this.element.setAttribute(name, value as string);
-            }
+        //Add the attribute to the attributes dictionary
+        this.attributes[name] = value;
+
+        //If the UiElement is rendered add the attribute to the html element
+        if (this.element) {
+            this.element.setAttribute(name, value as string);
         }
     }
-    deleteAttribute(attributeName: string): void {
+    removeAttribute(attributeName: string): void {
+        //Delete the attribute from the attributes dictionary
         if (this.attributes[attributeName]) {
             delete this.attributes[attributeName];
         }
+
+        //if the UiElement is rendered remove the attribute from the html element
         if (this.element) {
             this.element.removeAttribute(attributeName);
+        }
+    }
+    getAttribute(attributeName: types.AttributeName): string | number {
+        //Check if the UiElement is rendered
+        if (this.element) {
+            //Return the rendered value
+            return this.element.getAttribute(attributeName);
+        } else {
+            //Return the value from the attributes dictionary
+            return this.attributes[attributeName];
         }
     }
 
@@ -446,14 +609,18 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             return this.style;
         }
         const style: Style = {};
-        for (let cssProperty of cssProperties) {
-            if (this.style[cssProperty]) {
-                style[cssProperty] = this.style[cssProperty] as never;
-            }
-            else if (this.element) {
-                style[cssProperty] = this.element.style[cssProperty] as never;
-            }
+
+        if (cssProperties) {
+            cssProperties.forEach((cssProperty) => {
+                if (this.style[cssProperty]) {
+                    style[cssProperty] = this.style[cssProperty] as never;
+                }
+                else if (this.element) {
+                    style[cssProperty] = this.element.style[cssProperty] as never;
+                }
+            });
         }
+
         return style;
     }
     getStyleValue(cssProperty: types.CssProperty): any {
@@ -473,25 +640,21 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                     }
                 }
                 const newValue = newStyle[key];
-                const currentValue = this.style[key];
-                if (currentValue && ko.isObservable(currentValue)) {
-                    currentValue(ko.unwrap(newValue));
-                } else {
-                    this.style[key] = newValue;
-                    if (this.element) {
-                        if (newValue === null || newValue === undefined) {
-                            if (userAgent.browser.isInternetExplorer) {
-                                //Setting a css style property to null does not work for internet explorer 
-                                //so we reset to the default value for the given property.
-                                this.element.style[key] = defaultStyle[key];
-                            } else {
-                                this.element.style[key] = null;
-                            }
+                this.style[key] = newValue;
+                if (this.element) {
+                    if (newValue === null || newValue === undefined) {
+                        if (userAgent.browser.isInternetExplorer) {
+                            //Setting a css style property to null does not work for internet explorer 
+                            //so we reset to the default value for the given property.
+                            this.element.style[key] = defaultStyle[key];
                         } else {
-                            this.element.style[key] = newValue;
+                            this.element.style[key] = null;
                         }
+                    } else {
+                        this.element.style[key] = newValue;
                     }
                 }
+
             });
         }
     }
@@ -509,26 +672,28 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             styles = [style as string];
         }
 
-        for (let cssProperty of styles) {
+        styles.forEach((cssProperty) => {
             if (this.style && this.style.hasOwnProperty(cssProperty)) {
                 delete this.style[cssProperty];
             }
             if (this.element) {
                 this.element.style[cssProperty] = undefined;
             }
+        });
+    }
+    setVisibility(visible: boolean) {
+        this.visible = visible;
+        if (this.element) {
+            if (visible) {
+                this.element.style.display = this.styleDisplayVisible;
+            } else {
+                this.element.style.display = "none";
+            }
         }
     }
 
-    //Public Event members
-    addEventListener<TType extends keyof UiElementEventMap>(
-        type: TType,
-        listener: (this: UiElement, event: UiElementEventMap[TType]) => any,
-        options?: IAddEventListenerOptions
-    ) {
-        if (!this.options.eventListeners) {
-            this.options.eventListeners = new Array();
-        }
-        this.options.eventListeners.push(new EventListener(type, listener, options));
+    addSubscription<TObservable>(observable: KnockoutObservable<TObservable>, callback: (newValue: TObservable) => void) {
+        this.knockoutSubscriptions.push(observable.subscribe(callback));
     }
     dispatchEvent<TType extends keyof UiElementEventMap>(type: TType): boolean {
         if (this.element) {
@@ -562,9 +727,9 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             if (children.length > 0) {
                 //Create a documentFragment to reduce browser repaints
                 const documentFragment = document.createDocumentFragment();
-                for (let child of children) {
+                children.forEach((child) => {
                     documentFragment.appendChild(child.render());
-                }
+                });
 
                 //Add the documentFragment to the dom
                 this.element.appendChild(documentFragment);
@@ -608,26 +773,20 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     }
 
     //Readonly properties
-    readonly tagName: string;
-
-    readonly diposeOnDomRemoval: boolean = false;
     readonly dispose = () => {
         //Remove the element from the dom
         this.remove();
 
-        //Dispose all children
-        for (let child of this.children) {
-            (child as any as Disposable).dispose();
+        if (this.children) {
+            this.children.forEach((child) => {
+                (child as any as Disposable).dispose();
+            });
         }
 
         //Dispose all knockout subscriptions
         this.knockoutSubscriptions.forEach((subscription) => {
             subscription.dispose();
         });
-
-        //Check if additional dispose logic has been provided.
-        if (this.options.dispose) {
-            this.options.dispose();
-        }
     };
+    // #endregion
 }
