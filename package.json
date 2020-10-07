@@ -38,7 +38,8 @@
     "npmPublish": "tsc & npm publish",
     "tsc": "tsc",
     "gitPush": "git push",
-    "gitPull": "git pull"
+    "gitPull": "git pull",
+    "gitCommit" :  "git commit" 
   },
   "dependencies": {
     "tocca": "2.0.9",

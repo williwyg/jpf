@@ -8,7 +8,6 @@ import { userAgent } from "./userAgent";
 
 const uiElementPropertyName = "uiElement";
 
-
 const mouseEvents = {
     contextmenu: true,
     mousedown: true,
