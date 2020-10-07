@@ -36,7 +36,9 @@
     "npmAuditFixForce": "npm audit fix --force",
     "npmCacheClean": "npm cache clean --force",
     "npmPublish": "tsc & npm publish",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "gitPush": "git push",
+    "gitPull": "git pull"
   },
   "dependencies": {
     "tocca": "2.0.9",
