@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "ES5",
     "forceConsistentCasingInFileNames": true,
     "listEmittedFiles": true,
     "noEmitOnError": true,

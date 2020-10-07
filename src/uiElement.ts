@@ -107,8 +107,8 @@ export interface UiElementOptions {
 
 export abstract class UiElement<TOptions extends UiElementOptions = UiElementOptions> implements IUiElement {
     protected constructor(tagName: string, elementType: string, options?: TOptions) {
-        this.tagName = tagName;
-        this.elementType = elementType || "UiElement";
+        this._tagName = tagName;
+        this._elementType = elementType || "UiElement";
         this.options = options || {} as TOptions;
 
         if (options) {
@@ -117,7 +117,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             }
 
             if (options.elementType) {
-                this.elementType = ko.unwrap(options.elementType);
+                this._elementType = ko.unwrap(options.elementType);
                 if (ko.isObservable(options.elementType)) {
                     this.addSubscription(
                         options.elementType,
@@ -141,25 +141,25 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             }
 
             if (options.attributes) {
-                this.setAttributes(ko.unwrap(options.attributes));
+                this._setAttributes(ko.unwrap(options.attributes));
                 if (ko.isObservable(options.attributes)) {
                     this.addSubscription(
                         options.attributes,
                         (attributes) => {
-                            this.setAttributes(attributes);
+                            this._setAttributes(attributes);
                         }
                     );
                 }
             }
 
             if (options.eventListeners) {
-                this.eventListeners = options.eventListeners;
+                this._eventListeners = options.eventListeners;
             }
 
             if (options.style) {
                 for (const styleProperty of Object.keys(options.style)) {
                     const styleValue = options.style[styleProperty];
-                    this.style[styleProperty] = ko.unwrap(styleValue);
+                    this._style[styleProperty] = ko.unwrap(styleValue);
                     if (ko.isObservable(styleValue)) {
                         this.addSubscription(styleValue, (newValue) => {
                             this.setStyle({ [styleProperty]: newValue } as any as Style);
@@ -169,7 +169,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             }
 
             if (options.userSelectable === false) {
-                this.userSelectable = false;
+                this._userSelectable = false;
             }
 
             if (isNotNullOrUndefined(options.innerHtml)) {
@@ -191,11 +191,11 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             }
 
             if (options.addControlToDataDictionary) {
-                this.addControlToDataDictionary = true;
+                this._addControlToDataDictionary = true;
             }
 
             if (options.children) {
-                this.children = ko.unwrap(options.children);
+                this._children = ko.unwrap(options.children);
                 if (ko.isObservable(options.children)) {
                     this.addSubscription(options.children, (newChildren) => {
                         this.setChildren(newChildren);
@@ -215,35 +215,33 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                 this.refresh = options.refresh;
             }
 
-            if (options.visible) {
-                var visible = ko.unwrap(options.visible);
-                if (visible === false) {
-                    this.visible = false;
-                }
-                if (ko.isObservable(options.visible)) {
-                    this.addSubscription(options.visible, (newValue) => {
-                        this.setVisibility(newValue);
-                    });
-                }
+            var visible = ko.unwrap(options.visible);
+            if (visible === false) {
+                this._visible = false;
+            }
+            if (ko.isObservable(options.visible)) {
+                this.addSubscription(options.visible, (newValue) => {
+                    this.setVisibility(newValue);
+                });
             }
         }
     }
 
     // #region Private members
-    readonly tagName: string;
-    private elementType: string;
-    private attributes: { [index: string]: string | number } = {};
-    private classes = {}
-    private eventListeners: Array<IEventListener>;
-    private style: Style = {};
-    private readonly userSelectable: boolean = true;
-    private innerHtml: string;
-    private innerText: string;
-    private readonly addControlToDataDictionary: boolean = false;
-    private children = new Array<IUiElement>();
-    readonly diposeOnDomRemoval: boolean = false;
-    private knockoutSubscriptions = Array<KnockoutSubscription>();
-    private addEventListenerToElement(type: keyof UiElementEventMap, listener: (event: any) => any, options: IAddEventListenerOptions) {
+    // ReSharper disable InconsistentNaming
+    private _tagName: string;
+    private _elementType: string;
+    private _attributes: { [index: string]: string | number } = {};
+    private _classes = {}
+    private _eventListeners: Array<IEventListener>;
+    private _style: Style = {};
+    private _userSelectable: boolean = true;
+    private _innerHtml: string;
+    private _innerText: string;
+    private _addControlToDataDictionary: boolean = false;
+    private _children = new Array<IUiElement>();
+    private _knockoutSubscriptions = Array<KnockoutSubscription>();
+    private _addEventListenerToElement(type: keyof UiElementEventMap, listener: (event: any) => any, options: IAddEventListenerOptions) {
         if (!type) {
             throw new Error("type is mandatory");
         }
@@ -281,16 +279,16 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             throw "Your browser does not support 'addEventListener'";
         }
     }
-    private setAttributes(attributes: Array<Attribute>) {
-        const existingAttributeNames = Object.keys(this.attributes);
+    private _setAttributes(attributes: Array<Attribute>) {
+        const existingAttributeNames = Object.keys(this._attributes);
 
         //Clear the attributes dictionary
-        this.attributes = {};
+        this._attributes = {};
 
 
         //Add the new attributes
         attributes.forEach((attribute) => {
-            this.attributes[attribute.name] = ko.unwrap(attribute.value);
+            this._attributes[attribute.name] = ko.unwrap(attribute.value);
             if (ko.isObservable(attribute.value)) {
                 this.addSubscription(attribute.value,
                     (newValue) => {
@@ -303,77 +301,66 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         //Check if there are attributes to be deleted
         if (existingAttributeNames) {
             existingAttributeNames.forEach((existingAttributeName) => {
-                if (!this.attributes[existingAttributeName]) {
+                if (!this._attributes[existingAttributeName]) {
                     this.removeAttribute(existingAttributeName);
                 }
             });
         }
     }
-    private styleDisplayVisible = "";
-    private visible = true;
-
-    //Public Event members
-    addEventListener<TType extends keyof UiElementEventMap>(
-        type: TType,
-        listener: (this: UiElement, event: UiElementEventMap[TType]) => any,
-        options?: IAddEventListenerOptions
-    ) {
-        if (!this.eventListeners) {
-            this.eventListeners = new Array();
-        }
-        this.eventListeners.push(new EventListener(type, listener, options));
-    }
+    private _styleDisplayVisible = "";
+    private _visible = true;
+    // ReSharper restore InconsistentNaming
     // #endregion
 
     // #region Protected members
     protected element: HTMLElement;
     protected build(): void {
 
-        if (this.elementType) {
-            this.setAttribute("elementtype", this.elementType);
+        if (this._elementType) {
+            this.setAttribute("elementtype", this._elementType);
         }
 
         //Determine the diplay value for when the element is visible.
         const display = this.getStyleValue("display");
         if (display && display !== "none") {
-            this.styleDisplayVisible = display;
+            this._styleDisplayVisible = display;
         }
 
         //Update the visibility to reflect the initial visible state
-        this.setVisibility(this.visible);
+        this.setVisibility(this._visible);
 
         ko.applyBindingsToNode(
             this.element,
             {
-                style: this.style,
-                attr: this.attributes
+                style: this._style,
+                attr: this._attributes
             }
         );
 
-        if (isNotNullOrUndefined(this.innerHtml)) {
-            this.element.innerHTML = this.innerHtml;
+        if (isNotNullOrUndefined(this._innerHtml)) {
+            this.element.innerHTML = this._innerHtml;
         }
 
-        if (isNotNullOrUndefined(this.innerText)) {
-            this.element.innerText = this.innerText;
+        if (isNotNullOrUndefined(this._innerText)) {
+            this.element.innerText = this._innerText;
         }
 
-        this.element.className = Object.keys(this.classes).join(" ");
+        this.element.className = Object.keys(this._classes).join(" ");
 
         //Find out if the element is none selectable
-        if (this.userSelectable === false) {
-            this.addEventListenerToElement("selectstart", () => { return false; }, { passive: true });
+        if (this._userSelectable === false) {
+            this._addEventListenerToElement("selectstart", () => { return false; }, { passive: true });
             this.element.style.userSelect = "none";
         }
 
         //Render the children
-        if (this.children) {
-            this.children.forEach((child) => {
+        if (this._children) {
+            this._children.forEach((child) => {
                 this.element.appendChild(child.render());
             });
         }
 
-        if (this.addControlToDataDictionary) {
+        if (this._addControlToDataDictionary) {
             if (!this.element.data) {
                 this.element.data = {};
             }
@@ -394,7 +381,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         //Check if the build property is pointing to a function.
         if (typeof this.build === "function") {
             //Create the html element.
-            this.element = document.createElement(this.tagName);
+            this.element = document.createElement(this._tagName);
 
             //Build the UiElement
             this.build();
@@ -403,8 +390,8 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             const clickEventListeners = new Array<IEventListener>();
             const doubleClickEventListeners = new Array<IEventListener>();
 
-            if (this.eventListeners) {
-                const eventListeners = this.eventListeners;
+            if (this._eventListeners) {
+                const eventListeners = this._eventListeners;
                 eventListeners.forEach((eventListener) => {
                     if (eventListener.type === "click") {
                         clickEventListeners.push(eventListener);
@@ -421,7 +408,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
 
                     if (isGlobalEvent(eventListener.type)) {
 
-                        this.addEventListenerToElement(
+                        this._addEventListenerToElement(
                             eventListener.type,
                             (event: Event) => {
                                 if (eventListener.options) {
@@ -447,10 +434,10 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                         );
                     }
                     else if (mouseEvents[eventListener.type] && userAgent.device.supportsMouseEvents) {
-                        this.addEventListenerToElement(eventListener.type, eventListener.listener, eventListener.options);
+                        this._addEventListenerToElement(eventListener.type, eventListener.listener, eventListener.options);
                     }
                     else if (touchEvents[eventListener.type] && userAgent.device.supportsTouchEvents) {
-                        this.addEventListenerToElement(eventListener.type, eventListener.listener, eventListener.options);
+                        this._addEventListenerToElement(eventListener.type, eventListener.listener, eventListener.options);
                     }
                 });
 
@@ -458,20 +445,20 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                     if (userAgent.device.supportsTouchEvents) {
                         // ReSharper disable once Html.EventNotResolved
 
-                        this.addEventListenerToElement("tap", clickEventListener.listener, clickEventListener.options);
+                        this._addEventListenerToElement("tap", clickEventListener.listener, clickEventListener.options);
                     }
                     if (userAgent.device.supportsMouseEvents) {
-                        this.addEventListenerToElement(clickEventListener.type, clickEventListener.listener, clickEventListener.options);
+                        this._addEventListenerToElement(clickEventListener.type, clickEventListener.listener, clickEventListener.options);
                     }
                 });
 
                 doubleClickEventListeners.forEach((doubleClickEventListener) => {
                     if (userAgent.device.supportsTouchEvents) {
                         // ReSharper disable once Html.EventNotResolved
-                        this.addEventListenerToElement("dbltap", doubleClickEventListener.listener, doubleClickEventListener.options);
+                        this._addEventListenerToElement("dbltap", doubleClickEventListener.listener, doubleClickEventListener.options);
                     }
                     if (userAgent.device.supportsMouseEvents) {
-                        this.addEventListenerToElement(doubleClickEventListener.type, doubleClickEventListener.listener, doubleClickEventListener.options);
+                        this._addEventListenerToElement(doubleClickEventListener.type, doubleClickEventListener.listener, doubleClickEventListener.options);
                     }
                 });
             }
@@ -525,32 +512,32 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
     }
     setElementType(elementType) {
-        this.elementType = elementType;
+        this._elementType = elementType;
         this.setAttribute("elementType", elementType);
     }
     setClasses(classNames: string[], replace: boolean) {
         //If all existing classes need to be replace we reset the classes object to an empty object
         if (replace) {
-            this.classes = {};
+            this._classes = {};
         }
 
         //Add all the classNames to the classes object
         if (classNames) {
             classNames.forEach((className) => {
-                this.classes[className] = true;
+                this._classes[className] = true;
             });
         }
 
         //If the UiElement is rendered update the className property of the html element
         if (this.element) {
-            this.element.className = Object.keys(this.classes).join(" ");
+            this.element.className = Object.keys(this._classes).join(" ");
         }
     }
     removeClasses(classNames: string[]) {
         if (classNames) {
             classNames.forEach((className) => {
-                if (this.classes[className]) {
-                    delete this.classes[className];
+                if (this._classes[className]) {
+                    delete this._classes[className];
                 }
 
                 //If the UiElement is rendered remove the className from the html element
@@ -561,20 +548,27 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
     }
     setInnerHtml(innerHtml: string) {
-        this.innerHtml = innerHtml;
+        if (isNotNullOrUndefined(innerHtml)) {
+            this.setInnerText(null);
+        }
+        this._innerHtml = innerHtml;
         if (this.element) {
             this.element.innerHTML = innerHtml;
         }
     }
+
     setInnerText(innerText: string) {
-        this.innerText = innerText;
+        if (isNotNullOrUndefined(innerText)) {
+            this.setInnerHtml(null);
+        }
+        this._innerText = innerText;
         if (this.element) {
             this.element.innerText = innerText;
         }
     }
     setAttribute(name: types.AttributeName, value: string | number): void {
         //Add the attribute to the attributes dictionary
-        this.attributes[name] = value;
+        this._attributes[name] = value;
 
         //If the UiElement is rendered add the attribute to the html element
         if (this.element) {
@@ -583,8 +577,8 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     }
     removeAttribute(attributeName: string): void {
         //Delete the attribute from the attributes dictionary
-        if (this.attributes[attributeName]) {
-            delete this.attributes[attributeName];
+        if (this._attributes[attributeName]) {
+            delete this._attributes[attributeName];
         }
 
         //if the UiElement is rendered remove the attribute from the html element
@@ -599,21 +593,21 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
             return this.element.getAttribute(attributeName);
         } else {
             //Return the value from the attributes dictionary
-            return this.attributes[attributeName];
+            return this._attributes[attributeName];
         }
     }
 
     //Public Style members
     getStyle(...cssProperties: Array<types.CssProperty>): Style {
         if (!cssProperties || cssProperties.length === 0) {
-            return this.style;
+            return this._style;
         }
         const style: Style = {};
 
         if (cssProperties) {
             cssProperties.forEach((cssProperty) => {
-                if (this.style[cssProperty]) {
-                    style[cssProperty] = this.style[cssProperty] as never;
+                if (this._style[cssProperty]) {
+                    style[cssProperty] = this._style[cssProperty] as never;
                 }
                 else if (this.element) {
                     style[cssProperty] = this.element.style[cssProperty] as never;
@@ -624,8 +618,8 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         return style;
     }
     getStyleValue(cssProperty: types.CssProperty): any {
-        if (this.style[cssProperty]) {
-            return this.style[cssProperty];
+        if (this._style[cssProperty]) {
+            return this._style[cssProperty];
         } else if (this.element) {
             return this.element.style[cssProperty];
         }
@@ -634,13 +628,13 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     setStyle(newStyle: Style, overwriteExisting?: boolean): void {
         if (newStyle) {
             Object.keys(newStyle).forEach((key: string) => {
-                if (this.style.hasOwnProperty(key)) {
+                if (this._style.hasOwnProperty(key)) {
                     if (!overwriteExisting) {
                         return;
                     }
                 }
                 const newValue = newStyle[key];
-                this.style[key] = newValue;
+                this._style[key] = newValue;
                 if (this.element) {
                     if (newValue === null || newValue === undefined) {
                         if (userAgent.browser.isInternetExplorer) {
@@ -673,8 +667,8 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
 
         styles.forEach((cssProperty) => {
-            if (this.style && this.style.hasOwnProperty(cssProperty)) {
-                delete this.style[cssProperty];
+            if (this._style && this._style.hasOwnProperty(cssProperty)) {
+                delete this._style[cssProperty];
             }
             if (this.element) {
                 this.element.style[cssProperty] = undefined;
@@ -682,10 +676,10 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         });
     }
     setVisibility(visible: boolean) {
-        this.visible = visible;
+        this._visible = visible;
         if (this.element) {
             if (visible) {
-                this.element.style.display = this.styleDisplayVisible;
+                this.element.style.display = this._styleDisplayVisible;
             } else {
                 this.element.style.display = "none";
             }
@@ -693,7 +687,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     }
 
     addSubscription<TObservable>(observable: KnockoutObservable<TObservable>, callback: (newValue: TObservable) => void) {
-        this.knockoutSubscriptions.push(observable.subscribe(callback));
+        this._knockoutSubscriptions.push(observable.subscribe(callback));
     }
     dispatchEvent<TType extends keyof UiElementEventMap>(type: TType): boolean {
         if (this.element) {
@@ -701,10 +695,20 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
         return false;
     }
+    addEventListener<TType extends keyof UiElementEventMap>(
+        type: TType,
+        listener: (this: UiElement, event: UiElementEventMap[TType]) => any,
+        options?: IAddEventListenerOptions
+    ) {
+        if (!this._eventListeners) {
+            this._eventListeners = new Array();
+        }
+        this._eventListeners.push(new EventListener(type, listener, options));
+    }
 
     //Public Children members
     getChildren(): Array<IUiElement> {
-        return this.children;
+        return this._children;
     }
     setChildren(children: Array<IUiElement>, replace: boolean = true): void {
         if (!children) {
@@ -712,7 +716,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
         }
 
         if (replace) {
-            this.children = children;
+            this._children = children;
             if (this.element) {
                 //Remove all existing children
                 while (this.element.firstChild) {
@@ -720,7 +724,7 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
                 }
             }
         } else {
-            this.children.push(...children);
+            this._children.push(...children);
         }
 
         if (this.element) {
@@ -739,52 +743,55 @@ export abstract class UiElement<TOptions extends UiElementOptions = UiElementOpt
     addChild(newChild: IUiElement, referenceChild?: IUiElement): void {
         if (referenceChild) {
             //Find the index of the referenceItem
-            const index = this.children.indexOf(referenceChild);
+            const index = this._children.indexOf(referenceChild);
             if (index > -1) {
-                this.children.splice(index, 0, newChild);
+                this._children.splice(index, 0, newChild);
                 if (this.element && referenceChild.getElement()) {
                     this.element.insertBefore(newChild.render(), referenceChild.getElement());
                 }
             }
         } else {
-            this.children.push(newChild);
+            this._children.push(newChild);
             if (this.element) {
                 this.element.appendChild(newChild.render());
             }
         }
     }
     removeChild(element: IUiElement): void {
-        const index = this.children.indexOf(element);
+        const index = this._children.indexOf(element);
         if (index > -1) {
-            this.children.splice(index, 1);
+            this._children.splice(index, 1);
             if (this.element) {
                 this.element.removeChild(this.element.children[index]);
             }
         }
     }
     empty(): void {
-        this.children = [];
+        this._innerText = null;
+        this._innerHtml = null;
+        this._children = [];
 
         if (this.element) {
+            this.element.innerHTML = "";
             while (this.element.firstChild) {
                 this.element.removeChild(this.element.firstChild);
             }
         }
     }
 
-    //Readonly properties
+    readonly diposeOnDomRemoval: boolean = false;
     readonly dispose = () => {
         //Remove the element from the dom
         this.remove();
 
-        if (this.children) {
-            this.children.forEach((child) => {
+        if (this._children) {
+            this._children.forEach((child) => {
                 (child as any as Disposable).dispose();
             });
         }
 
         //Dispose all knockout subscriptions
-        this.knockoutSubscriptions.forEach((subscription) => {
+        this._knockoutSubscriptions.forEach((subscription) => {
             subscription.dispose();
         });
     };
