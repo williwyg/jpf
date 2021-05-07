@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "tocca": "2.0.9",
-    "ua-parser-js": "0.7.22"
+    "ua-parser-js": "0.7.24"
   },
   "peerDependencies": {
     "knockout": "3.x"
